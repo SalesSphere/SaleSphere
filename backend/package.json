@@ -1,0 +1,19 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The SaleSphere backend powers the decentralized sales management system by providing API endpoints for handling sales, inventory, and customer data. Built with Node.js and Express, it enables secure interaction with smart contracts, processes payments, manages user data, and integrates seamlessly with the blockchain layer for transparency and reliability.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalesSphere/SaleSphere.git"
+  },
+  "author": "SaleSphere",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SalesSphere/SaleSphere/issues"
+  },
+  "homepage": "https://github.com/SalesSphere/SaleSphere#readme"
+}
