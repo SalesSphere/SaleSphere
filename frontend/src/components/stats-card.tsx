@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Sparklines, SparklinesLine, SparklinesCurve } from "react-sparklines";
+import { Sparklines, SparklinesCurve } from "react-sparklines";
 import {
   Select,
   SelectContent,
