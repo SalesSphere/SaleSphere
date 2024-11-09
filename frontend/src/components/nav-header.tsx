@@ -67,12 +67,14 @@ export default function NavHeader() {
   return (
     <header className="border-b border-gray-200">
       <div className="flex h-16 items-center sm:justify-between py-10 px-6 md:px-6 lg:px-20">
-        <div className="flex items-center gap-3">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-            S
+        <Link href="/">
+          <div className="flex items-center gap-3">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              S
+            </div>
+            <span className="text-lg font-semibold">SalesSphere</span>
           </div>
-          <span className="text-lg font-semibold">SalesSphere</span>
-        </div>
+        </Link>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-4 lg:space-x-10">
