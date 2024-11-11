@@ -1,46 +1,133 @@
-export const sales = [
+import MemoDashboard from "@/icons/Dashboard";
+import { Sale } from "./types";
+import MemoProducts from "@/icons/Products";
+import MemoSales from "@/icons/Sales";
+import MemoUsers from "@/icons/Users";
+import MemoSettings from "@/icons/Settings";
+
+export const navigation = [
+  { name: "Dashboard", href: "/dashboard", icon: MemoDashboard },
+  { name: "Products", href: "/products", icon: MemoProducts },
+  { name: "Sales", href: "/sales", icon: MemoSales },
+  { name: "Users", href: "/users", icon: MemoUsers },
+  { name: "Settings", href: "/settings", icon: MemoSettings },
+];
+export const sales: Sale[] = [
   {
     id: "11dac73902f246dfcc",
+    productName: "Fresh Del Monte Ap...",
+    price: 1000,
+    time: "12:00pm",
+    date: "08 Nov, 24",
+    quantity: 200,
     rep: {
       name: "Boma Pakabo",
       avatar: "/salesUser.svg",
     },
-    product: "Fresh Del Monte Ap...",
-    price: 1000,
-    time: "12:00pm",
-    date: "08 Nov, 24",
+    paymentMode: "Card",
   },
   {
     id: "06200066d56e9281d",
+    productName: "Green Giant Vegeta...",
+    price: 500,
+    time: "11:56am",
+    date: "08 Nov, 24",
+    quantity: 50,
     rep: {
       name: "Funke Oyelowo",
       avatar: "/salesUser.svg",
     },
-    product: "Green Giant Vegeta...",
-    price: 500,
-    time: "11:56am",
-    date: "08 Nov, 24",
+    paymentMode: "Bank transfer",
   },
   {
-    id: "11dac73902f246dfcc",
-    rep: {
-      name: "Obubra Ziworitin",
-      avatar: "/salesUser.svg",
-    },
-    product: "Horizon Organic Milk",
-    price: 10000,
+    id: "46eb2a65c93013e0a",
+    productName: "Dole Bananas",
+    price: 750,
     time: "11:52am",
     date: "08 Nov, 24",
-  },
-  {
-    id: "11dac73902f246dfcc",
+    quantity: 150,
     rep: {
-      name: "Adeola Olaniyan",
+      name: "Lara Adeyemi",
       avatar: "/salesUser.svg",
     },
-    product: "Organic Valley Milk",
-    price: 7000,
+    paymentMode: "POS",
+  },
+  {
+    id: "2f5fe6b9d3e7b7400",
+    productName: "Ocean Spray Cranbe...",
+    price: 1200,
     time: "11:50am",
     date: "08 Nov, 24",
+    quantity: 100,
+    rep: {
+      name: "Tolu Ogunlade",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "Bank transfer",
+  },
+  {
+    id: "c1a3c44e9b72c446b",
+    productName: "Chiquita Pineapple",
+    price: 900,
+    time: "11:50am",
+    date: "08 Nov, 24",
+    quantity: 120,
+    rep: {
+      name: "Kemi Bakare",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "Bank transfer",
+  },
+  {
+    id: "9d6cf1b1b686c9d5b",
+    productName: "Sunkist Oranges",
+    price: 1050,
+    time: "11:50am",
+    date: "08 Nov, 24",
+    quantity: 80,
+    rep: {
+      name: "Femi Akindele",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "POS",
+  },
+  {
+    id: "db5e1f9b8a3f8196e",
+    productName: "NatureSweet Tomat...",
+    price: 800,
+    time: "11:50am",
+    date: "08 Nov, 24",
+    quantity: 70,
+    rep: {
+      name: "Temi Osagie",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "POS",
+  },
+  {
+    id: "8b1d7fc47e6d3c1e2",
+    productName: "SunMaid Raisins",
+    price: 1100,
+    time: "11:50am",
+    date: "08 Nov, 24",
+    quantity: 90,
+    rep: {
+      name: "Tayo Adebayo",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "POS",
+  },
+  {
+    id: "39a1d6a32d2f4b7c4",
+    productName: "Wonderful Pistachios",
+    price: 1350,
+    time: "11:50am",
+    date: "08 Nov, 24",
+    quantity: 110,
+    rep: {
+      name: "Yemi Fashola",
+      avatar: "/salesUser.svg",
+    },
+    paymentMode: "POS",
   },
 ];
