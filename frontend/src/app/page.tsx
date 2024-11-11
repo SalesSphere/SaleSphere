@@ -1,5 +1,12 @@
+import SimpleNav from "@/components/simple-nav";
+
 const page = () => {
-  return <div>SaleSphere </div>;
+  return (
+    <div>
+      <SimpleNav />
+      SaleSphere{" "}
+    </div>
+  );
 };
 
 export default page;
