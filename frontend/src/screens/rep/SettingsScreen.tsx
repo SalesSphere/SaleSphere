@@ -2,7 +2,7 @@
 import { DashboardLayout } from "@/components/DashboardLayout";
 import { navigation } from "@/lib/data";
 
-const page = () => {
+const SettingsScreen = () => {
   return (
     <DashboardLayout showHeader={true} navigation={navigation}>
       Settings
@@ -10,4 +10,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SettingsScreen;

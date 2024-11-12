@@ -3,11 +3,11 @@
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import ProductOrderTable from "@/components/product-order-table";
-import { navigation } from "@/lib/data";
+import { adminNavigation } from "@/lib/data";
 
-const page = () => {
+const CheckoutScreen = () => {
   return (
-    <DashboardLayout showHeader={true} navigation={navigation}>
+    <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">
         <DashboardHeader
           title="Checkout page"
@@ -30,4 +30,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default CheckoutScreen;

@@ -8,7 +8,7 @@ import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
 import { navigation } from "@/lib/data";
 
-export default async function DashboardPage() {
+export default function DashboardPage() {
   return (
     <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">

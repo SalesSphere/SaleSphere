@@ -133,8 +133,8 @@ export default function ProductOrderTable() {
             <TableHead className="text-left py-5">Total price</TableHead>
           </TableRow>
         </TableHeader>
-        <div className="h-5" />
         <TableBody>
+          <TableRow className="h-5 !border-none" />
           {products.map((product, index) => (
             <TableRow key={`${product.id}-${index}`}>
               <TableCell>
@@ -148,24 +148,26 @@ export default function ProductOrderTable() {
               <TableCell className="text-left">
                 ₦{product.price.toLocaleString()}
               </TableCell>
-              <TableCell>
-                <div className="flex items-center justify-start gap-2">
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => updateQuantity(index, false)}>
-                    <Minus className="h-4 w-4" />
-                  </Button>
-                  <span className="w-12 text-center">{product.quantity}</span>
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => updateQuantity(index, true)}>
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
+              <TableCell className="flex items-center justify-start gap-2">
+                {/* <div className="flex items-center justify-start gap-2"> */}
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => updateQuantity(index, false)}
+                >
+                  <Minus className="h-4 w-4" />
+                </Button>
+                <span className="w-12 text-center">{product.quantity}</span>
+                <Button
+                  variant="outline"
+                  size="icon"
+                  className="h-8 w-8"
+                  onClick={() => updateQuantity(index, true)}
+                >
+                  <Plus className="h-4 w-4" />
+                </Button>
+                {/* </div> */}
               </TableCell>
               <TableCell className="text-left">
                 ₦{(product.quantity * product.price).toLocaleString()}

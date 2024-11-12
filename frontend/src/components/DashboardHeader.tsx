@@ -19,6 +19,8 @@ import MemoCard from "@/icons/Card";
 import PaymentDialog from "./Modal/payment-dialog";
 import { useState } from "react";
 import AddProductDialog from "./Modal/add-product-dialog";
+import { Input } from "./ui/input";
+import { Button } from "./ui/button";
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   subtitle,
@@ -53,28 +55,30 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <h1 className="text-3xl font-bold">{title}</h1>
           <p className="text-[#292D3280] text-sm">{subtitle}</p>
         </div>
-        <div className="flex gap-4 md:gap-6 mt-4 md:mt-0">
+        <div className="flex gap-2 mt-4 md:mt-0  ">
           {showSearch && (
-            <button
-              onClick={onSearchClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2">
-              <MemoSearch className="h-10 w-10" />
-            </button>
+            <Input
+              placeholder="Search product by name or ID"
+              className="rounded-xl text-sm bg-gray-50 h-10 px-4 py-2"
+              leftIcon={<MemoSearch className="h-8 w-8 shrink-0" />}
+            />
           )}
           {showExport && (
-            <button
+            <Button
               onClick={onSearchClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2">
+              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2"
+            >
               <MemoExport className="h-5 w-10" />
-            </button>
+            </Button>
           )}
           {showAddUser && (
-            <button
+            <Button
               onClick={onAddUserClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2">
-              <MemoUserProfile className="h-4 w-4 mr-2" />
+              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+            >
+              <MemoUserProfile className="h-4 w-4 mr-2 shrink-0" />
               Add new user
-            </button>
+            </Button>
           )}
           {showSortProduct && (
             <Select defaultValue={period}>
@@ -91,17 +95,19 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             </Select>
           )}
           {showAddProduct && (
-            <button
+            <Button
               onClick={() => setAddProductDialog(true)}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2">
-              <MemoCart className="h-4 w-4 mr-2" />
+              className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
+            >
+              <MemoCart className="h-4 w-4 mr-2 shrink-0" />
               Add new Product
-            </button>
+            </Button>
           )}
           {showMainExport && (
             <button
               onClick={onAddProductClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2">
+              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
+            >
               <MemoExport2 className="h-4 w-4 mr-2" />
               Export
             </button>
@@ -109,7 +115,8 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showProceed && (
             <button
               onClick={() => setShowPaymentDialog(true)}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2">
+              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
+            >
               <MemoCard className="h-4 w-4 mr-2" />
               Proceed
             </button>
