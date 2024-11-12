@@ -2,32 +2,33 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import ProductsTable from "@/components/products-table";
+import SaleTable from "@/components/sale-table";
 import { navigation } from "@/lib/data";
 
-const page = () => {
+const SalesScreen = () => {
   return (
     <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">
         <DashboardHeader
-          title="Product"
+          title="Sales History"
           subtitle="View and edit all product info present in your store"
           showSearch={true}
-          showExport={true}
+          showExport={false}
           showAddUser={false}
+          showAddProduct={false}
           showProceed={false}
-          showAddProduct={true}
-          showMainExport={false}
+          showMainExport={true}
           showSortProduct={true}
           period="Last 360 days"
           onSearchClick={() => {}}
           onAddUserClick={() => {}}
           onAddProductClick={() => {}}
         />
-        <ProductsTable />
+
+        <SaleTable />
       </div>
     </DashboardLayout>
   );
 };
 
-export default page;
+export default SalesScreen;

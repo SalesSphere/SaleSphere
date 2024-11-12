@@ -3,11 +3,11 @@
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import SaleTable from "@/components/sale-table";
-import { navigation } from "@/lib/data";
+import { adminNavigation } from "@/lib/data";
 
-const page = () => {
+const SalesScreen = () => {
   return (
-    <DashboardLayout showHeader={true} navigation={navigation}>
+    <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">
         <DashboardHeader
           title="Sales History"
@@ -31,4 +31,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default SalesScreen;

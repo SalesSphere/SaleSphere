@@ -30,7 +30,8 @@ export default function SimpleNav() {
       className={cn(
         "flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary",
         pathname === href ? "text-primary" : "text-muted-foreground"
-      )}>
+      )}
+    >
       {children}
     </Link>
   );
@@ -45,7 +46,8 @@ export default function SimpleNav() {
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-4">
-          <NavLink href="/dashboard">Dashboard</NavLink>
+          <NavLink href="/a/dashboard/overview">Admin Dashboard</NavLink>
+          <NavLink href="/r/dashboard/overview">Sale rep Dashboard</NavLink>
         </div>
 
         {/* Mobile Navigation */}
@@ -61,7 +63,8 @@ export default function SimpleNav() {
               <SheetTitle>Menu</SheetTitle>
             </SheetHeader>
             <div className="flex flex-col space-y-4 mt-4">
-              <NavLink href="/dashboard">Dashboard</NavLink>
+              <NavLink href="/a/dashboard/overview">Admin Dashboard</NavLink>
+              <NavLink href="/r/dashboard/overview">Sale rep Dashboard</NavLink>
             </div>
           </SheetContent>
         </Sheet>

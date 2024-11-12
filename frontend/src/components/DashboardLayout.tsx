@@ -42,13 +42,14 @@ function NavLink({
       className={cn(
         "flex items-center gap-2 text-sm font-medium transition-colors hover:text-primary relative",
         isMobile ? "py-2" : "h-16",
-        pathname === item.href ? "text-primary" : "text-muted-foreground"
-      )}>
+        pathname.includes(item.href) ? "text-primary" : "text-muted-foreground"
+      )}
+    >
       <div className="flex items-center gap-2">
         <item.icon className="h-5 w-5" aria-hidden="true" />
         <span>{item.name}</span>
       </div>
-      {pathname === item.href && !isMobile && (
+      {pathname.includes(item.href) && !isMobile && (
         <div className="absolute -bottom-[1px] left-0 right-0 h-[3px] bg-primary" />
       )}
     </Link>
