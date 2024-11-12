@@ -1,0 +1,38 @@
+{
+  "name": "salesphere",
+  "version": "0.0.1",
+  "description": "SaleSphere is a blockchain-based decentralized sales management system designed to bring transparency, security, and efficiency to sales, inventory data management.",
+  "main": "main.js",
+  "scripts": {
+    "build": "npm run format && npx hardhat compile",
+    "test": "npm run build && REPORT_GAS=true npx hardhat test",
+    "format": "prettier --write --ignore-path .gitignore .",
+    "start:local:node": "npx hardhat node",
+    "deploy:Bank": "npm run test && npx hardhat ignition deploy ./ignition/modules/Bank.ts --network lisk-sepolia --verify",
+    "prepare": "husky"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SalesSphere/SaleSphere.git"
+  },
+  "keywords": [
+    "web3",
+    "Solidity",
+    "SalesSphere"
+  ],
+  "author": "Web3BridgeXI - Group 5",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/SalesSphere/SaleSphere/issues"
+  },
+  "homepage": "https://github.com/SalesSphere/SaleSphere#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.15",
+    "prettier": "^3.3.3",
+    "prettier-plugin-solidity": "^1.4.1"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.1.0"
+  }
+}
