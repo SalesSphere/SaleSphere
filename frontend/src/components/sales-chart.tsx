@@ -26,7 +26,7 @@ data[60] = {
 };
 
 export default function SalesChart() {
-  const [activePoint, setActivePoint] = useState(null);
+  const [, setActivePoint] = useState<DataPoint | null>(null);
 
   return (
     <div className="space-y-2">
@@ -44,7 +44,11 @@ export default function SalesChart() {
                 setActivePoint(e.activePayload[0].payload);
               }
             }}
-            onMouseLeave={() => setActivePoint(null)}>
+            onMouseLeave={() => {
+              if (setActivePoint) {
+                setActivePoint(null);
+              }
+            }}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#17ABEC" stopOpacity={0.1} />
