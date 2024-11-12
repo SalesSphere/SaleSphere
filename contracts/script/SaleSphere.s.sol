@@ -1,18 +1,18 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-import {Script, console} from "forge-std/Script.sol";
-import {Counter} from "../src/SaleSphere.sol";
+import { Script, console } from "forge-std/Script.sol";
+import { SaleSphere } from "../src/SaleSphere.sol";
 
-contract CounterScript is Script {
-    Counter public counter;
+contract SaleSphereScript is Script {
+    SaleSphere public saleSphere;
 
-    function setUp() public {}
+    function setUp() public { }
 
     function run() public {
-        vm.startBroadcast();
+        vm.startBroadcast(vm.envUint("DO_NOT_LEAK"));
 
-        counter = new Counter();
+        saleSphere = new SaleSphere();
 
         vm.stopBroadcast();
     }
