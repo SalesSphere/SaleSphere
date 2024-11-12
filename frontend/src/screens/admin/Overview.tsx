@@ -59,7 +59,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="grid gap-4 md:grid-cols-4 p-3">
-          <div className="md:col-span-4">
+          <div className="md:col-span-3">
             <SalesChart />
           </div>
           <RepLeaderboard />
