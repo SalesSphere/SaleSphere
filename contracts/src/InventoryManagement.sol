@@ -30,4 +30,29 @@ contract InventoryManagement {
     event ProductUpdated(uint256 indexed productID, string indexed productName, uint256 productPrice, uint256 quantity);
     event ProductDeleted(uint256 indexed productID);
     event StockLow(uint256 indexed productID, string indexed productName, uint256 quantity);
+
+    function addNewProduct(
+        string memory _productName,
+        uint256 _productPrice,
+        uint256 _quantity,
+        uint256 _reorderPoint
+    ) public {
+        uint256 productID = nextProductID++;
+
+        products[productID] = Products({
+            productID: productID,
+            productName: _productName,
+            productPrice: _productPrice,
+            quantity: _quantity,
+            uploader: msg.sender,
+            dateAdded: block.timestamp,
+            reorderPoint: _reorderPoint
+        });
+
+        productIDs.push(productID);
+
+        emit ProductAdded(productID, _productName, _productPrice, _quantity, msg.sender, block.timestamp);
+
+        _checkStockLevels(productID);
+    }
 }
