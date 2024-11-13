@@ -55,4 +55,23 @@ contract InventoryManagement {
 
         _checkStockLevels(productID);
     }
+
+    function updateProduct(
+        uint256 productID,
+        string memory _productName,
+        uint256 _productPrice,
+        uint256 _quantity,
+        uint256 _reorderPoint
+    ) public {
+        if (products[productID].productID == 0) revert ProductDoesNotExist();
+
+        products[productID].productName = _productName;
+        products[productID].productPrice = _productPrice;
+        products[productID].quantity = _quantity;
+        products[productID].reorderPoint = _reorderPoint;
+
+        emit ProductUpdated(productID, _productName, _productPrice, _quantity);
+
+        _checkStockLevels(productID);
+    }
 }
