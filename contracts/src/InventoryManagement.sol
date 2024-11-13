@@ -74,4 +74,17 @@ contract InventoryManagement {
 
         _checkStockLevels(productID);
     }
+
+    function getProduct(uint256 productID) public view returns (Products memory) {
+        if (products[productID].productID == 0) revert ProductDoesNotExist();
+        return products[productID];
+    }
+
+    function getAllProduct() public view returns (Products[] memory) {
+        Products[] memory allProducts = new Products[](productIDs.length);
+        for (uint256 i = 0; i < productIDs.length; i++) {
+            allProducts[i] = products[productIDs[i]];
+        }
+        return allProducts;
+    }
 }
