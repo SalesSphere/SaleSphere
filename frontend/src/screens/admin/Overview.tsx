@@ -26,6 +26,8 @@ export default function DashboardPage() {
           onSearchClick={() => console.log("Search clicked")}
           onAddUserClick={() => console.log("Add user clicked")}
           onAddProductClick={() => console.log("Add product clicked")}
+          showApproveAll={false}
+          onApproveAllClick={() => console.log("Approve all clicked")}
         />
 
         <div className="grid gap-4 md:grid-cols-3">

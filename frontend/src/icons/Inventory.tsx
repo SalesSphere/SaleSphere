@@ -2,41 +2,25 @@ import * as React from "react";
 
 function Inventory(props: React.SVGProps<SVGSVGElement>) {
   return (
-    <svg
-      width="25"
-      height="24"
-      viewBox="0 0 25 24"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" {...props}>
       <path
-        d="M19.5 9.5V8.3C19.492 5.49713 19.4051 4.0112 18.467 3.05442C17.4332 2 15.7694 2 12.4416 2L10.5592 2C7.23147 2 5.5676 2 4.5338 3.05442C3.5 4.10883 3.5 5.80589 3.5 9.2L3.5 13.8C3.5 17.1941 3.5 18.8912 4.5338 19.9456C5.45155 20.8816 6.86586 20.9867 9.5 20.9985"
+        d="M19 9.5V8.3c-.008-2.803-.095-4.289-1.033-5.246C16.933 2 15.269 2 11.942 2h-1.883C6.731 2 5.068 2 4.034 3.054 3 4.11 3 5.806 3 9.2v4.6c0 3.394 0 5.091 1.034 6.146.918.936 2.332 1.04 4.966 1.052"
         stroke="#292D32"
-        stroke-opacity="0.7"
-        stroke-width="1.5"
-        stroke-linecap="round"
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
       <path
-        d="M19.1753 19.6886L21.5 22M20.5 16.5C20.5 14.0147 18.4853 12 16 12C13.5147 12 11.5 14.0147 11.5 16.5C11.5 18.9853 13.5147 21 16 21C18.4853 21 20.5 18.9853 20.5 16.5Z"
+        d="M18.675 19.689L21 22m-1-5.5a4.5 4.5 0 10-9 0 4.5 4.5 0 009 0z"
         stroke="#292D32"
-        stroke-opacity="0.7"
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
-        d="M7.5 7H15.5"
+        d="M7 7h8M7 11h3"
         stroke="#292D32"
-        stroke-opacity="0.7"
-        stroke-width="1.5"
-        stroke-linecap="round"
-      />
-      <path
-        d="M7.5 11H10.5"
-        stroke="#292D32"
-        stroke-opacity="0.7"
-        stroke-width="1.5"
-        stroke-linecap="round"
+        strokeWidth={1.5}
+        strokeLinecap="round"
       />
     </svg>
   );

@@ -7,6 +7,7 @@ import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
 import MemoInventory from "@/icons/Inventory";
 
+
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
   { name: "Products", href: "/r/dashboard/products", icon: MemoProducts },

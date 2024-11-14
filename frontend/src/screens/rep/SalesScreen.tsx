@@ -19,6 +19,8 @@ const SalesScreen = () => {
           showProceed={false}
           showMainExport={true}
           showSortProduct={true}
+          showApproveAll={false}
+          onApproveAllClick={() => {}}
           period="Last 360 days"
           onSearchClick={() => {}}
           onAddUserClick={() => {}}

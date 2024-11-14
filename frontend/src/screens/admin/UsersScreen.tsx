@@ -22,6 +22,8 @@ const UserScreen = () => {
         onSearchClick={() => {}}
         onAddUserClick={() => {}}
         onAddProductClick={() => {}}
+        showApproveAll={false}
+        onApproveAllClick={() => {}}
       />
       {/* <div className="space-y-6">
         <ProductOrderTable />
