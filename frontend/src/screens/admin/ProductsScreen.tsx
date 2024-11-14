@@ -19,6 +19,8 @@ const ProductScreen = () => {
           showAddProduct={true}
           showMainExport={false}
           showSortProduct={true}
+          showApproveAll={false}
+          onApproveAllClick={() => {}}
           period="Last 360 days"
           onSearchClick={() => {}}
           onAddUserClick={() => {}}

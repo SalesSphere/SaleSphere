@@ -19,6 +19,8 @@ const CheckoutScreen = () => {
           showMainExport={false}
           showProceed={true}
           showSortProduct={false}
+          showApproveAll={false}
+          onApproveAllClick={() => {}}
           period="Last 360 days"
           onSearchClick={() => {}}
           onAddUserClick={() => {}}
