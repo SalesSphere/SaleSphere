@@ -8,9 +8,11 @@ export interface DashboardHeaderProps {
   showAddProduct: boolean;
   showMainExport: boolean;
   showSortProduct: boolean;
+  showApproveAll: boolean;
   onSearchClick: () => void;
   onAddUserClick: () => void;
   onAddProductClick: () => void;
+  onApproveAllClick: () => void;
   period: string;
 }
 
@@ -25,6 +27,18 @@ export interface Sale {
   };
   paymentMode: string;
   time: string;
+  date: string;
+}
+
+export interface Inventory {
+  id: string;
+  productName: string;
+  price: number;
+  quantity: number;
+  rep: {
+    name: string;
+    avatar: string;
+  };
   date: string;
 }
 

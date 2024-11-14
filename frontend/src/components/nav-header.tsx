@@ -31,6 +31,7 @@ const navigation: NavItem[] = [
   { name: "Products", href: "/products", icon: MemoProducts },
   { name: "Sales", href: "/sales", icon: MemoSales },
   { name: "Users", href: "/users", icon: MemoUsers },
+  { name: "Inventory", href: "/inventory", icon: MemoProducts },
   { name: "Settings", href: "/settings", icon: MemoSettings },
 ];
 

@@ -14,6 +14,7 @@ import {
 import MemoFilter from "@/icons/Filter";
 import MemoExport from "@/icons/Export";
 import MemoCart from "@/icons/Cart";
+import MemoCartCheck from "@/icons/CartCheck";
 import MemoExport2 from "@/icons/Export2";
 import MemoCard from "@/icons/Card";
 import PaymentDialog from "./Modal/payment-dialog";
@@ -31,10 +32,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   showProceed,
   showMainExport,
   showSortProduct,
+  showApproveAll,
   period = "Last 360 days",
   onSearchClick,
   onAddUserClick,
   onAddProductClick,
+  onApproveAllClick,
 }) => {
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [showAddProductDialog, setAddProductDialog] = useState(false);
@@ -101,6 +104,15 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
             >
               <MemoCart className="h-4 w-4 mr-2 shrink-0" />
               Add new Product
+            </Button>
+          )}
+            {showApproveAll && (
+            <Button
+              onClick={onApproveAllClick}
+              className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
+            >
+              <MemoCartCheck className="h-4 w-4 mr-2 shrink-0" />
+              Approve All
             </Button>
           )}
           {showMainExport && (

@@ -1,9 +1,11 @@
 import MemoDashboard from "@/icons/Dashboard";
 import { Sale } from "./types";
+import { Inventory } from "./types";
 import MemoProducts from "@/icons/Products";
 import MemoSales from "@/icons/Sales";
 import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
+import MemoInventory from "@/icons/Inventory";
 
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
@@ -11,6 +13,7 @@ export const navigation = [
   { name: "Sales", href: "/r/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/r/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/r/dashboard/settings", icon: MemoSettings },
+  { name: "Inventory", href: "/r/dashboard/inventory", icon: MemoInventory },
 ];
 export const adminNavigation = [
   { name: "Dashboard", href: "/a/dashboard/overview", icon: MemoDashboard },
@@ -18,6 +21,7 @@ export const adminNavigation = [
   { name: "Sales", href: "/a/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/a/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/a/dashboard/settings", icon: MemoSettings },
+  { name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
 ];
 
 export const sales: Sale[] = [
@@ -137,5 +141,107 @@ export const sales: Sale[] = [
       avatar: "/salesUser.svg",
     },
     paymentMode: "POS",
+  },
+];
+
+export const inventory: Inventory[] = [
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Fresh Del Monte Apple",
+    price: 1000,
+    date: "08 Nov, 24",
+    quantity: 200,
+    rep: {
+      name: "Boma Pakabo",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Green Giant Vegetables",
+    price: 500,
+    date: "08 Nov, 24",
+    quantity: 50,
+    rep: {
+      name: "Funke Oyelowo",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Dole Bananas",
+    price: 750,
+    date: "10 Nov, 24",
+    quantity: 150,
+    rep: {
+      name: "Lara Adeyemi",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Ocean Spray Cranberries",
+    price: 1200,
+    date: "10 Nov, 24",
+    quantity: 100,
+    rep: {
+      name: "Tolu Ogunlade",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Chiquita Pineapple",
+    price: 900,
+    date: "10 Nov, 24",
+    quantity: 120,
+    rep: {
+      name: "Kemi Bakare",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Sunkist Oranges",
+    price: 1050,
+    date: "10 Nov, 24",
+    quantity: 80,
+    rep: {
+      name: "Femi Akindele",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "NatureSweet Tomatoes",
+    price: 800,
+    date: "10 Nov, 24",
+    quantity: 70,
+    rep: {
+      name: "Temi Osagie",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "SunMaid Raisins",
+    price: 1100,
+    date: "10 Nov, 24",
+    quantity: 90,
+    rep: {
+      name: "Tayo Adebayo",
+      avatar: "/salesUser.svg",
+    }
+  },
+  {
+    id: "11dac73902f246dfcc",
+    productName: "Wonderful Pistachios",
+    price: 1350,
+    date: "10 Nov, 24",
+    quantity: 110,
+    rep: {
+      name: "Yemi Fashola",
+      avatar: "/salesUser.svg",
+    }
   },
 ];
