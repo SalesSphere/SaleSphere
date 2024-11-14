@@ -44,3 +44,10 @@ export interface AddProductDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
+
+
+export type DataPoint = {
+  date: Date;
+  value: number;
+  highlight?: boolean;
+};
