@@ -8,6 +8,8 @@ solc_version = "0.8.28"
 optimizer = false
 optimizer_runs = 200
 
+allow_paths = ["../node_modules"]
+
 gas_reports = ["*"]
 gas_reports_ignore = []
 

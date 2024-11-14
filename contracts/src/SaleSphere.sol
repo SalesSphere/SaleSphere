@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+pragma solidity 0.8.28;
 
-contract SaleSphere {
+import { SalesContract } from "./SalesContract.sol";
+import { InventoryManagement } from "./InventoryManagement.sol";
+
+contract SaleSphere is SalesContract {
     uint256 public number;
     address public owner;
 
