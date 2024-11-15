@@ -1,23 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.24;
+pragma solidity 0.8.28;
+
+import { SalesStorage } from "./library/SalesStorage.sol";
 
 contract InventoryManagement {
+    // Custom errors
     error ProductDoesNotExist();
-    error AddressZeroDetected();
-
-    struct Products {
-        uint256 productID;
-        string productName;
-        uint256 productPrice;
-        uint256 quantity;
-        address uploader;
-        uint256 dateAdded;
-        string barcode;
-    }
-
-    mapping(uint256 => Products) private products;
-    uint256[] private productIDs;
-    uint256 private nextProductID = 1;
+    error InsufficientStock(uint256 productId, uint256 requested, uint256 available);
 
     event ProductAdded(
         uint256 indexed productID,
@@ -27,24 +16,20 @@ contract InventoryManagement {
         address uploader,
         uint256 dateAdded
     );
-    
+    event ProductStockIsLow(uint256 indexed productID, uint256 indexed quantity);
     event ProductUpdated(uint256 indexed productID, string indexed productName, uint256 productPrice, uint256 quantity);
     event ProductDeleted(uint256 indexed productID);
     // event StockLow(uint256 indexed productID, string indexed productName, uint256 quantity);
 
-    function addNewProduct(
-        string memory _productName,
-        uint256 _productPrice,
-        uint256 _quantity,
-        string _barcode
-    ) public {
-        if(msg.sender == address(0)) revert AddressZeroDetected();
-
-        uint256 productID = nextProductID++;
-
+    function addNewProduct(string memory _productName, uint256 _productPrice, uint256 _quantity, string memory _barcode)
+        public
+    {
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        uint256 productID = ++state.productCounter;
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-        products[productID] = Products({
+        state.products[productID] = SalesStorage.Product({
             productID: productID,
             productName: _productName,
             productPrice: _productPrice,
@@ -54,8 +39,6 @@ contract InventoryManagement {
             barcode: barcode
         });
 
-        productIDs.push(productID);
-
         emit ProductAdded(productID, _productName, _productPrice, _quantity, msg.sender, block.timestamp);
     }
 
@@ -64,47 +47,66 @@ contract InventoryManagement {
         string memory _productName,
         uint256 _productPrice,
         uint256 _quantity,
-        string _barcode
+        string memory _barcode
     ) public {
-        if(msg.sender == address(0)) revert AddressZeroDetected();
-
-        if(products[productID].productID == 0) revert ProductDoesNotExist();
-
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-        products[productID].productName = _productName;
-        products[productID].productPrice = _productPrice;
-        products[productID].quantity = _quantity;
-        products[productID].barcode = barcode;
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        if (state.products[productID].productID == 0) revert ProductDoesNotExist();
+
+        state.products[productID].productName = _productName;
+        state.products[productID].productPrice = _productPrice;
+        state.products[productID].quantity = _quantity;
+        state.products[productID].barcode = barcode;
 
         emit ProductUpdated(productID, _productName, _productPrice, _quantity);
     }
 
-    function getProduct(uint256 productID) public view returns (Products memory) {
-        if(msg.sender == address(0)) revert AddressZeroDetected();
+    function getProduct(uint256 productID) public view returns (SalesStorage.Product memory) {
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
-       if(products[productID].productID == 0) revert ProductDoesNotExist();
-        return products[productID];
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+
+        if (state.products[productID].productID == 0) revert ProductDoesNotExist();
+        return state.products[productID];
     }
 
-    function getAllProduct() public view returns (Products[] memory) {
-        if(msg.sender == address(0)) revert AddressZeroDetected();
+    function getAllProduct() public view returns (SalesStorage.Product[] memory) {
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
-        Products[] memory allProducts = new Products[](productIDs.length);
-        for (uint256 i = 0; i < productIDs.length; i++) {
-            allProducts[i] = products[productIDs[i]];
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        uint256 productCount = state.productCounter;
+
+        SalesStorage.Product[] memory allProducts = new SalesStorage.Product[](productCount);
+        for (uint256 i = 0; i < productCount; i++) {
+            allProducts[i] = state.products[i + 1];
         }
         return allProducts;
     }
 
     function deleteProduct(uint256 productID) public {
-        if(msg.sender == address(0)) revert AddressZeroDetected();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
-        if (products[productID].productID == 0) revert ProductDoesNotExist();
+        if (state.products[productID].productID == 0) revert ProductDoesNotExist();
 
-        delete products[productID];
+        delete state.products[productID];
 
         emit ProductDeleted(productID);
+    }
+
+    function reduceProductCount(uint256 productId, uint256 quantity) internal {
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        uint256 availableStock = state.products[productId].quantity;
+
+        if (availableStock == 0) revert ProductDoesNotExist();
+        require(availableStock >= quantity, InsufficientStock(productId, quantity, availableStock));
+
+        if ((availableStock - quantity) <= state.productLowMargin) {
+            emit ProductStockIsLow(productId, (availableStock - quantity));
+        }
+        state.products[productId].quantity -= quantity;
     }
 
     // Internal function to check stock levels and emit alert if below reorder point

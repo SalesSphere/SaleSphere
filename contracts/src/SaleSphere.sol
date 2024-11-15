@@ -1,19 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.28;
+pragma solidity 0.8.28;
 
-contract SaleSphere {
-    uint256 public number;
-    address public owner;
+import { SalesStorage } from "./library/SalesStorage.sol";
+import { SalesContract } from "./SalesContract.sol";
+// import { InventoryManagement } from "./InventoryManagement.sol";
+import { StaffManagement } from "./StaffMangement.sol";
 
-    constructor() {
-        owner = msg.sender;
-    }
-
-    function setNumber(uint256 newNumber) public {
-        number = newNumber;
-    }
-
-    function increment() public {
-        number++;
+contract SaleSphere is SalesContract, StaffManagement {
+    constructor(uint16 maxAdmins, uint16 productLowMargin) {
+        SalesStorage.setInitials(maxAdmins, productLowMargin);
     }
 }
