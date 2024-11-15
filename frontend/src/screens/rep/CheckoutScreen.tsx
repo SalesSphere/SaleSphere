@@ -36,7 +36,6 @@ const CheckoutScreen = () => {
   const vat = totalSum * 0.020;
   const total = totalSum + vat;
 
-  const currentTime = new Date().toLocaleTimeString();
 
   const handleRemoveProduct = (index: number) => {
     const updatedProducts = [...products];
