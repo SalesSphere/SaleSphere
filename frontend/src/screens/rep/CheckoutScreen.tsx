@@ -214,4 +214,4 @@ const CheckoutScreen = () => {
   );
 };
 
-export default CheckoutScreen;
+export default CheckoutScreen
