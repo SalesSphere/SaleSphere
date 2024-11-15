@@ -13,17 +13,11 @@ const InventoryScreen = () => {
           title="New Inventory Page"
           subtitle="View and take actions on all newly added products."
           showSearch={true}
-          showExport={false}
-          showAddUser={false}
-          showAddProduct={false}
-          showProceed={false}
-          showMainExport={false}
           showSortProduct={true}
           showApproveAll={true}
           period="Last 360 days"
           onSearchClick={() => {}}
           onAddUserClick={() => {}}
-          onAddProductClick={() => {}}
           onApproveAllClick={() => {}}
         />
 

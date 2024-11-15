@@ -1,5 +1,7 @@
+import NotificationScreen from "@/screens/admin/NotificationScreen";
+
 const page = () => {
-  return <div>page</div>;
+  return <NotificationScreen />;
 };
 
 export default page;
