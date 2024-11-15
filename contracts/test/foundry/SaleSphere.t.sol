@@ -5,27 +5,19 @@ import { Test } from "forge-std/Test.sol";
 import { SaleSphere } from "../../src/SaleSphere.sol";
 import { SalesStorage } from "../../src/library/SalesStorage.sol";
 import { SalesContract } from "../../src/SalesContract.sol";
+import { InventoryManagement } from "../../src/InventoryManagement.sol";
 
 contract SaleSphereTest is Test {
     SaleSphere saleSphere;
+    uint16 maxAdmins = 10;
+    uint16 productLowMargin = 10;
 
     function setUp() public {
-        saleSphere = new SaleSphere();
-        saleSphere.setNumber(0);
+        saleSphere = new SaleSphere(maxAdmins, productLowMargin);
 
         // Initialize inventory using setInventory function
         saleSphere.addNewProduct("Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
         saleSphere.addNewProduct("Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
-    }
-
-    function test_Increment() public {
-        saleSphere.increment();
-        assertEq(saleSphere.number(), 1);
-    }
-
-    function testFuzz_SetNumber(uint256 x) public {
-        saleSphere.setNumber(x);
-        assertEq(saleSphere.number(), x);
     }
 
     function testRecordSaleSuccess() public {
@@ -56,7 +48,7 @@ contract SaleSphereTest is Test {
         // Expect the InsufficientStock error to be reverted with specific parameters
         vm.expectRevert(
             abi.encodeWithSelector(
-                SalesStorage.InsufficientStock.selector,
+                InventoryManagement.InsufficientStock.selector,
                 2, // productId
                 10, // requested quantity
                 5 // available stock
