@@ -2,7 +2,7 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import RepLeaderboard from "@/components/rep-leaderboard";
+// import RepLeaderboard from "@/components/rep-leaderboard";
 import SalesChart from "@/components/sales-chart";
 import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
@@ -17,7 +17,7 @@ export default function DashboardPage() {
           subtitle="Dive into real-time insights and watch your sales soar"
           showSearch={true}
           showExport={false}
-          showAddUser={true}
+          showAddUser={false}
           showAddProduct={true}
           showProceed={false}
           showMainExport={false}
@@ -30,7 +30,7 @@ export default function DashboardPage() {
           onApproveAllClick={() => console.log("Approve all clicked")}
         />
 
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
           <StatsCard
             title="Total Product"
             value="2,000"
@@ -49,7 +49,7 @@ export default function DashboardPage() {
             type="Increased by"
             lineColor="#00D103"
           />
-          <StatsCard
+          {/* <StatsCard
             title="Total Member"
             value="10"
             change={0}
@@ -57,17 +57,14 @@ export default function DashboardPage() {
             period="Last 360 days"
             type="Static"
             lineColor="#E2AE29"
-          />
+          /> */}
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4 p-3">
-          <div className="md:col-span-3">
-            <SalesChart />
-          </div>
-          <RepLeaderboard />
+        <div className="w-full py-4 flex flex-col space-y-8">
+          <SalesChart />
+          <SalesTable />
         </div>
 
-        <SalesTable />
       </div>
     </DashboardLayout>
   );
