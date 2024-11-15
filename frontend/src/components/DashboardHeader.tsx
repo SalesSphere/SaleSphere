@@ -55,7 +55,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     <main>
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
         <div>
-          <h1 className="text-3xl font-bold">{title}</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold">{title}</h1>
           <p className="text-[#292D3280] text-sm">{subtitle}</p>
         </div>
         <div className="flex gap-2 mt-4 md:mt-0 flex-wrap md:flex-nowrap ">
@@ -106,7 +106,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
               Add new Product
             </Button>
           )}
-            {showApproveAll && (
+          {showApproveAll && (
             <Button
               onClick={onApproveAllClick}
               className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
