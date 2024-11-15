@@ -38,7 +38,7 @@ export default function SalesChart() {
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={data}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
             onMouseMove={(e) => {
               if (e && e.activePayload) {
                 setActivePoint(e.activePayload[0].payload);
