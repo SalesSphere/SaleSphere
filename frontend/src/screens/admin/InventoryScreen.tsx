@@ -10,7 +10,7 @@ const InventoryScreen = () => {
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">
         <DashboardHeader
-          title="New Inventory Page"
+          title="Inventory"
           subtitle="View and take actions on all newly added products."
           showSearch={true}
           showExport={false}
