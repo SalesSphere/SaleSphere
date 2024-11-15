@@ -9,8 +9,8 @@ const UserScreen = () => {
   return (
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <DashboardHeader
-        title="Checkout page"
-        subtitle="View and edit all product info present in your store"
+        title="Users"
+        subtitle="View and take actions on all newly added users."
         showSearch={true}
         showExport={false}
         showAddUser={false}

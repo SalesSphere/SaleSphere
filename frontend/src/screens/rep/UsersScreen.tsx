@@ -10,7 +10,7 @@ const UserScreen = () => {
     <DashboardLayout showHeader={true} navigation={navigation}>
       <DashboardHeader
         title="Users"
-        subtitle="View all user info present in your store"
+        subtitle="View and take actions on all newly added users."
         showSearch={true}
         showExport={false}
         showAddUser={false}
