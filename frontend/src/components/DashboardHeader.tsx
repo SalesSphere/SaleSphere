@@ -55,10 +55,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     <main>
       <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
         <div>
-          <h1 className="text-3xl font-bold">{title}</h1>
+          <h1 className="text-2xl lg:text-3xl font-bold">{title}</h1>
           <p className="text-[#292D3280] text-sm">{subtitle}</p>
         </div>
-        <div className="flex gap-2 mt-4 md:mt-0  ">
+        <div className="flex gap-2 mt-4 md:mt-0 flex-wrap md:flex-nowrap ">
           {showSearch && (
             <Input
               placeholder="Search product by name or ID"
@@ -69,7 +69,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showExport && (
             <Button
               onClick={onSearchClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2"
+              className="inline-flex items-center justify-center rounded-xl text-sm bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2"
             >
               <MemoExport className="h-5 w-10" />
             </Button>
@@ -77,7 +77,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showAddUser && (
             <Button
               onClick={onAddUserClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+              className="inline-flex items-center justify-center rounded-xl text-sm border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             >
               <MemoUserProfile className="h-4 w-4 mr-2 shrink-0" />
               Add new user
@@ -100,13 +100,13 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showAddProduct && (
             <Button
               onClick={() => setAddProductDialog(true)}
-              className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
+              className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
             >
               <MemoCart className="h-4 w-4 mr-2 shrink-0" />
               Add new Product
             </Button>
           )}
-            {showApproveAll && (
+          {showApproveAll && (
             <Button
               onClick={onApproveAllClick}
               className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
@@ -118,7 +118,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showMainExport && (
             <button
               onClick={onAddProductClick}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
+              className="inline-flex items-center justify-center rounded-xl text-sm bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
             >
               <MemoExport2 className="h-4 w-4 mr-2" />
               Export
@@ -127,7 +127,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           {showProceed && (
             <button
               onClick={() => setShowPaymentDialog(true)}
-              className="inline-flex items-center justify-center rounded-xl text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
+              className="inline-flex items-center justify-center rounded-xl text-sm bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-8 py-2"
             >
               <MemoCard className="h-4 w-4 mr-2" />
               Proceed

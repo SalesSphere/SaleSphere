@@ -15,14 +15,6 @@ import { CheckSquareIcon, XCircleIcon } from "lucide-react";
 // import { useState } from "react";
 
 export default function InventoryTable() {
-  // const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  // const copyToClipboard = (text: string) => {
-  //   navigator.clipboard.writeText(text);
-  //   setCopiedId(text);
-  //   setTimeout(() => setCopiedId(null), 2000);
-  // };
-
   return (
     <div className="w-full overflow-x-auto">
       <Table>
@@ -41,7 +33,8 @@ export default function InventoryTable() {
           {inventory.map((item) => (
             <TableRow
               key={item.id}
-              className="flex flex-col md:grid md:grid-cols-7 md:gap-4 border-b py-2">
+              className="flex flex-col md:grid md:grid-cols-7 md:gap-4 border-b py-2"
+            >
               <TableCell className="font-medium flex justify-between items-center md:block">
                 <span className="md:hidden font-bold">Product Name:</span>
                 {item.productName}
@@ -92,7 +85,8 @@ export default function InventoryTable() {
                   <Button
                     variant="ghost"
                     size="icon"
-                    className="text-green-500">
+                    className="text-green-500"
+                  >
                     <CheckSquareIcon className="h-5 w-5" />
                     <span className="sr-only">Reject</span>
                   </Button>

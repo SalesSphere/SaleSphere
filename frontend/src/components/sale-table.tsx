@@ -27,7 +27,7 @@ export default function SaleTable() {
     <div className="w-full overflow-x-auto">
       <Table>
         <TableHeader>
-          <TableRow className="hidden md:grid md:grid-cols-6 md:gap-4 bg-[#292D321A] pt-4 pb-1 rounded-md">
+          <TableRow className="!bg-[#292D321A] rounded-md">
             <TableHead className="text-left">Sales ID</TableHead>
             <TableHead className="text-left">Product name</TableHead>
             <TableHead className="text-left">Product price</TableHead>
@@ -38,10 +38,8 @@ export default function SaleTable() {
         </TableHeader>
         <TableBody>
           {sales.map((sale) => (
-            <TableRow
-              key={sale.id}
-              className="flex flex-col md:grid md:grid-cols-6 md:gap-4 border-b  py-2">
-              <TableCell className="font-medium flex justify-between items-center md:block">
+            <TableRow key={sale.id}>
+              <TableCell>
                 <span className="md:hidden font-bold">Sales ID:</span>
                 <div className="flex items-center gap-2">
                   <span className="text-sm md:text-base">{sale.id}</span>
@@ -49,7 +47,8 @@ export default function SaleTable() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(sale.id)}>
+                    onClick={() => copyToClipboard(sale.id)}
+                  >
                     <Copy className="h-4 w-4" />
                     <span className="sr-only">Copy sales ID</span>
                   </Button>
@@ -58,11 +57,11 @@ export default function SaleTable() {
                   )}
                 </div>
               </TableCell>
-              <TableCell className="flex justify-between items-center md:block">
+              <TableCell>
                 <span className="md:hidden font-bold">Product name:</span>
                 {sale.productName}
               </TableCell>
-              <TableCell className="flex justify-between items-center md:block">
+              <TableCell>
                 <span className="md:hidden font-bold">Product price:</span>₦
                 {sale.price.toLocaleString()}
               </TableCell>
@@ -70,14 +69,11 @@ export default function SaleTable() {
                 <span className="md:hidden font-bold">Quantity:</span>
                 {sale.quantity}
               </TableCell>
-              <TableCell className="flex justify-between items-center md:block">
+              <TableCell>
                 <span className="md:hidden font-bold">Seller:</span>
                 <div className="flex items-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarImage
-                      src={sale.rep.avatar}
-                      alt={sale.rep.name}
-                    />
+                    <AvatarImage src={sale.rep.avatar} alt={sale.rep.name} />
                     <AvatarFallback>{sale.rep.name[0]}</AvatarFallback>
                   </Avatar>
                   {sale.rep.name}

@@ -1,11 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MemoArrowDown from "@/icons/ArrowDown";
 import MemoArrowUp from "@/icons/ArrowUp";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-export default function RepLeaderboard() {
+export default function RepLeaderboard({ className }: { className?: string }) {
   return (
-    <Card className="w-full max-w-[22rem]">
+    <Card className={cn("w-full max-w-[22rem]", className)}>
       <CardHeader>
         <CardTitle className="text-base font-medium text-[#292D3280]">
           Rep Leaderboard
@@ -15,14 +16,16 @@ export default function RepLeaderboard() {
       <CardContent className="p-0">
         <div
           className="grid grid-cols-3 bg-[#292D321A] p-3"
-          style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
+          style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
+        >
           <div className="text-sm font-medium">Sales rep</div>
           <div className="text-sm font-medium">No of sale</div>
         </div>
         <div className="divide-y">
           <div
             className="grid grid-cols-3 items-center p-3"
-            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
+            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
+          >
             <div className="flex items-center gap-2">
               <Image src="/1.png" width={20} height={20} alt="rep1" />
               <span>Boma Pakabo</span>
@@ -34,7 +37,8 @@ export default function RepLeaderboard() {
           </div>
           <div
             className="grid grid-cols-3 items-center p-3"
-            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
+            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
+          >
             <div className="flex items-center gap-2">
               <Image src="/2.png" width={20} height={20} alt="rep2" />
               <span>Funke Iwalewa</span>
@@ -46,7 +50,8 @@ export default function RepLeaderboard() {
           </div>
           <div
             className="grid grid-cols-3 items-center p-3"
-            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
+            style={{ gridTemplateColumns: "2fr 1fr 1fr" }}
+          >
             <div className="flex items-center gap-2">
               <Image src="/3.png" width={20} height={20} alt="rep3" />
               <span>Adeola Olaniyan</span>

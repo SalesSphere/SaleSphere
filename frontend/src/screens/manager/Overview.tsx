@@ -6,18 +6,22 @@ import RepLeaderboard from "@/components/rep-leaderboard";
 import SalesChart from "@/components/sales-chart";
 import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
-import { adminNavigation } from "@/lib/data";
+import { managerNavigation } from "@/lib/data";
 
 export default function DashboardPage() {
   return (
-    <DashboardLayout showHeader={true} navigation={adminNavigation}>
+    <DashboardLayout showHeader={true} navigation={managerNavigation}>
       <div className="space-y-6">
         <DashboardHeader
           title="Welcome Chinyere 👋"
           subtitle="Dive into real-time insights and watch your sales soar"
           showSearch={true}
+          showExport={false}
           showAddUser={true}
           showAddProduct={true}
+          showProceed={false}
+          showMainExport={false}
+          showSortProduct={false}
           period="Last 360 days"
           onSearchClick={() => console.log("Search clicked")}
           onAddUserClick={() => console.log("Add user clicked")}
@@ -54,11 +58,11 @@ export default function DashboardPage() {
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-4 md:p-3">
-          <div className="col-span-4 lg:col-span-3">
+        <div className="grid gap-4 md:grid-cols-4 p-3">
+          <div className="md:col-span-3">
             <SalesChart />
           </div>
-          <RepLeaderboard className="col-span-4 lg:col-span-1" />
+          <RepLeaderboard />
         </div>
 
         <SalesTable />
