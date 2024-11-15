@@ -18,7 +18,7 @@ contract SalesContract is InventoryManagement {
         uint256 totalAmount,
         SalesStorage.ModeOfPayment paymentMode
     ) external {
-        SalesStorage.State storage state = SalesStorage.getState();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         // Increment sale ID and create new sale
         state.saleCounter += 1;
