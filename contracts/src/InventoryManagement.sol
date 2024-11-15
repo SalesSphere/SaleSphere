@@ -4,10 +4,9 @@ pragma solidity 0.8.28;
 import { SalesStorage } from "./library/SalesStorage.sol";
 
 contract InventoryManagement {
+    // Custom errors
     error ProductDoesNotExist();
-    error AddressZeroDetected();
-
-    uint8 constant LOW_MARGIN = 10;
+    error InsufficientStock(uint256 productId, uint256 requested, uint256 available);
 
     event ProductAdded(
         uint256 indexed productID,
@@ -25,8 +24,8 @@ contract InventoryManagement {
     function addNewProduct(string memory _productName, uint256 _productPrice, uint256 _quantity, string memory _barcode)
         public
     {
-        if (msg.sender == address(0)) revert AddressZeroDetected();
-        SalesStorage.State storage state = SalesStorage.getState();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256 productID = ++state.productCounter;
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
@@ -50,10 +49,10 @@ contract InventoryManagement {
         uint256 _quantity,
         string memory _barcode
     ) public {
-        if (msg.sender == address(0)) revert AddressZeroDetected();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-        SalesStorage.State storage state = SalesStorage.getState();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         if (state.products[productID].productID == 0) revert ProductDoesNotExist();
 
         state.products[productID].productName = _productName;
@@ -65,18 +64,18 @@ contract InventoryManagement {
     }
 
     function getProduct(uint256 productID) public view returns (SalesStorage.Product memory) {
-        if (msg.sender == address(0)) revert AddressZeroDetected();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
-        SalesStorage.State storage state = SalesStorage.getState();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         if (state.products[productID].productID == 0) revert ProductDoesNotExist();
         return state.products[productID];
     }
 
     function getAllProduct() public view returns (SalesStorage.Product[] memory) {
-        if (msg.sender == address(0)) revert AddressZeroDetected();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
-        SalesStorage.State storage state = SalesStorage.getState();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256 productCount = state.productCounter;
 
         SalesStorage.Product[] memory allProducts = new SalesStorage.Product[](productCount);
@@ -87,8 +86,8 @@ contract InventoryManagement {
     }
 
     function deleteProduct(uint256 productID) public {
-        if (msg.sender == address(0)) revert AddressZeroDetected();
-        SalesStorage.State storage state = SalesStorage.getState();
+        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         if (state.products[productID].productID == 0) revert ProductDoesNotExist();
 
@@ -98,13 +97,15 @@ contract InventoryManagement {
     }
 
     function reduceProductCount(uint256 productId, uint256 quantity) internal {
-        SalesStorage.State storage state = SalesStorage.getState();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256 availableStock = state.products[productId].quantity;
 
         if (availableStock == 0) revert ProductDoesNotExist();
-        require(availableStock >= quantity, SalesStorage.InsufficientStock(productId, quantity, availableStock));
+        require(availableStock >= quantity, InsufficientStock(productId, quantity, availableStock));
 
-        if ((availableStock - quantity) <= LOW_MARGIN) emit ProductStockIsLow(productId, (availableStock - quantity));
+        if ((availableStock - quantity) <= state.productLowMargin) {
+            emit ProductStockIsLow(productId, (availableStock - quantity));
+        }
         state.products[productId].quantity -= quantity;
     }
 
