@@ -7,14 +7,18 @@ import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
 import MemoInventory from "@/icons/Inventory";
 
-
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
   { name: "Products", href: "/r/dashboard/products", icon: MemoProducts },
   { name: "Sales", href: "/r/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/r/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/r/dashboard/settings", icon: MemoSettings },
-  { name: "Inventory", href: "/r/dashboard/inventory", icon: MemoInventory },
+];
+export const managerNavigation = [
+  { name: "Dashboard", href: "/m/dashboard/overview", icon: MemoDashboard },
+  { name: "Products", href: "/m/dashboard/products", icon: MemoProducts },
+  { name: "Sales", href: "/m/dashboard/sales", icon: MemoSales },
+  { name: "Settings", href: "/m/dashboard/settings", icon: MemoSettings },
 ];
 export const adminNavigation = [
   { name: "Dashboard", href: "/a/dashboard/overview", icon: MemoDashboard },
@@ -79,7 +83,7 @@ export const sales: Sale[] = [
     paymentMode: "Bank transfer",
   },
   {
-    id: "c1a3c44e9b72c446b",
+    id: "c1a3c44e9bc446b",
     productName: "Chiquita Pineapple",
     price: 900,
     time: "11:50am",
@@ -147,7 +151,7 @@ export const sales: Sale[] = [
 
 export const inventory: Inventory[] = [
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f24",
     productName: "Fresh Del Monte Apple",
     price: 1000,
     date: "08 Nov, 24",
@@ -155,10 +159,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Boma Pakabo",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f246dfc",
     productName: "Green Giant Vegetables",
     price: 500,
     date: "08 Nov, 24",
@@ -166,10 +170,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Funke Oyelowo",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f24dfc",
     productName: "Dole Bananas",
     price: 750,
     date: "10 Nov, 24",
@@ -177,10 +181,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Lara Adeyemi",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f246dc",
     productName: "Ocean Spray Cranberries",
     price: 1200,
     date: "10 Nov, 24",
@@ -188,10 +192,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Tolu Ogunlade",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "1ac73902f26dfcc",
     productName: "Chiquita Pineapple",
     price: 900,
     date: "10 Nov, 24",
@@ -199,10 +203,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Kemi Bakare",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "1ac73902f246dfcc",
     productName: "Sunkist Oranges",
     price: 1050,
     date: "10 Nov, 24",
@@ -210,10 +214,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Femi Akindele",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11da3902f246dfcc",
     productName: "NatureSweet Tomatoes",
     price: 800,
     date: "10 Nov, 24",
@@ -221,10 +225,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Temi Osagie",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac739026dfcc",
     productName: "SunMaid Raisins",
     price: 1100,
     date: "10 Nov, 24",
@@ -232,10 +236,10 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Tayo Adebayo",
       avatar: "/salesUser.svg",
-    }
+    },
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11c7390f246dfcc",
     productName: "Wonderful Pistachios",
     price: 1350,
     date: "10 Nov, 24",
@@ -243,6 +247,6 @@ export const inventory: Inventory[] = [
     rep: {
       name: "Yemi Fashola",
       avatar: "/salesUser.svg",
-    }
+    },
   },
 ];

@@ -145,19 +145,22 @@ export default function ProductsTable() {
     <div className="overflow-x-auto">
       <Table className="w-full">
         <TableHeader>
-          <TableRow className="grid grid-cols-7 gap-4 bg-[#292D321A] pt-4 pb-1 rounded-md">
+          <TableRow className="lg:grid lg:grid-cols-7 lg:gap-4 bg-[#292D321A] pt-4 pb-1 rounded-md">
             <TableHead className="text-left">Product ID</TableHead>
             <TableHead className="text-left">Product name</TableHead>
             <TableHead className="text-left">Product price</TableHead>
             <TableHead className="text-left">Uploader</TableHead>
             <TableHead className="text-left">Quantity</TableHead>
-            <TableHead className="text-left">Date added</TableHead>
+            <TableHead className="text-left shrink-0">Date added</TableHead>
             <TableHead className="text-left">Barcode</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {products.map((product) => (
-            <TableRow key={product.id} className="grid grid-cols-7 gap-4 py-2">
+            <TableRow
+              key={product.id}
+              className="lg:grid lg:grid-cols-7 lg:gap-4 lg:py-2"
+            >
               <TableCell className="font-medium">
                 <div className="flex items-center gap-2">
                   {product.id}
@@ -165,7 +168,8 @@ export default function ProductsTable() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(product.id)}>
+                    onClick={() => copyToClipboard(product.id)}
+                  >
                     <Copy className="h-4 w-4" />
                     <span className="sr-only">Copy product ID</span>
                   </Button>
@@ -186,11 +190,14 @@ export default function ProductsTable() {
                 </div>
               </TableCell>
               <TableCell className="text-left">{product.quantity}</TableCell>
-              <TableCell>{product.dateAdded}</TableCell>
+              <TableCell className="shrink-0 !w-52">
+                <p>{product.dateAdded}</p>
+              </TableCell>
               <TableCell className="text-left">
                 <a
                   href={`#${product.barcode}`}
-                  className="inline-flex items-center gap-2 text-blue-500 hover:underline">
+                  className="inline-flex items-center gap-2 text-blue-500 hover:underline"
+                >
                   {product.barcode}
                   <Link2 className="h-4 w-4" />
                 </a>

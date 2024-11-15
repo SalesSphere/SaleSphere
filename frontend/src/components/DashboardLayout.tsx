@@ -70,7 +70,7 @@ function Header({ navigation }: { navigation: NavItem[] }) {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
+        <nav className="hidden lg:flex items-center space-x-8">
           {navigation.map((item) => (
             <NavLink key={item.name} item={item} />
           ))}
@@ -78,8 +78,10 @@ function Header({ navigation }: { navigation: NavItem[] }) {
 
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="icon" className="hidden md:flex">
-            <Bell className="h-5 w-5" />
-            <span className="sr-only">Notifications</span>
+            <Link href={"/notifications"} className="flex">
+              <Bell className="h-5 w-5" />
+              <span className="sr-only">Notifications</span>
+            </Link>
           </Button>
 
           <Avatar>
@@ -89,7 +91,7 @@ function Header({ navigation }: { navigation: NavItem[] }) {
 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="lg:hidden">
                 <Menu className="h-6 w-6" />
                 <span className="sr-only">Toggle menu</span>
               </Button>

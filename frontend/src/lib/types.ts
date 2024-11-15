@@ -2,18 +2,18 @@ export interface DashboardHeaderProps {
   title: string;
   subtitle: string;
   showSearch: boolean;
-  showExport: boolean;
-  showAddUser: boolean;
-  showProceed: boolean;
-  showAddProduct: boolean;
-  showMainExport: boolean;
-  showSortProduct: boolean;
-  showApproveAll: boolean;
-  onSearchClick: () => void;
-  onAddUserClick: () => void;
-  onAddProductClick: () => void;
-  onApproveAllClick: () => void;
-  period: string;
+  showExport?: boolean;
+  showAddUser?: boolean;
+  showProceed?: boolean;
+  showAddProduct?: boolean;
+  showMainExport?: boolean;
+  showSortProduct?: boolean;
+  showApproveAll?: boolean;
+  onSearchClick?: () => void;
+  onAddUserClick?: () => void;
+  onAddProductClick?: () => void;
+  onApproveAllClick?: () => void;
+  period?: string;
 }
 
 export interface Sale {
@@ -58,7 +58,6 @@ export interface AddProductDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
-
 
 export type DataPoint = {
   date: Date;
