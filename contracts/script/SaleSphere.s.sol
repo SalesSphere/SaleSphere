@@ -6,13 +6,15 @@ import { SaleSphere } from "../src/SaleSphere.sol";
 
 contract SaleSphereScript is Script {
     SaleSphere public saleSphere;
+    uint16 maxAdmins = 10;
+    uint16 productLowMargin = 10;
 
     function setUp() public { }
 
     function run() public {
         vm.startBroadcast(vm.envUint("DO_NOT_LEAK"));
 
-        saleSphere = new SaleSphere();
+        saleSphere = new SaleSphere(maxAdmins, productLowMargin);
 
         vm.stopBroadcast();
     }
