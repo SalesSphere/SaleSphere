@@ -26,7 +26,7 @@ export default function SalesTable() {
           </SelectContent>
         </Select>
       </CardHeader>
-      <CardContent className="overflow-auto">
+      <CardContent className="overflow-auto w-full">
         <SaleTable />
       </CardContent>
     </div>
