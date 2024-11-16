@@ -40,6 +40,7 @@ export interface Inventory {
     avatar: string;
   };
   date: string;
+  barcode: string;
 }
 
 export interface PaymentItem {

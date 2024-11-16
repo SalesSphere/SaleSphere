@@ -160,6 +160,7 @@ export const inventory: Inventory[] = [
       name: "Boma Pakabo",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11dac73902f246dfc",
@@ -171,6 +172,7 @@ export const inventory: Inventory[] = [
       name: "Funke Oyelowo",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11dac73902f24dfc",
@@ -182,6 +184,7 @@ export const inventory: Inventory[] = [
       name: "Lara Adeyemi",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11dac73902f246dc",
@@ -193,6 +196,7 @@ export const inventory: Inventory[] = [
       name: "Tolu Ogunlade",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "1ac73902f26dfcc",
@@ -204,6 +208,7 @@ export const inventory: Inventory[] = [
       name: "Kemi Bakare",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "1ac73902f246dfcc",
@@ -215,6 +220,7 @@ export const inventory: Inventory[] = [
       name: "Femi Akindele",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11da3902f246dfcc",
@@ -226,6 +232,7 @@ export const inventory: Inventory[] = [
       name: "Temi Osagie",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11dac739026dfcc",
@@ -237,6 +244,7 @@ export const inventory: Inventory[] = [
       name: "Tayo Adebayo",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
   {
     id: "11c7390f246dfcc",
@@ -248,5 +256,6 @@ export const inventory: Inventory[] = [
       name: "Yemi Fashola",
       avatar: "/salesUser.svg",
     },
+    barcode: "11dac73902f246dfcc",
   },
 ];

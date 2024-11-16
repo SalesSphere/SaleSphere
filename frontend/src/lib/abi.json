@@ -1,0 +1,701 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "maxAdmins",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "productLowMargin",
+        "type": "uint16"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AddressZeroDetected",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "productId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "requested",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "available",
+        "type": "uint256"
+      }
+    ],
+    "name": "InsufficientStock",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum SalesStorage.Role",
+        "name": "currentRole",
+        "type": "uint8"
+      }
+    ],
+    "name": "InvalidRoleAssignment",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      }
+    ],
+    "name": "InvalidStaffID",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotAdministrator",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotSalesRepOrAdministrator",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "NotStoreOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "ProductDoesNotExist",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "StaffAlreadyExist",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      }
+    ],
+    "name": "StaffNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "TooManyAdmins",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newLimit",
+        "type": "uint256"
+      }
+    ],
+    "name": "AdminLimitUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "productName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "productPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "uploader",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "dateAdded",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductDeleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductStockIsLow",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "productName",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "productPrice",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "quantity",
+        "type": "uint256"
+      }
+    ],
+    "name": "ProductUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "staffAddr",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum SalesStorage.Role",
+        "name": "newRole",
+        "type": "uint8"
+      }
+    ],
+    "name": "RoleUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "saleId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "cashierId",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "timestamp",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum SalesStorage.ModeOfPayment",
+        "name": "paymentMode",
+        "type": "uint8"
+      }
+    ],
+    "name": "SaleRecorded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "staffAddr",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum SalesStorage.Role",
+        "name": "role",
+        "type": "uint8"
+      }
+    ],
+    "name": "StaffAdded",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "staffID",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "staffAddr",
+        "type": "address"
+      }
+    ],
+    "name": "StaffRemoved",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "_productName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_productPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_barcode",
+        "type": "string"
+      }
+    ],
+    "name": "addNewProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "enum SalesStorage.Role",
+        "name": "_role",
+        "type": "uint8"
+      }
+    ],
+    "name": "addStaff",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      }
+    ],
+    "name": "deleteProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllProduct",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "productID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "productName",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "productPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "quantity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "uploader",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "dateAdded",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "barcode",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct SalesStorage.Product[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getAllStaff",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "staffID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "enum SalesStorage.Role",
+            "name": "role",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct SalesStorage.Staff[]",
+        "name": "",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getProduct",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "productID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "productName",
+            "type": "string"
+          },
+          {
+            "internalType": "uint256",
+            "name": "productPrice",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "quantity",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "uploader",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "dateAdded",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "barcode",
+            "type": "string"
+          }
+        ],
+        "internalType": "struct SalesStorage.Product",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_staffID",
+        "type": "uint256"
+      }
+    ],
+    "name": "getStaffDetails",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "staffID",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "addr",
+            "type": "address"
+          },
+          {
+            "internalType": "string",
+            "name": "name",
+            "type": "string"
+          },
+          {
+            "internalType": "enum SalesStorage.Role",
+            "name": "role",
+            "type": "uint8"
+          }
+        ],
+        "internalType": "struct SalesStorage.Staff",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "productId",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "quantity",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct SalesStorage.SaleItem[]",
+        "name": "items",
+        "type": "tuple[]"
+      },
+      {
+        "internalType": "uint256",
+        "name": "totalAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum SalesStorage.ModeOfPayment",
+        "name": "paymentMode",
+        "type": "uint8"
+      }
+    ],
+    "name": "recordSale",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_staffID",
+        "type": "uint256"
+      }
+    ],
+    "name": "removeStaff",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_staffID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "enum SalesStorage.Role",
+        "name": "_role",
+        "type": "uint8"
+      }
+    ],
+    "name": "setRole",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "_newLimit",
+        "type": "uint16"
+      }
+    ],
+    "name": "updateAdminLimit",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "productID",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_productName",
+        "type": "string"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_productPrice",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_quantity",
+        "type": "uint256"
+      },
+      {
+        "internalType": "string",
+        "name": "_barcode",
+        "type": "string"
+      }
+    ],
+    "name": "updateProduct",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
