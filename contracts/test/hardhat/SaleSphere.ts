@@ -20,8 +20,8 @@ describe("SalesSphere contract", function () {
             await saleSphere.waitForDeployment();
 
             // Initialize inventory using addNewProduct function
-            await saleSphere.addNewProduct("Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
-            await saleSphere.addNewProduct("Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
+            await saleSphere.addNewProduct(1, "Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
+            await saleSphere.addNewProduct(2, "Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
 
             // Add sales rep
             await saleSphere.addStaff(salesRep, 1, "Tester", 1);
