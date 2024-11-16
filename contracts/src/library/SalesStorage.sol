@@ -33,7 +33,7 @@ library SalesStorage {
     }
 
     struct Product {
-        uint256 productID;
+        uint256 productId;
         string productName;
         uint256 productPrice;
         uint256 quantity;
@@ -48,6 +48,7 @@ library SalesStorage {
         uint256 productCounter; // Counter to track the products ID
         uint16 productLowMargin; // The margin to signal a low stock
         mapping(uint256 => Product) products; // Mapping of productId to products struct
+        uint256[] productsIDArray;
     }
 
     // Function to retrieve store storage
@@ -106,8 +107,21 @@ library SalesStorage {
         uint256 staffsCount = _staffsAddresses.length;
         for (uint256 i = 0; i < staffsCount; i++) {
             if (_staffsAddresses[i] == _staffAddr) {
-                _staffsAddresses[i] = _staffsAddresses[staffsCount - 1];
+                staffState.staffAddressArray[i] = _staffsAddresses[staffsCount - 1];
                 staffState.staffAddressArray.pop();
+                break;
+            }
+        }
+    }
+
+    function deleteProductIdFromArray(uint256 _productId) internal {
+        StoreState storage store = getStoreState();
+        uint256[] memory productsIDs = store.productsIDArray;
+        uint256 noOfProducts = productsIDs.length;
+        for (uint256 i = 0; i < noOfProducts; i++) {
+            if (productsIDs[i] == _productId) {
+                store.productsIDArray[i] = productsIDs[noOfProducts - 1];
+                store.productsIDArray.pop();
                 break;
             }
         }
