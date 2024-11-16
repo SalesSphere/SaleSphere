@@ -19,6 +19,11 @@ contract SalesContract is InventoryManagement {
         SalesStorage.ModeOfPayment paymentMode
     ) external {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+
+        // Allow only sales rep
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(caller.role == SalesStorage.Role.SalesRep, SalesStorage.NotSalesRep());
 
         // Increment sale ID and create new sale
         state.saleCounter += 1;

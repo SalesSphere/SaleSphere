@@ -4,6 +4,7 @@ pragma solidity 0.8.28;
 library SalesStorage {
     // Global custom errors
     error AddressZeroDetected();
+    error NotSalesRep();
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
