@@ -13,15 +13,22 @@ contract SalesContract is InventoryManagement {
         SalesStorage.ModeOfPayment paymentMode
     );
 
+    modifier onlySalesRep() {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(caller.role == SalesStorage.Role.SalesRep, SalesStorage.NotSalesRep());
+        _;
+    }
+
     function recordSale(
         SalesStorage.SaleItem[] calldata items,
         uint256 totalAmount,
         SalesStorage.ModeOfPayment paymentMode
-    ) external {
+    ) external onlySalesRep {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         // Increment sale ID and create new sale
-        state.saleCounter += 1;
+        state.saleCounter++;
         SalesStorage.Sale storage newSale = state.sales[state.saleCounter];
         newSale.timestamp = block.timestamp;
         newSale.totalAmount = totalAmount;
@@ -33,7 +40,7 @@ contract SalesContract is InventoryManagement {
         // Update inventory for each item
         for (uint256 i = 0; i < items.length; i++) {
             newSale.items.push(items[i]);
-            reduceProductCount(items[i].productId, items[i].quantity);
+            _reduceProductCount(items[i].productId, items[i].quantity);
         }
 
         // Emit SaleRecorded event with specified indexed fields

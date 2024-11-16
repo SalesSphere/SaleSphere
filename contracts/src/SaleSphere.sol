@@ -1,9 +1,8 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity 0.8.28;
 
 import { SalesStorage } from "./library/SalesStorage.sol";
 import { SalesContract } from "./SalesContract.sol";
-// import { InventoryManagement } from "./InventoryManagement.sol";
 import { StaffManagement } from "./StaffMangement.sol";
 
 contract SaleSphere is SalesContract, StaffManagement {

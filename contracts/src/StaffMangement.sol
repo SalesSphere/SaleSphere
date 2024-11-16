@@ -5,9 +5,9 @@ import { SalesStorage } from "./library/SalesStorage.sol";
 
 contract StaffManagement {
     // Custom errors
-    error NotStoreOwner();
+    error StaffIdMustBePositiveInteger();
+    error StaffIdExist();
     error NotAdministrator();
-    error NotSalesRepOrAdministrator();
     error StaffAlreadyExist();
     error StaffNotFound(uint256 staffID);
     error InvalidRoleAssignment(uint256 staffID, SalesStorage.Role currentRole);
@@ -24,32 +24,30 @@ contract StaffManagement {
     function updateAdminLimit(uint16 _newLimit) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         staffState.maxAdmins = _newLimit;
         emit AdminLimitUpdated(_newLimit);
     }
 
     // Function to add new staff (only accessible by the store owner)
-    function addStaff(address _addr, string memory _name, SalesStorage.Role _role) public {
+    function addStaff(address _addr, uint256 _staffID, string memory _name, SalesStorage.Role _role) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         // Checks for address zero
         require(_addr != address(0), SalesStorage.AddressZeroDetected());
 
-        // Ensure the address is not already a staff member
-        require(staffState.staffIDByAddress[_addr] == 0, StaffAlreadyExist());
+        // Check to ensure zero is not passed for staffID
+        require(_staffID > 0, StaffIdMustBePositiveInteger());
+        // Check if staff not already exist
+        require(staffState.staffDetails[_addr].staffID == 0, StaffIdExist());
 
-        staffState.staffCount++;
-        uint256 staffID = staffState.staffCount;
-
-        staffState.staffDetails[staffID] =
-            SalesStorage.Staff({ staffID: staffID, addr: _addr, name: _name, role: _role });
-
-        staffState.staffIDByAddress[_addr] = staffID; // Map address to staffID
-        staffState.activeStaff[staffID] = true; // Mark the staff as active
+        // Add staff to storage
+        staffState.staffDetails[_addr] = SalesStorage.Staff({ staffID: _staffID, name: _name, role: _role });
+        staffState.staffAddressArray.push(_addr);
+        staffState.staffIDToAddress[_staffID] = _addr;
 
         // If adding an admin, increment the admin count
         if (_role == SalesStorage.Role.Administrator) {
@@ -57,63 +55,62 @@ contract StaffManagement {
             staffState.adminCount++;
         }
 
-        emit StaffAdded(staffID, _addr, _name, _role);
+        emit StaffAdded(_staffID, _addr, _name, _role);
     }
 
     // Function to get staff details by staff ID (accessible by SalesRep or Administrator)
-    function getStaffDetails(uint256 _staffID) public view returns (SalesStorage.Staff memory) {
+    function getStaffDetailsByID(uint256 _staffID) public view returns (SalesStorage.Staff memory) {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
 
         // Allow only sales rep or administrator
-        uint256 callerId = staffState.staffIDByAddress[msg.sender];
-        SalesStorage.Staff memory caller = staffState.staffDetails[callerId];
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
         require(
             caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
-            NotSalesRepOrAdministrator()
+            SalesStorage.NotSalesRepOrAdministrator()
         );
 
-        if (!staffState.activeStaff[_staffID]) revert StaffNotFound(_staffID);
-        return staffState.staffDetails[_staffID];
+        address staffAddr = staffState.staffIDToAddress[_staffID];
+        if (staffAddr == address(0)) revert StaffNotFound(_staffID);
+
+        SalesStorage.Staff memory staff = staffState.staffDetails[staffAddr];
+        return staff;
     }
 
     // Function to remove staff by ID (only accessible by store owner)
-    function removeStaff(uint256 _staffID) public {
+    function removeStaffById(uint256 _staffID) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
-        if (!staffState.activeStaff[_staffID]) revert StaffNotFound(_staffID);
+        address staffAddr = staffState.staffIDToAddress[_staffID];
 
-        address staffAddr = staffState.staffDetails[_staffID].addr;
+        if (staffAddr == address(0)) revert StaffNotFound(_staffID);
 
         // Remove the staff record
-        delete staffState.staffDetails[_staffID];
-        delete staffState.staffIDByAddress[staffAddr]; // Remove mapping from address to staffID
-        delete staffState.activeStaff[_staffID]; // Mark the staff as inactive
+        SalesStorage.deleteStaffIDFromArray(staffAddr);
+        delete staffState.staffDetails[staffAddr];
+        delete staffState.staffIDToAddress[_staffID]; // Remove mapping from address to staffID
 
-        // Decrement staff count and admin count if necessary
-        staffState.staffCount--;
-        if (staffState.staffDetails[_staffID].role == SalesStorage.Role.Administrator) {
+        // Decrement admin count if necessary
+        if (staffState.staffDetails[staffAddr].role == SalesStorage.Role.Administrator) {
             staffState.adminCount--;
         }
 
         emit StaffRemoved(_staffID, staffAddr);
     }
 
-    // Function to promote or demote staff (only accessible by store owner or administrator)
+    // Function to promote or demote staff (only accessible by store owner)
     function setRole(uint256 _staffID, SalesStorage.Role _role) public {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         // Check if it is the storeOwner
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
+
+        address staffAddr = staffState.staffIDToAddress[_staffID];
+
+        if (staffAddr == address(0)) revert StaffNotFound(_staffID);
 
         // The staff to update role
-        SalesStorage.Staff memory staff = staffState.staffDetails[_staffID];
-
-        if (staff.addr == address(0)) revert StaffNotFound(_staffID);
-
-        if (msg.sender != staffState.storeOwner) {
-            revert NotAdministrator(); // Only store owner can promote/demote staff roles
-        }
+        SalesStorage.Staff memory staff = staffState.staffDetails[staffAddr];
 
         // Handle admin count limit
         if (_role == SalesStorage.Role.Administrator) {
@@ -126,33 +123,28 @@ contract StaffManagement {
             staffState.adminCount--;
         }
 
-        staffState.staffDetails[_staffID].role = _role;
-        emit RoleUpdated(_staffID, staff.addr, _role);
+        staffState.staffDetails[staffAddr].role = _role;
+        emit RoleUpdated(_staffID, staffAddr, _role);
     }
 
     // Function to get all active staff
-    function getAllStaff() public view returns (SalesStorage.Staff[] memory) {
+    function getAllStaff() public view returns (SalesStorage.Staff[] memory allStaffs) {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        uint256 activeStaffCount = 0;
-        // First, count the number of active staff members
-        for (uint256 i = 1; i <= staffState.staffCount; i++) {
-            if (staffState.activeStaff[i]) {
-                activeStaffCount++;
-            }
+
+        // Allow only sales rep or administrator
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(
+            caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
+            SalesStorage.NotSalesRepOrAdministrator()
+        );
+
+        address[] memory staffIDAddresses = staffState.staffAddressArray;
+        uint256 staffCount = staffIDAddresses.length;
+        allStaffs = new SalesStorage.Staff[](staffCount);
+
+        for (uint256 i = 0; i < staffCount; i++) {
+            address addr = staffIDAddresses[i];
+            allStaffs[i] = staffState.staffDetails[addr];
         }
-
-        SalesStorage.Staff[] memory allStaff = new SalesStorage.Staff[](activeStaffCount);
-        uint256 index = 0;
-
-        // Then, populate the array with active staff
-        for (uint256 i = 1; i <= staffState.staffCount; i++) {
-            if (staffState.activeStaff[i]) {
-                allStaff[index] = staffState.staffDetails[i];
-                index++;
-            }
-        }
-
-        return allStaff;
     }
 }
-//P.S : if you have any contribution/concerns, pls shoot!

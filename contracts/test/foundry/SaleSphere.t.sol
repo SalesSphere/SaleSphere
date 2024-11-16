@@ -8,6 +8,7 @@ import { InventoryManagement } from "../../src/InventoryManagement.sol";
 
 contract SaleSphereTest is Test {
     SaleSphere saleSphere;
+    address salesRep = vm.addr(1);
 
     // Constructor parameters for SaleSphere
     uint16 maxAdmins = 10;
@@ -18,8 +19,11 @@ contract SaleSphereTest is Test {
         saleSphere = new SaleSphere(maxAdmins, productLowMargin);
 
         // Initialize inventory using addNewProduct function
-        saleSphere.addNewProduct("Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
-        saleSphere.addNewProduct("Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
+        saleSphere.addNewProduct(1, "Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
+        saleSphere.addNewProduct(2, "Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
+
+        // Add sales rep
+        saleSphere.addStaff(salesRep, 1, "Tester", SalesStorage.Role.SalesRep);
     }
 
     function testRecordSaleInsufficientStock() public {
@@ -42,6 +46,7 @@ contract SaleSphereTest is Test {
         );
 
         // Attempt to record the sale
+        vm.prank(salesRep);
         saleSphere.recordSale(items, totalAmount, paymentMode);
     }
 
@@ -54,12 +59,14 @@ contract SaleSphereTest is Test {
         uint256 totalAmount = 100; // Example total amount
         SalesStorage.ModeOfPayment paymentMode = SalesStorage.ModeOfPayment.Cash;
 
+        vm.startPrank(salesRep);
         // Call recordSale function to execute the sale
         saleSphere.recordSale(items, totalAmount, paymentMode);
 
         // Fetch the product details
         SalesStorage.Product memory product1 = saleSphere.getProduct(1);
         SalesStorage.Product memory product2 = saleSphere.getProduct(2);
+        vm.stopPrank();
 
         // Validate inventory updates
         assertEq(product1.quantity, 7, "Product 1 quantity mismatch"); // 10 - 3

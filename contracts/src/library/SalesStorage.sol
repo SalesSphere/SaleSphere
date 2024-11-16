@@ -4,6 +4,9 @@ pragma solidity 0.8.28;
 library SalesStorage {
     // Global custom errors
     error AddressZeroDetected();
+    error NotSalesRep();
+    error NotSalesRepOrAdministrator();
+    error NotStoreOwner();
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
@@ -32,7 +35,7 @@ library SalesStorage {
     }
 
     struct Product {
-        uint256 productID;
+        uint256 productId;
         string productName;
         uint256 productPrice;
         uint256 quantity;
@@ -47,6 +50,7 @@ library SalesStorage {
         uint256 productCounter; // Counter to track the products ID
         uint16 productLowMargin; // The margin to signal a low stock
         mapping(uint256 => Product) products; // Mapping of productId to products struct
+        uint256[] productsIDArray;
     }
 
     // Function to retrieve store storage
@@ -68,20 +72,18 @@ library SalesStorage {
 
     struct Staff {
         uint256 staffID;
-        address addr;
         string name;
         Role role;
     }
 
     struct StaffState {
-        uint256 staffCount; // To track the total number of staff
         uint16 maxAdmins; // Max number of admins allowed (set by store owner)
         address storeOwner; // Store owner's address
-        uint256 adminCount; // To track the number of administrators
+        uint32 adminCount; // To track the number of administrators
         // Mapping to store staff details by staffID
-        mapping(uint256 => Staff) staffDetails;
-        mapping(address => uint256) staffIDByAddress; // Mapping from address to staffID
-        mapping(uint256 => bool) activeStaff; // Track active staff IDs
+        mapping(address => Staff) staffDetails;
+        mapping(uint256 => address) staffIDToAddress;
+        address[] staffAddressArray;
     }
 
     // Function to retrieve staff storage
@@ -99,5 +101,31 @@ library SalesStorage {
 
         StoreState storage state = getStoreState();
         state.productLowMargin = productLowMargin;
+    }
+
+    function deleteStaffIDFromArray(address _staffAddr) internal {
+        StaffState storage staffState = getStaffState();
+        address[] memory _staffsAddresses = staffState.staffAddressArray;
+        uint256 staffsCount = _staffsAddresses.length;
+        for (uint256 i = 0; i < staffsCount; i++) {
+            if (_staffsAddresses[i] == _staffAddr) {
+                staffState.staffAddressArray[i] = _staffsAddresses[staffsCount - 1];
+                staffState.staffAddressArray.pop();
+                break;
+            }
+        }
+    }
+
+    function deleteProductIdFromArray(uint256 _productId) internal {
+        StoreState storage store = getStoreState();
+        uint256[] memory productsIDs = store.productsIDArray;
+        uint256 noOfProducts = productsIDs.length;
+        for (uint256 i = 0; i < noOfProducts; i++) {
+            if (productsIDs[i] == _productId) {
+                store.productsIDArray[i] = productsIDs[noOfProducts - 1];
+                store.productsIDArray.pop();
+                break;
+            }
+        }
     }
 }
