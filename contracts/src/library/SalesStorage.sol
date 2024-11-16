@@ -69,20 +69,18 @@ library SalesStorage {
 
     struct Staff {
         uint256 staffID;
-        address addr;
         string name;
         Role role;
     }
 
     struct StaffState {
-        uint256 staffCount; // To track the total number of staff
         uint16 maxAdmins; // Max number of admins allowed (set by store owner)
         address storeOwner; // Store owner's address
-        uint256 adminCount; // To track the number of administrators
+        uint32 adminCount; // To track the number of administrators
         // Mapping to store staff details by staffID
-        mapping(uint256 => Staff) staffDetails;
-        mapping(address => uint256) staffIDByAddress; // Mapping from address to staffID
-        mapping(uint256 => bool) activeStaff; // Track active staff IDs
+        mapping(address => Staff) staffDetails;
+        mapping(uint256 => address) staffIDToAddress;
+        address[] staffAddressArray;
     }
 
     // Function to retrieve staff storage
@@ -100,5 +98,18 @@ library SalesStorage {
 
         StoreState storage state = getStoreState();
         state.productLowMargin = productLowMargin;
+    }
+
+    function deleteStaffIDFromArray(address _staffAddr) internal {
+        StaffState storage staffState = getStaffState();
+        address[] memory _staffsAddresses = staffState.staffAddressArray;
+        uint256 staffsCount = _staffsAddresses.length;
+        for (uint256 i = 0; i < staffsCount; i++) {
+            if (_staffsAddresses[i] == _staffAddr) {
+                _staffsAddresses[i] = _staffsAddresses[staffsCount - 1];
+                staffState.staffAddressArray.pop();
+                break;
+            }
+        }
     }
 }
