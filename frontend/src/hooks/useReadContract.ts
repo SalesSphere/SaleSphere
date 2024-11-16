@@ -10,34 +10,6 @@ import {
 
 const liskSepolia = defineChain(4202);
 
-interface Product {
-  productID: bigint;
-  productName: string;
-  productPrice: bigint;
-  quantity: bigint;
-  uploader: string;
-  dateAdded: bigint;
-  barcode: string;
-}
-
-interface SaleItem {
-  productId: bigint;
-  quantity: bigint;
-}
-
-interface Sale {
-  items: SaleItem[];
-  totalAmount: bigint;
-  timestamp: bigint;
-  cashierId: string;
-  paymentMode: number;
-}
-
-interface ContractMethods {
-  getAllProduct: () => Product[];
-  getAllSales: () => { allSales: Sale[] };
-  getProduct: (productId: bigint) => Product;
-}
 export default function useProduct(productId?: number) {
   const contract = getContract({
     client,
@@ -56,21 +28,7 @@ export default function useProduct(productId?: number) {
     params: [],
   });
 
-  const {
-    data: salesData,
-    isLoading: salesLoading,
-    error: salesError,
-  } = useReadContract({
-    contract,
-    method:
-      "function getAllSales() view returns ((uint256 productId, uint256 quantity)[], uint256 totalAmount, uint256 timestamp, address cashierId, uint8 paymentMode)",
-    params: [],
-  });
-
-  // data: salesData,
-  // isLoading: salesLoading,
-  // error: salesError,
-
+ 
   const {
     data: productData,
     isLoading: productLoading,
@@ -99,8 +57,5 @@ export default function useProduct(productId?: number) {
     productError,
     balance,
     account,
-    salesData,
-    salesLoading,
-    salesError,
   };
 }
