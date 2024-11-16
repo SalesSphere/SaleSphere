@@ -2,7 +2,7 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
-// import ProductOrderTable from "@/components/product-order-table";
+import { sales } from "@/lib/data";
 import { navigation } from "@/lib/data";
 import { useState } from "react";
 import {
@@ -16,10 +16,11 @@ import {
 
 const CheckoutScreen = () => {
 
+  const [filteredProducts, setFilteredProducts] = useState(sales);  
   const [products, setProducts] = useState<Product[]>([]);
   const [newProduct, setNewProduct] = useState({
     name: "",
-    price: "2400",
+    price: "",
     quantity: "",
   });
 
@@ -36,6 +37,24 @@ const CheckoutScreen = () => {
   const vat = totalSum * 0.020;
   const total = totalSum + vat;
 
+  const handleSearch = (query: string) => {
+
+    const filtered = sales.filter((product) =>
+      product.productName.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setFilteredProducts(filtered);
+    setNewProduct((prev) => ({ ...prev, name: query }));
+  };
+
+  const handleSelectProduct = (product: { productName: string; price: number }) => {
+    setNewProduct({
+      ...newProduct,
+      name: product.productName,
+      price: product.price.toString(),
+    });
+    setFilteredProducts([]); // Clear the dropdown
+  };
 
   const handleRemoveProduct = (index: number) => {
     const updatedProducts = [...products];
@@ -56,7 +75,7 @@ const CheckoutScreen = () => {
 
     setNewProduct({
       name: "",
-      price: "210",
+      price: "",
       quantity: "",
     });
   }
@@ -94,15 +113,30 @@ const CheckoutScreen = () => {
               <p className="text-[#292D32B2]">Fill in the form below to input the product information</p>
             </div>
             <form onSubmit={handleAddProducts} className="flex flex-col gap-y-4">
-              <div className={label}>
+              <div className={`${label} relative`}>
                 <label htmlFor="productName">Product Name</label>
                 <input className={input} 
                 id="productName" 
                 type="text" 
                 required 
                 placeholder="Enter product name"
-                onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                // onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
+                onChange={(e) => handleSearch(e.target.value)}
                 value={newProduct.name} />
+
+                {filteredProducts.length > 0 && (
+                  <ul className="bg-white border rounded-lg mt-2 max-h-40 overflow-auto absolute w-full z-10 top-[100%]">
+                    {filteredProducts.map((product, index) => (
+                      <li
+                        key={index}
+                        className="px-4 py-2 hover:bg-gray-200 cursor-pointer"
+                        onClick={() => handleSelectProduct(product)}
+                      >
+                        {product.productName}
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
 
               <div className={label}>
