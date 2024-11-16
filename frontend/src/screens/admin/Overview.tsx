@@ -62,6 +62,7 @@ export default function DashboardPage() {
         </div>
 
         <SalesTable />
+        {/*  */}
       </div>
     </DashboardLayout>
   );
