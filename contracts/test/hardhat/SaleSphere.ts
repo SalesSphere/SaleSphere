@@ -1,4 +1,5 @@
 import { expect } from "chai";
+import { Signer } from "ethers";
 import { ethers } from "hardhat";
 import { SaleSphere } from "../../typechain-types";
 
@@ -7,8 +8,13 @@ describe("SalesSphere contract", function () {
         let saleSphere: SaleSphere;
         const maxAdmins = 10;
         const productLowMargin = 10;
+        let owner: Signer;
+        let salesRep: Signer;
 
         beforeEach(async function () {
+            const [addr1, addr2] = await ethers.getSigners();
+            owner = addr1;
+            salesRep = addr2;
             // Deploy the SaleSphere contract with constructor parameters
             saleSphere = await ethers.deployContract("SaleSphere", [maxAdmins, productLowMargin]);
             await saleSphere.waitForDeployment();
@@ -16,6 +22,9 @@ describe("SalesSphere contract", function () {
             // Initialize inventory using addNewProduct function
             await saleSphere.addNewProduct("Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
             await saleSphere.addNewProduct("Product 2", 15, 5, ""); // productId 2, price 15, quantity 5
+
+            // Add sales rep
+            await saleSphere.addStaff(salesRep, 1, "Tester", 1);
         });
 
         it("Should correctly add new products", async function () {
@@ -47,7 +56,7 @@ describe("SalesSphere contract", function () {
             const paymentMode = 0; // 0 represents Cash in SalesStorage.ModeOfPayment enum
 
             // Record the sale
-            await saleSphere.recordSale(items, totalAmount, paymentMode);
+            await saleSphere.connect(salesRep).recordSale(items, totalAmount, paymentMode);
 
             // Validate inventory updates
             const product1 = await saleSphere.getProduct(1);
@@ -68,7 +77,7 @@ describe("SalesSphere contract", function () {
             const paymentMode = 0; // 0 represents Cash in SalesStorage.ModeOfPayment enum
 
             // Expect the transaction to revert due to insufficient stock
-            await expect(saleSphere.recordSale(items, totalAmount, paymentMode))
+            await expect(saleSphere.connect(salesRep).recordSale(items, totalAmount, paymentMode))
                 .to.be.revertedWithCustomError(saleSphere, "InsufficientStock")
                 .withArgs(2, 10, 5);
         });
