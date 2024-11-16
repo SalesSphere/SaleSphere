@@ -27,7 +27,8 @@
     "react-sparklines": "^1.7.0",
     "recharts": "^2.13.3",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "thirdweb": "^5.68.0"
   },
   "devDependencies": {
     "@types/node": "^20",
