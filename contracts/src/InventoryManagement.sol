@@ -25,7 +25,22 @@ contract InventoryManagement {
     );
     event ProductDeleted(uint256 indexed productID);
     event ProductRestocked(uint256 indexed _productID, uint256 indexed amountRestocked, uint256 indexed currentStock);
-    // event StockLow(uint256 indexed productID, string indexed productName, uint256 quantity);
+
+    modifier onlyStoreOwner() {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
+        _;
+    }
+
+    modifier onlyAdminAndSalesRep() {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(
+            caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
+            SalesStorage.NotSalesRepOrAdministrator()
+        );
+        _;
+    }
 
     function addNewProduct(
         uint256 _productID,
@@ -33,7 +48,7 @@ contract InventoryManagement {
         uint256 _productPrice,
         uint256 _quantity,
         string memory _barcode
-    ) public {
+    ) public onlyStoreOwner {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
@@ -42,7 +57,6 @@ contract InventoryManagement {
         require(state.products[_productID].uploader == address(0), ProductExist());
 
         state.productsIDArray.push(_productID);
-
         state.products[_productID] = SalesStorage.Product({
             productId: _productID,
             productName: _productName,
@@ -61,11 +75,11 @@ contract InventoryManagement {
         string memory _productName,
         uint256 _productPrice,
         string memory _barcode
-    ) public {
+    ) public onlyStoreOwner {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
+        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
 
         state.products[_productID].productPrice = _productPrice;
@@ -74,9 +88,8 @@ contract InventoryManagement {
         emit ProductUpdated(_productID, _productName, _productPrice, _barcode);
     }
 
-    function restockProduct(SalesStorage.SaleItem[] calldata _products) public {
+    function restockProduct(SalesStorage.SaleItem[] calldata _products) public onlyStoreOwner {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
-
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         for (uint256 i = 0; i < _products.length; i++) {
@@ -87,7 +100,7 @@ contract InventoryManagement {
         }
     }
 
-    function getProduct(uint256 _productID) public view returns (SalesStorage.Product memory) {
+    function getProduct(uint256 _productID) public view onlyAdminAndSalesRep returns (SalesStorage.Product memory) {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
@@ -96,7 +109,7 @@ contract InventoryManagement {
         return state.products[_productID];
     }
 
-    function getAllProduct() public view returns (SalesStorage.Product[] memory) {
+    function getAllProduct() public view onlyAdminAndSalesRep returns (SalesStorage.Product[] memory) {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
 
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
@@ -110,7 +123,7 @@ contract InventoryManagement {
         return allProducts;
     }
 
-    function deleteProduct(uint256 _productID) public {
+    function deleteProduct(uint256 _productID) public onlyStoreOwner {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
@@ -122,7 +135,7 @@ contract InventoryManagement {
         emit ProductDeleted(_productID);
     }
 
-    function reduceProductCount(uint256 productId, uint256 quantity) internal {
+    function _reduceProductCount(uint256 productId, uint256 quantity) internal {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256 availableStock = state.products[productId].quantity;
 

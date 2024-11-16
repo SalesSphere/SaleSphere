@@ -5,6 +5,8 @@ library SalesStorage {
     // Global custom errors
     error AddressZeroDetected();
     error NotSalesRep();
+    error NotSalesRepOrAdministrator();
+    error NotStoreOwner();
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");

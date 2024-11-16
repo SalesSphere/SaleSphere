@@ -5,11 +5,9 @@ import { SalesStorage } from "./library/SalesStorage.sol";
 
 contract StaffManagement {
     // Custom errors
-    error NotStoreOwner();
     error StaffIdMustBePositiveInteger();
     error StaffIdExist();
     error NotAdministrator();
-    error NotSalesRepOrAdministrator();
     error StaffAlreadyExist();
     error StaffNotFound(uint256 staffID);
     error InvalidRoleAssignment(uint256 staffID, SalesStorage.Role currentRole);
@@ -26,7 +24,7 @@ contract StaffManagement {
     function updateAdminLimit(uint16 _newLimit) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         staffState.maxAdmins = _newLimit;
         emit AdminLimitUpdated(_newLimit);
@@ -36,7 +34,7 @@ contract StaffManagement {
     function addStaff(address _addr, uint256 _staffID, string memory _name, SalesStorage.Role _role) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         // Checks for address zero
         require(_addr != address(0), SalesStorage.AddressZeroDetected());
@@ -68,7 +66,7 @@ contract StaffManagement {
         SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
         require(
             caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
-            NotSalesRepOrAdministrator()
+            SalesStorage.NotSalesRepOrAdministrator()
         );
 
         address staffAddr = staffState.staffIDToAddress[_staffID];
@@ -82,7 +80,7 @@ contract StaffManagement {
     function removeStaffById(uint256 _staffID) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         address staffAddr = staffState.staffIDToAddress[_staffID];
 
@@ -105,7 +103,7 @@ contract StaffManagement {
     function setRole(uint256 _staffID, SalesStorage.Role _role) public {
         // Check if it is the storeOwner
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        if (msg.sender != staffState.storeOwner) revert NotStoreOwner();
+        if (msg.sender != staffState.storeOwner) revert SalesStorage.NotStoreOwner();
 
         address staffAddr = staffState.staffIDToAddress[_staffID];
 
@@ -137,7 +135,7 @@ contract StaffManagement {
         SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
         require(
             caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
-            NotSalesRepOrAdministrator()
+            SalesStorage.NotSalesRepOrAdministrator()
         );
 
         address[] memory staffIDAddresses = staffState.staffAddressArray;
