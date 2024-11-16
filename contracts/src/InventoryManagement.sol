@@ -101,8 +101,6 @@ contract InventoryManagement {
     }
 
     function getProduct(uint256 _productID) public view onlyAdminAndSalesRep returns (SalesStorage.Product memory) {
-        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
-
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
@@ -110,8 +108,6 @@ contract InventoryManagement {
     }
 
     function getAllProduct() public view onlyAdminAndSalesRep returns (SalesStorage.Product[] memory) {
-        if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
-
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256[] memory productIds = state.productsIDArray;
         uint256 noOfProducts = productIds.length;
