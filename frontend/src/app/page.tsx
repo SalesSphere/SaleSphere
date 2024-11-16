@@ -9,17 +9,7 @@ import {
 } from "thirdweb/react";
 import { client } from "./client";
 import { CHAIN } from "./chain";
-// import { getContract } from "thirdweb";
-import useReadAllProductsContract from "@/hook/ui/useReadAllProducts";
-import helperAbi from "@/lib/abi/abi.json";
-
-// const kcon = getContract({
-//   client,
-//   chain: CHAIN,
-//   address: "0xcD7530ae96194c9ebc486C23d1c711A84D1AEb59",
-// });
-
-const Home = () => {
+const page = () => {
   const account = useActiveAccount();
 
   const { data, isLoading } = useReadAllProductsContract({
