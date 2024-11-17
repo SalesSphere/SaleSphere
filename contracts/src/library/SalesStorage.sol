@@ -96,9 +96,9 @@ library SalesStorage {
         }
     }
 
-    function setInitials(uint16 maxAdmins, uint16 productLowMargin) internal {
+    function setInitials(address owner, uint16 maxAdmins, uint16 productLowMargin) internal {
         StaffState storage staffState = getStaffState();
-        staffState.storeOwner = msg.sender;
+        staffState.storeOwner = owner;
         staffState.maxAdmins = maxAdmins;
 
         StoreState storage state = getStoreState();

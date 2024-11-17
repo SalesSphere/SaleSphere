@@ -17,7 +17,7 @@ contract SalesContract is InventoryManagement {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
         require(caller.role == SalesStorage.Role.SalesRep, SalesStorage.NotSalesRep());
-        _;  // continue execution
+        _; // continue execution
     }
 
     function recordSale(
