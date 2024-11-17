@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function Inventory(props: React.SVGProps<SVGSVGElement>) {
+function Inventory(_props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="25"

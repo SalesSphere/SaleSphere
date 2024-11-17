@@ -146,7 +146,7 @@ export const sales: Sale[] = [
 
 export const inventory: Inventory[] = [
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f246djfcc",
     productName: "Fresh Del Monte Apple",
     price: 1000,
     date: "08 Nov, 24",
@@ -157,7 +157,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902f246udfcc",
     productName: "Green Giant Vegetables",
     price: 500,
     date: "08 Nov, 24",
@@ -168,7 +168,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac739h02f246dfcc",
     productName: "Dole Bananas",
     price: 750,
     date: "10 Nov, 24",
@@ -179,7 +179,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac7g3902f246dfcc",
     productName: "Ocean Spray Cranberries",
     price: 1200,
     date: "10 Nov, 24",
@@ -190,7 +190,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac73902fn246dfcc",
     productName: "Chiquita Pineapple",
     price: 900,
     date: "10 Nov, 24",
@@ -201,7 +201,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac7390l2f246dfcc",
     productName: "Sunkist Oranges",
     price: 1050,
     date: "10 Nov, 24",
@@ -212,7 +212,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11gdac73902f246dfcc",
     productName: "NatureSweet Tomatoes",
     price: 800,
     date: "10 Nov, 24",
@@ -223,7 +223,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dac739y02f246dfcc",
     productName: "SunMaid Raisins",
     price: 1100,
     date: "10 Nov, 24",
@@ -234,7 +234,7 @@ export const inventory: Inventory[] = [
     }
   },
   {
-    id: "11dac73902f246dfcc",
+    id: "11dacf73902f246dfcc",
     productName: "Wonderful Pistachios",
     price: 1350,
     date: "10 Nov, 24",

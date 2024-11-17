@@ -12,16 +12,8 @@ import {
 } from "@/components/ui/table";
 import { inventory } from "@/lib/data";
 import {CheckSquareIcon, XCircleIcon } from "lucide-react";
-import { useState } from "react";
 
 export default function InventoryTable() {
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-
-  const copyToClipboard = (text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedId(text);
-    setTimeout(() => setCopiedId(null), 2000);
-  };
 
   return (
 <div className="w-full overflow-x-auto">

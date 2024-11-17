@@ -1,6 +1,6 @@
 import * as React from "react";
 
-function CartCheck(props: React.SVGProps<SVGSVGElement>) {
+function CartCheck(_props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
       width="24"
