@@ -12,9 +12,13 @@ contract SaleSphereScript is Script {
     function setUp() public { }
 
     function run() public {
-        vm.startBroadcast(vm.envUint("DO_NOT_LEAK"));
+        uint256 privateKey = vm.envUint("DO_NOT_LEAK");
+        address owner = vm.envAddress("INITIAL_OWNER");
+        console.log("Contract owner: ", owner);
 
-        saleSphere = new SaleSphere(maxAdmins, productLowMargin);
+        vm.startBroadcast(privateKey);
+
+        saleSphere = new SaleSphere(owner, maxAdmins, productLowMargin);
 
         vm.stopBroadcast();
     }

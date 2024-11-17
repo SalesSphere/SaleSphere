@@ -6,7 +6,7 @@ import { SalesContract } from "./SalesContract.sol";
 import { StaffManagement } from "./StaffMangement.sol";
 
 contract SaleSphere is SalesContract, StaffManagement {
-    constructor(uint16 maxAdmins, uint16 productLowMargin) {
-        SalesStorage.setInitials(maxAdmins, productLowMargin);
+    constructor(address owner, uint16 maxAdmins, uint16 productLowMargin) {
+        SalesStorage.setInitials(owner, maxAdmins, productLowMargin);
     }
 }
