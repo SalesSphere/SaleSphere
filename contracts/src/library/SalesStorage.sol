@@ -78,15 +78,17 @@ library SalesStorage {
         Role role;
     }
 
-    struct StaffState {
-        uint16 maxAdmins; // Max number of admins allowed (set by store owner)
-        address storeOwner; // Store owner's address
-        address proposedOwner; // Proposed new owner
-        uint32 adminCount; // To track the number of administrators
-        mapping(address => Staff) staffDetails; // Mapping to store staff details by their address
-        mapping(uint256 => address) staffIDToAddress; // Mapping to store staffID to their address
-        address[] staffAddressArray; // Array of staffID
-    }
+   struct StaffState {
+    address deployer; // The address of the contract deployer
+    uint16 maxAdmins; // Max number of admins allowed (set by store owner)
+    address storeOwner; // Store owner's address
+    address proposedOwner; // Proposed new owner
+    uint32 adminCount; // To track the number of administrators
+    mapping(address => Staff) staffDetails; // Mapping to store staff details by their address
+    mapping(uint256 => address) staffIDToAddress; // Mapping to store staffID to their address
+    address[] staffAddressArray; // Array of staffID
+}
+
 
     // Function to retrieve staff storage
     function getStaffState() internal pure returns (StaffState storage staffState) {
@@ -98,11 +100,10 @@ library SalesStorage {
 
     function setInitials(uint16 maxAdmins, uint16 productLowMargin) internal {
         StaffState storage staffState = getStaffState();
-        staffState.storeOwner = msg.sender;
         staffState.maxAdmins = maxAdmins;
 
         StoreState storage state = getStoreState();
-        state.productLowMargin = productLowMargin;
+        state.productLowMargin = productLowMargin;  
     }
 
     function deleteStaffIDFromArray(address _staffAddr) internal {

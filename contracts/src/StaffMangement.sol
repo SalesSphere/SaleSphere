@@ -13,6 +13,7 @@ contract StaffManagement {
     error InvalidRoleAssignment(uint256 staffID, SalesStorage.Role currentRole);
     error TooManyAdmins();
     error InvalidStaffID(uint256 staffID);
+    error NotDeployer();
 
     // Event to log important actions
     event StaffAdded(uint256 indexed staffID, address indexed staffAddr, string name, SalesStorage.Role role);
@@ -20,6 +21,28 @@ contract StaffManagement {
     event RoleUpdated(uint256 indexed staffID, address indexed staffAddr, SalesStorage.Role newRole);
     event AdminLimitUpdated(uint256 newLimit);
     event NewOwnerProposed(address proposedOwner);
+
+    // Function to set the initial store owner (can only be called by deployer)
+    function initialStoreOwner(address _storeOwner) external {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+
+        // Only the deployer can call this function
+        if (msg.sender != staffState.deployer) {
+            revert NotDeployer();
+        }
+
+        // Ensure store owner is not already set
+        if (staffState.storeOwner != address(0)) {
+            revert("Store owner has already been set.");
+        }
+
+        // Ensure that the store owner isn't addressZero
+        if (_storeOwner == address(0)) {
+    revert("Invalid store owner address.");
+
+        // Set the store owner to the provided address
+        staffState.storeOwner = _storeOwner;
+    }
 
     // Function to update the max admin limit (only accessible by the store owner)
     function updateAdminLimit(uint16 _newLimit) public {
