@@ -7,6 +7,8 @@ library SalesStorage {
     error NotSalesRep();
     error NotSalesRepOrAdministrator();
     error NotStoreOwner();
+    error NotProposedOwner();
+    error NotAnAdministrator();
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
@@ -79,11 +81,11 @@ library SalesStorage {
     struct StaffState {
         uint16 maxAdmins; // Max number of admins allowed (set by store owner)
         address storeOwner; // Store owner's address
+        address proposedOwner; // Proposed new owner
         uint32 adminCount; // To track the number of administrators
-        // Mapping to store staff details by staffID
-        mapping(address => Staff) staffDetails;
-        mapping(uint256 => address) staffIDToAddress;
-        address[] staffAddressArray;
+        mapping(address => Staff) staffDetails; // Mapping to store staff details by their address
+        mapping(uint256 => address) staffIDToAddress; // Mapping to store staffID to their address
+        address[] staffAddressArray; // Array of staffID
     }
 
     // Function to retrieve staff storage
