@@ -91,9 +91,9 @@ export default function PaymentDialog({
 
         <DialogFooter className="p-6">
           <div className="flex gap-2 w-full">
-            <Button className="w-full bg-[#17ABEC] hover:bg-[#17ABEC]/90 rounded-xl py-6">
+            <Button className="w-full bg-[#17ABEC] border-none hover:bg-[#17ABEC]/90 rounded-xl py-6">
               <MemoCard className="h-6 w-6" />
-              Make payment
+              Print Reciept
             </Button>
             <Button
               variant="outline"

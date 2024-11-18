@@ -16,7 +16,7 @@ describe("SalesSphere contract", function () {
             owner = addr1;
             salesRep = addr2;
             // Deploy the SaleSphere contract with constructor parameters
-            saleSphere = await ethers.deployContract("SaleSphere", [maxAdmins, productLowMargin]);
+            saleSphere = await ethers.deployContract("SaleSphere", [owner, maxAdmins, productLowMargin]);
             await saleSphere.waitForDeployment();
 
             // Initialize inventory using addNewProduct function
