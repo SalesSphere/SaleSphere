@@ -19,6 +19,18 @@ contract SalesContract is InventoryManagement {
         require(caller.role == SalesStorage.Role.SalesRep, SalesStorage.NotSalesRep());
         _; // continue execution
     }
+    
+    modifier onlyAdminSalesRepOrStoreOwner() {
+    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+    require(
+        caller.role == SalesStorage.Role.SalesRep || 
+        caller.role == SalesStorage.Role.Administrator || 
+        msg.sender == staffState.storeOwner,
+        "Not authorized"
+    );
+    _;
+}
 
     function recordSale(
         SalesStorage.SaleItem[] calldata items,
@@ -46,19 +58,19 @@ contract SalesContract is InventoryManagement {
     }
 
     // Function to get a single sale by ID
-    function getSaleById(uint256 saleId) external view returns (SalesStorage.Sale memory sale) {
+    function getSaleById(uint256 saleId) external view onlyAdminSalesRepOrStoreOwner returns (SalesStorage.Sale memory sale) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         sale = state.sales[saleId];
     }
 
     // Function to get all sales (returns an array of Sale structs)
-    function getAllSales() external view returns (SalesStorage.Sale[] memory allSales) {
+    function getAllSales() external view onlyAdminSalesRepOrStoreOwner returns (SalesStorage.Sale[] memory allSales) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         uint256 totalSales = state.saleCounter;
         allSales = new SalesStorage.Sale[](totalSales);
 
-        for (uint256 i = 1; i <= totalSales; i++) {
+        for (uint256 i = 1; i <= totalSales; ++i) {
             allSales[i - 1] = state.sales[i];
         }
     }
