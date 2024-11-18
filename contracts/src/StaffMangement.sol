@@ -42,8 +42,13 @@ contract StaffManagement {
 
         // Check to ensure zero is not passed for staffID
         require(_staffID > 0, StaffIdMustBePositiveInteger());
+
+        // Check if the staff ID is already in use
+        require(staffState.staffIDToAddress[_staffID] == address(0), StaffIdAlreadyUsed());
+
         // Check if staff not already exist
         require(staffState.staffDetails[_addr].staffID == 0, StaffIdExist());
+
 
         // Add staff to storage
         staffState.staffDetails[_addr] = SalesStorage.Staff({ staffID: _staffID, name: _name, role: _role });
