@@ -54,7 +54,6 @@ contract InventoryManagement {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-        // Check if product already exists
         require(state.products[_productID].uploader == address(0), ProductExist());
 
         state.productsIDArray.push(_productID);
@@ -83,6 +82,7 @@ contract InventoryManagement {
 
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
 
+        state.products[_productID].productName = _productName;
         state.products[_productID].productPrice = _productPrice;
         state.products[_productID].barcode = barcode;
 
