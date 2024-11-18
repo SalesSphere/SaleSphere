@@ -8,9 +8,9 @@ import {
   useWalletBalance,
 } from "thirdweb/react";
 import { client } from "./client";
-import { CHAIN } from "./chain";// import { getContract } from "thirdweb";
+import { CHAIN } from "./chain"; // import { getContract } from "thirdweb";
 import useReadAllProductsContract from "@/hook/ui/useReadAllProducts";
-import helperAbi from "@/lib/abi.json";
+import helperAbi from "@/lib/abi/abi.json";
 
 // const kcon = getContract({
 //   client,
