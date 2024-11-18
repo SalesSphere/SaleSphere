@@ -16,6 +16,16 @@ export interface DashboardHeaderProps {
   period?: string;
 }
 
+export interface Product {
+  productID: bigint;
+  productName: string;
+  productPrice: bigint;
+  quantity: bigint;
+  uploader: string;
+  dateAdded: bigint;
+  barcode: string;
+}
+
 export interface Sale {
   id: string;
   productName: string;

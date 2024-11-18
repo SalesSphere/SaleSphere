@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { useReadContract } from "wagmi";
 
+
 const useReadAllProductsContract = ({
   contractAddress,
   abi,
