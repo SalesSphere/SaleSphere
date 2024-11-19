@@ -154,6 +154,8 @@ contract SalesContract is InventoryManagement {
     );
 }
 
+
+
     // Function to get a single sale by ID
     // function getSaleById(string memory saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
     //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
@@ -179,7 +181,43 @@ contract SalesContract is InventoryManagement {
         return state.saleCounter;
     }
 
+ function getSalesRepTotalSales() external view returns (string[] memory salesReps, uint256[] memory totalSales) {
+    SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
 
+    // Get unique sales reps and count them
+    uint256 repCount;
+    address[] memory uniqueReps = new address[](state.saleCounter);
+    for (uint256 i = 0; i < state.saleCounter; i++) {
+        address cashierAddress = state.sales[i].cashierId;
+        bool isUnique = true;
+        for (uint256 j = 0; j < repCount; j++) {
+            if (uniqueReps[j] == cashierAddress) {
+                isUnique = false;
+                break;
+            }
+        }
+        if (isUnique) {
+            uniqueReps[repCount++] = cashierAddress;
+        }
+    }
+
+    // Populate arrays
+    salesReps = new string[](repCount);
+    totalSales = new uint256[](repCount);
+
+    for (uint256 i = 0; i < repCount; i++) {
+        salesReps[i] = staffState.staffDetails[uniqueReps[i]].name;
+        totalSales[i] = 0;
+        for (uint256 j = 0; j < state.saleCounter; j++) {
+            if (state.sales[j].cashierId == uniqueReps[i]) {
+                totalSales[i]++;
+            }
+        }
+    }
+
+    return (salesReps, totalSales);
+}
 
     // Helper function to generate sale ID
     function _generateSaleId(uint256 saleIndex, uint256 timestamp) internal pure returns (string memory) {
