@@ -2,7 +2,7 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
-import { sales } from "@/lib/data";
+import useProduct from "@/hooks/useReadContract";
 import { navigation } from "@/lib/data";
 import { useState } from "react";
 import {
@@ -18,13 +18,26 @@ import {
 
 const CheckoutScreen = () => {
 
-  const [filteredProducts, setFilteredProducts] = useState(sales);  
+  const {
+    allProductData = [],
+    allProductError,
+  } = useProduct();
+  
+  const [filteredProducts, setFilteredProducts] = useState(allProductData);
   const [products, setProducts] = useState<Product[]>([]);
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
     quantity: "",
   });
+
+  if (allProductError) {
+    return <div>Error: {allProductError.message}</div>;
+  }
+
+  if (!allProductData || allProductData.length === 0) {
+    return <div>No products found</div>;
+  }
 
   type Product = {
     name: string;
@@ -42,7 +55,7 @@ const CheckoutScreen = () => {
 
   const handleSearch = (query: string) => {
 
-    const filtered = sales.filter((product) =>
+    const filtered = allProductData.filter((product) =>
       product.productName.toLowerCase().includes(query.toLowerCase())
     );
 
@@ -50,11 +63,11 @@ const CheckoutScreen = () => {
     setNewProduct((prev) => ({ ...prev, name: query }));
   };
 
-  const handleSelectProduct = (product: { productName: string; price: number }) => {
+  const handleSelectProduct = (product: { productName: string; productPrice: bigint }) => {
     setNewProduct({
       ...newProduct,
       name: product.productName,
-      price: product.price.toString(),
+      price: product.productPrice.toString(),
     });
     setFilteredProducts([]); // Clear the dropdown
   };
