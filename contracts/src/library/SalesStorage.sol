@@ -5,10 +5,28 @@ library SalesStorage {
     // Global custom errors
     error AddressZeroDetected();
     error NotSalesRep();
-    error NotSalesRepOrAdministrator();
+    // error NotSalesRepOrAdministrator();
     error NotStoreOwner();
     error NotProposedOwner();
     error NotAnAdministrator();
+    error NotActiveStaff();
+
+    modifier onlyActiveStaff() {
+    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+    if (caller.status != SalesStorage.Status.Active) {
+        revert NotActiveStaff();
+    }
+    _;
+    }
+
+
+    modifier onlyAdmin() {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(caller.role == SalesStorage.Role.Administrator, SalesStorage.NotAnAdministrator());
+        _;
+    }
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
@@ -72,9 +90,19 @@ library SalesStorage {
         SalesRep
     }
 
+    enum Status{
+        Active,
+        OnLeave,
+        SickBed,
+    }
+
     struct Staff {
         uint256 staffID;
         string name;
+        string email;
+        uint phoneNumber;
+        Status status;
+        uint dateJoined;
         Role role;
     }
 

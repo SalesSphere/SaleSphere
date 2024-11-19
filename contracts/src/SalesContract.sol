@@ -26,6 +26,9 @@ contract SalesContract is InventoryManagement {
         SalesStorage.ModeOfPayment paymentMode
     ) external onlySalesRep {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        NotActiveStaff());
 
         // Increment sale ID and create new sale
         state.saleCounter++;
@@ -46,13 +49,13 @@ contract SalesContract is InventoryManagement {
     }
 
     // Function to get a single sale by ID
-    function getSaleById(uint256 saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
+    function getSaleById(uint256 saleId) external view onlyActiveStaff returns (SalesStorage.Sale memory sale) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         sale = state.sales[saleId];
     }
 
     // Function to get all sales (returns an array of Sale structs)
-    function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
+    function getAllSales() external view onlyActiveStaff returns (SalesStorage.Sale[] memory allSales) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         uint256 totalSales = state.saleCounter;
