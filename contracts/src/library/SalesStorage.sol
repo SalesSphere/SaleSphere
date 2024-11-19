@@ -46,6 +46,16 @@ library SalesStorage {
         string barcode;
     }
 
+    // Struct for frontend display
+    struct SaleDisplay {
+        string saleId;          // Will be derived from sale index/hash
+        string productName;
+        uint256 productPrice;
+        uint256 quantity;
+        string seller;
+        string modeOfPayment;
+    }
+
     struct StoreState {
         uint256 saleCounter; // Counter to track the sale ID
         mapping(uint256 => Sale) sales; // Mapping of sale ID to Sale struct
