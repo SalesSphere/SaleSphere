@@ -22,8 +22,8 @@ export default function ProductsTable() {
     allProductData = [],
     allProductLoading,
     allProductError,
-    account,
-    balance,
+    // account,
+    // balance,
   } = useProduct();
 
   const copyToClipboard = (text: string) => {
@@ -44,25 +44,6 @@ export default function ProductsTable() {
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-between items-center mb-4">
-        <div>
-          <h2 className="text-2xl font-bold">Products</h2>
-          <p className="text-gray-500">
-            Connected Account:{" "}
-            {account?.address
-              ? `${account.address.slice(0, 6)}...${account.address.slice(-4)}`
-              : "Not Connected"}
-          </p>
-          <p className="text-gray-500">
-            Balance:{" "}
-            {balance
-              ? Number(balance.value) / Math.pow(10, balance.decimals)
-              : 0}{" "}
-            {balance?.symbol}
-          </p>
-        </div>
-      </div>
-
       <div className="overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
@@ -80,7 +61,8 @@ export default function ProductsTable() {
             {allProductData.map((product: Product) => (
               <TableRow
                 key={product.productID.toString()}
-                className="lg:grid lg:grid-cols-7 lg:gap-4 lg:py-2">
+                className="lg:grid lg:grid-cols-7 lg:gap-4 lg:py-2"
+              >
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
                     {product.productID.toString()}
@@ -90,7 +72,8 @@ export default function ProductsTable() {
                       className="h-8 w-8"
                       onClick={() =>
                         copyToClipboard(product.productID.toString())
-                      }>
+                      }
+                    >
                       <Copy className="h-4 w-4" />
                       <span className="sr-only">Copy product ID</span>
                     </Button>
@@ -125,7 +108,8 @@ export default function ProductsTable() {
                 <TableCell className="text-left">
                   <a
                     href={`#${product.barcode}`}
-                    className="inline-flex items-center gap-2 text-blue-500 hover:underline">
+                    className="inline-flex items-center gap-2 text-blue-500 hover:underline"
+                  >
                     {product.barcode}
                     <Link2 className="h-4 w-4" />
                   </a>
