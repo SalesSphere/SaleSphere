@@ -63,7 +63,7 @@ contract SalesContract is InventoryManagement {
 
         for (uint256 i = 0; i < items.length; i++) {
             SalesStorage.Product storage product = state.products[items[i].productId];
-            if (product.uploader == address(0)) revert ProductDoesNotExist();
+            if (product.uploader == address(0)) revert SalesStorage.ProductDoesNotExist(items[i].productId);
             newSale.items.push(items[i]);
             _reduceProductCount(items[i].productId, items[i].quantity);
         }
@@ -73,24 +73,6 @@ contract SalesContract is InventoryManagement {
         return _generateSaleId(state.saleCounter, block.timestamp);
 
     }
-
-    // Function to get a single sale by ID
-    function getSaleById(uint256 saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
-        SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-        sale = state.sales[saleId];
-    }
-
-    // Function to get all sales (returns an array of Sale structs)
-    // function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
-    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-
-    //     uint256 totalSales = state.saleCounter;
-    //     allSales = new SalesStorage.Sale[](totalSales);
-
-    //     for (uint256 i = 1; i <= totalSales; i++) {
-    //         allSales[i - 1] = state.sales[i];
-    //     }
-    // }
 
     function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) 
         external 
@@ -138,10 +120,66 @@ contract SalesContract is InventoryManagement {
         return displaySales;
     }
 
+    function getSingleSale(uint256 saleIndex) external view returns (
+        string memory saleId,
+        string memory productName,
+        uint256 productPrice,
+        uint256 quantity,
+        string memory seller,
+        string memory paymentMode,
+        uint256 timestamp,
+        uint256 totalAmount
+    ) {
+    SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+    
+    require(saleIndex < state.saleCounter, "Invalid sale index");
+    
+    SalesStorage.Sale storage sale = state.sales[saleIndex];
+    
+    // Get item details (assuming we want first item for single sale display)
+    SalesStorage.SaleItem storage item = sale.items[0];
+    SalesStorage.Product storage product = state.products[item.productId];
+    
+    SalesStorage.Staff storage cashier = SalesStorage.getStaffState().staffDetails[sale.cashierId];
+    
+    return (
+        _generateSaleId(saleIndex, sale.timestamp), 
+        product.productName,
+        product.productPrice,
+        item.quantity,
+        cashier.name,
+        _modeOfPaymentToString(sale.paymentMode),
+        sale.timestamp,
+        sale.totalAmount
+    );
+}
+
+    // Function to get a single sale by ID
+    // function getSaleById(string memory saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
+    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+    //     sale = state.sale[saleId];
+    // }
+
+    // Function to get all sales (returns an array of Sale structs)
+    // function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
+    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+
+    //     uint256 totalSales = state.saleCounter;
+    //     allSales = new SalesStorage.Sale[](totalSales);
+
+    //     for (uint256 i = 1; i <= totalSales; i++) {
+    //         allSales[i - 1] = state.sales[i];
+    //     }
+    // }
+
+    
+
      function getTotalSales() external view returns (uint256) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         return state.saleCounter;
     }
+
+
 
     // Helper function to generate sale ID
     function _generateSaleId(uint256 saleIndex, uint256 timestamp) internal pure returns (string memory) {
