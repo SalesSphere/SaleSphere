@@ -9,6 +9,7 @@ library SalesStorage {
     error NotStoreOwner();
     error NotProposedOwner();
     error NotAnAdministrator();
+    error ProductDoesNotExist(uint256 productId);
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
