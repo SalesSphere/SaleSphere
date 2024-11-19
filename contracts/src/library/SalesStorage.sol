@@ -5,7 +5,7 @@ library SalesStorage {
     // Global custom errors
     error AddressZeroDetected();
     error NotSalesRep();
-    error NotSalesRepOrAdministrator();
+    // error NotSalesRepOrAdministrator();
     error NotStoreOwner();
     error NotProposedOwner();
     error NotAnAdministrator();
@@ -83,9 +83,19 @@ library SalesStorage {
         SalesRep
     }
 
+    enum Status{
+        Active,
+        OnLeave,
+        SickBed,
+    }
+
     struct Staff {
         uint256 staffID;
         string name;
+        string email;
+        uint phoneNumber;
+        Status status;
+        uint dateJoined;
         Role role;
     }
 

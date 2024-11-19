@@ -52,6 +52,9 @@ contract SalesContract is InventoryManagement {
     ) external onlySalesRep returns (string memory) {
         require(items.length > 0, "No items in sale");
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        NotActiveStaff());
 
         // saleCounter++;
         state.saleCounter++;
@@ -69,16 +72,10 @@ contract SalesContract is InventoryManagement {
         }
 
         emit SaleRecorded(state.saleCounter, msg.sender, totalAmount, block.timestamp, paymentMode);
+}
 
-        return _generateSaleId(state.saleCounter, block.timestamp);
-
-    }
-
-    function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) 
-        external 
-        view 
-        returns (SalesStorage.SaleDisplay[] memory) 
-    {
+    // Function to get a single sale by ID
+    function getSaleById(uint256 saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         
@@ -163,20 +160,7 @@ contract SalesContract is InventoryManagement {
     // }
 
     // Function to get all sales (returns an array of Sale structs)
-    // function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
-    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-
-    //     uint256 totalSales = state.saleCounter;
-    //     allSales = new SalesStorage.Sale[](totalSales);
-
-    //     for (uint256 i = 1; i <= totalSales; i++) {
-    //         allSales[i - 1] = state.sales[i];
-    //     }
-    // }
-
-    
-
-     function getTotalSales() external view returns (uint256) {
+function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         return state.saleCounter;
     }
