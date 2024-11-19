@@ -49,6 +49,7 @@ export default function useProduct(productId?: number) {
     data: allProductData,
     isLoading: allProductLoading,
     error: allProductError,
+    refetch: allProductRefetch,
   } = useReadContract({
     contract,
     method:
@@ -102,5 +103,6 @@ export default function useProduct(productId?: number) {
     salesData,
     salesLoading,
     salesError,
+    allProductRefetch,
   };
 }

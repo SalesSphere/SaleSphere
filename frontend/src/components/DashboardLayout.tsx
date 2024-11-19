@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { cn } from "@/lib/utils";
@@ -5,7 +6,7 @@ import { Bell, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+// import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -14,6 +15,8 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/app/client";
 
 type NavItem = {
   name: string;
@@ -46,6 +49,7 @@ function NavLink({
       )}
     >
       <div className="flex items-center gap-2">
+        {/* @ts-ignore */}
         <item.icon className="h-5 w-5" aria-hidden="true" />
         <span>{item.name}</span>
       </div>
@@ -84,10 +88,12 @@ function Header({ navigation }: { navigation: NavItem[] }) {
             </Link>
           </Button>
 
-          <Avatar>
+          {/* <Avatar>
             <AvatarImage src="/user.svg" alt="Profile" />
             <AvatarFallback>U</AvatarFallback>
-          </Avatar>
+          </Avatar> */}
+
+          <ConnectButton client={client} />
 
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
