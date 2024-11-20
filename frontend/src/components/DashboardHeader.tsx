@@ -22,6 +22,7 @@ import { useState } from "react";
 import AddProductDialog from "./Modal/add-product-dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import AdduserDialog from "./Modal/add-user-dialog";
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   subtitle,
@@ -41,6 +42,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 }) => {
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
   const [showAddProductDialog, setAddProductDialog] = useState(false);
+  const [showAdduserDialog, setAdduserDialog] = useState(false);
 
   const sampleItems = [
     { name: "Fresh Del Monte Apple", quantity: 20, amount: 20000 },
@@ -76,7 +78,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           )}
           {showAddUser && (
             <Button
-              onClick={onAddUserClick}
+              onClick={()=>setAdduserDialog(!showAdduserDialog)}
               className="inline-flex items-center justify-center rounded-xl text-sm border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             >
               <MemoUserProfile className="h-4 w-4 mr-2 shrink-0" />
@@ -139,6 +141,9 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         open={showAddProductDialog}
         onOpenChange={setAddProductDialog}
       />
+      <AdduserDialog
+      open={showAdduserDialog}
+      onOpenChange={setAdduserDialog}/>
       <PaymentDialog
         open={showPaymentDialog}
         onOpenChange={setShowPaymentDialog}
