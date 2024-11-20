@@ -2,10 +2,14 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
+import UserTable from "@/components/users-table";
+import useGetStaffs from "@/hooks/useGetStaffs";
 // import ProductOrderTable from "@/components/product-order-table";
 import { adminNavigation } from "@/lib/data";
 
 const UserScreen = () => {
+ 
+
   return (
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <DashboardHeader
@@ -13,10 +17,10 @@ const UserScreen = () => {
         subtitle="View and take actions on all newly added users."
         showSearch={true}
         showExport={false}
-        showAddUser={false}
+        showAddUser={true}
         showAddProduct={false}
         showMainExport={false}
-        showProceed={true}
+        showProceed={false}
         showSortProduct={false}
         period="Last 360 days"
         onSearchClick={() => {}}
@@ -25,10 +29,8 @@ const UserScreen = () => {
         showApproveAll={false}
         onApproveAllClick={() => {}}
       />
-      {/* <div className="space-y-6">
-        <ProductOrderTable />
-      </div> */}
-      users
+
+      <UserTable />
     </DashboardLayout>
   );
 };

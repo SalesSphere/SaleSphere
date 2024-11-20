@@ -75,3 +75,23 @@ export type DataPoint = {
   value: number;
   highlight?: boolean;
 };
+
+
+
+export interface User {
+
+  staffID: bigint;
+
+  name: string;
+
+  email: string;
+
+  phoneNumber: bigint;
+
+  status: number;
+
+  dateJoined: bigint;
+
+  role: number;
+
+}
