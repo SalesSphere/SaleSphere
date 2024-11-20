@@ -16,6 +16,7 @@ export default function useGetStaffs() {
     data: allStaffData,
     isLoading: allStaffLoading,
     error: allStaffError,
+    refetch:refetchUsers
   } = useReadContract({
     contract,
     method:
@@ -26,5 +27,6 @@ export default function useGetStaffs() {
     allStaffData,
     allStaffLoading,
     allStaffError,
+    refetchUsers
   };
 }
