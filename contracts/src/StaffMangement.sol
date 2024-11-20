@@ -22,6 +22,13 @@ contract StaffManagement {
     event NewOwnerProposed(address proposedOwner);
     event StaffStatusUpdated(uint256 indexed staffID, address indexed staffAddr, SalesStorage.Status newStatus);
 
+    modifier onlySuperAdmin() {
+        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+        require(caller.role == SalesStorage.Role.Administrator, SalesStorage.NotAnAdministrator());
+        _;
+    }
+
     // Function to update the max admin limit (only accessible by the store owner)
     function updateAdminLimit(uint16 _newLimit) public {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
@@ -32,7 +39,14 @@ contract StaffManagement {
     }
 
     // Function to add new staff (only accessible by the store owner)
-    function addStaff(address _addr, uint256 _staffID, string memory _name, string memory _email, uint _phoneNumber, SalesStorage.Status _status, SalesStorage.Role _role) public {
+    function addStaff(
+        address _addr,
+        uint256 _staffID,
+        string memory _name,
+        string memory _email,
+        uint _phoneNumber,
+        SalesStorage.Role _role
+    ) public {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         require(msg.sender == staffState.storeOwner, SalesStorage.NotStoreOwner());
 
@@ -44,14 +58,14 @@ contract StaffManagement {
 
         require(staffState.staffDetails[_addr].staffID == 0, StaffIdExist());
 
-        staffState.staffDetails[_addr] = SalesStorage.Staff({ 
-            staffID: _staffID, 
-            name: _name, 
-            email: _email, 
-            phoneNumber: _phoneNumber, 
+        staffState.staffDetails[_addr] = SalesStorage.Staff({
+            staffID: _staffID,
+            name: _name,
+            email: _email,
+            phoneNumber: _phoneNumber,
             status: SalesStorage.Status.Active, // Automatically set to Active (0) when added
-            dateJoined: block.timestamp, 
-            role: _role 
+            dateJoined: block.timestamp,
+            role: _role
         });
         staffState.staffAddressArray.push(_addr);
         staffState.staffIDToAddress[_staffID] = _addr;
@@ -65,26 +79,26 @@ contract StaffManagement {
     }
 
     // Function to remove staff by ID (only accessible by store owner)
-    function removeStaffById(uint256 _staffID) public {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        require(msg.sender == staffState.storeOwner, SalesStorage.NotStoreOwner());
+    // function removeStaffById(uint256 _staffID) public {
+    //     SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    //     require(msg.sender == staffState.storeOwner, SalesStorage.NotStoreOwner());
 
-        address staffAddr = staffState.staffIDToAddress[_staffID];
+    //     address staffAddr = staffState.staffIDToAddress[_staffID];
 
-        if (staffAddr == address(0)) revert StaffNotFound(_staffID);
+    //     if (staffAddr == address(0)) revert StaffNotFound(_staffID);
 
-        SalesStorage.deleteStaffIDFromArray(staffAddr);
-        delete staffState.staffDetails[staffAddr];
-        delete staffState.staffIDToAddress[_staffID];
+    //     SalesStorage.deleteStaffIDFromArray(staffAddr);
+    //     delete staffState.staffDetails[staffAddr];
+    //     delete staffState.staffIDToAddress[_staffID];
 
-        if (staffState.staffDetails[staffAddr].role == SalesStorage.Role.Administrator) {
-            staffState.adminCount--;
-        }
+    //     if (staffState.staffDetails[staffAddr].role == SalesStorage.Role.Administrator) {
+    //         staffState.adminCount--;
+    //     }
 
-        emit StaffRemoved(_staffID, staffAddr);
-    }
+    //     emit StaffRemoved(_staffID, staffAddr);
+    // }
 
-      // Function to promote or demote staff (only accessible by store owner)
+    // Function to promote or demote staff (only accessible by store owner)
     function setRole(uint256 _staffID, SalesStorage.Role _role) public {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         require(msg.sender == staffState.storeOwner, SalesStorage.NotStoreOwner());
@@ -108,13 +122,13 @@ contract StaffManagement {
         emit RoleUpdated(_staffID, staffAddr, _role);
     }
 
-// Function to update staff status (only accessible by Admin)
-    function updateStaffStatus(uint256 _staffID, SalesStorage.Status _status) public onlyAdmin {
-        
+    // Function to update staff status (only accessible by Admin)
+    function updateStaffStatus(uint256 _staffID, SalesStorage.Status _status) public onlySuperAdmin {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         require(
-    staffState.staffDetails[msg.sender].status == SalesStorage.Status.Active,
-    NotActiveStaff());
+            staffState.staffDetails[msg.sender].status == SalesStorage.Status.Active,
+            SalesStorage.NotActiveStaff()
+        );
 
         address staffAddr = staffState.staffIDToAddress[_staffID];
         require(staffAddr != address(0), StaffNotFound(_staffID));
@@ -126,11 +140,10 @@ contract StaffManagement {
         emit StaffStatusUpdated(_staffID, staffAddr, _status);
     }
 
-
     // Function to get all active staff (returns only those with "Active" status)
-    function getAllActiveStaffs() public view onlyActiveStaff returns (SalesStorage.Staff[] memory activeStaffs) {
+    function getAllActiveStaffs() public view returns (SalesStorage.Staff[] memory activeStaffs) {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        
+
         uint256 staffCount = staffState.staffAddressArray.length;
         uint256 activeCount = 0;
 
@@ -154,18 +167,18 @@ contract StaffManagement {
     }
 
     // Function to get staff details by staff ID (accessible by SalesRep or Administrator)
-    function getStaffDetailsByID(uint256 _staffID) public view onlyActiveStaff returns (SalesStorage.Staff memory) {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    // function getStaffDetailsByID(uint256 _staffID) public view returns (SalesStorage.Staff memory) {
+    //     SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
 
-        address staffAddr = staffState.staffIDToAddress[_staffID];
-        if (staffAddr == address(0)) revert StaffNotFound(_staffID);
+    //     address staffAddr = staffState.staffIDToAddress[_staffID];
+    //     if (staffAddr == address(0)) revert StaffNotFound(_staffID);
 
-        SalesStorage.Staff memory staff = staffState.staffDetails[staffAddr];
-        return staff;
-    }
+    //     SalesStorage.Staff memory staff = staffState.staffDetails[staffAddr];
+    //     return staff;
+    // }
 
     // Function to get all staff details (accessible by SalesRep or Administrator)
-    function getAllStaff() public view onlyActiveStaff returns (SalesStorage.Staff[] memory allStaffs) {
+    function getAllStaff() public view returns (SalesStorage.Staff[] memory allStaffs) {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
 
         address[] memory staffIDAddresses = staffState.staffAddressArray;
@@ -181,23 +194,5 @@ contract StaffManagement {
     function getOwner() external view returns (address owner) {
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
         owner = staffState.storeOwner;
-    }
-
-    function transferOwnership(address newOwner) external {
-        require(newOwner != address(0), SalesStorage.AddressZeroDetected());
-
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        require(msg.sender == staffState.storeOwner, SalesStorage.NotStoreOwner());
-
-        staffState.proposedOwner = newOwner;
-        emit NewOwnerProposed(newOwner);
-    }
-
-    function acceptOwnership() external {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        require(msg.sender == staffState.proposedOwner, SalesStorage.NotProposedOwner());
-
-        staffState.proposedOwner = address(0);
-        staffState.storeOwner = msg.sender;
     }
 }
