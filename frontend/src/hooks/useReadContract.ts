@@ -1,6 +1,7 @@
 import { CHAIN } from "@/app/chain";
 import { client } from "@/app/client";
-import { CONTRACTADDRESS } from "@/lib/constants";
+import { CONTRACTADDRESS, CONTRACTADDRESS2 } from "@/lib/constants";
+import { toBigInt } from "ethers";
 import { getContract, defineChain } from "thirdweb";
 import {
   useActiveAccount,
@@ -33,15 +34,15 @@ interface Sale {
   paymentMode: number;
 }
 
-interface ContractMethods {
-  getAllProduct: () => Product[];
-  getAllSales: () => { allSales: Sale[] };
-  getProduct: (productId: bigint) => Product;
-}
+// interface ContractMethods {
+//   getAllProduct: () => Product[];
+//   getAllSales: () => { allSales: Sale[] };
+//   getProduct: (productId: bigint) => Product;
+// }
 export default function useProduct(productId?: number) {
   const contract = getContract({
     client,
-    address: CONTRACTADDRESS,
+    address: CONTRACTADDRESS2,
     chain: liskSepolia,
   });
 
@@ -53,7 +54,7 @@ export default function useProduct(productId?: number) {
   } = useReadContract({
     contract,
     method:
-      "function getAllProduct() view returns ((uint256 productID, string productName, uint256 productPrice, uint256 quantity, address uploader, uint256 dateAdded, string barcode)[])",
+      "function getAllProducts() view returns ((uint256 productID, string productName, uint256 productPrice, uint256 quantity, address uploader, uint256 dateAdded, string barcode)[])",
     params: [],
   });
 
@@ -64,14 +65,15 @@ export default function useProduct(productId?: number) {
   } = useReadContract({
     contract,
     method:
-      "function getAllSales() view returns ((uint256 productId, uint256 quantity)[], uint256 totalAmount, uint256 timestamp, address cashierId, uint8 paymentMode)",
-    params: [],
+      "function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) view returns ((uint256 saleId, string productName, uint256 productPrice, uint256 quantity, string seller, string modeOfPayment)[])",
+    params: [toBigInt(1), toBigInt(3)],
   });
 
   // data: salesData,
   // isLoading: salesLoading,
   // error: salesError,
 
+  console.log(salesData);
   const {
     data: productData,
     isLoading: productLoading,

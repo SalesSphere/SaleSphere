@@ -118,7 +118,7 @@ export default function AddProductDialog({
                 <FormItem>
                   <FormLabel>
                     Bar/QR code number
-                    <span className="text-destructive">*</span>
+                    {/* <span className="text-destructive">*</span> */}
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="Enter product bar/QR code" {...field} />
