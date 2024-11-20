@@ -12,23 +12,6 @@ library SalesStorage {
     error NotActiveStaff();
     error ProductDoesNotExist(uint256 productId);
 
-    modifier onlyActiveStaff() {
-    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-    SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-    if (caller.status != SalesStorage.Status.Active) {
-        revert NotActiveStaff();
-    }
-    _;
-    }
-
-
-    modifier onlyAdmin() {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-        require(caller.role == SalesStorage.Role.Administrator, SalesStorage.NotAnAdministrator());
-        _;
-    }
-
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
     bytes32 constant STAFF_STATE_POSITION = keccak256("sales.storage.staff.state");
@@ -67,7 +50,7 @@ library SalesStorage {
 
     // Struct for frontend display
     struct SaleDisplay {
-        string saleId;          // Will be derived from sale index/hash
+        string saleId; // Will be derived from sale index/hash
         string productName;
         uint256 productPrice;
         uint256 quantity;
@@ -101,7 +84,7 @@ library SalesStorage {
         SalesRep
     }
 
-    enum Status{
+    enum Status {
         Active,
         OnLeave,
         SickBed
