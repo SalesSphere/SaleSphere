@@ -20,31 +20,6 @@ contract SalesContract is InventoryManagement {
         _; // continue execution
     }
 
-    // function recordSale(
-    //     SalesStorage.SaleItem[] calldata items,
-    //     uint256 totalAmount,
-    //     SalesStorage.ModeOfPayment paymentMode
-    // ) external onlySalesRep {
-    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-
-    //     // Increment sale ID and create new sale
-    //     state.saleCounter++;
-    //     SalesStorage.Sale storage newSale = state.sales[state.saleCounter];
-    //     newSale.timestamp = block.timestamp;
-    //     newSale.totalAmount = totalAmount;
-    //     newSale.cashierId = msg.sender;
-    //     newSale.paymentMode = paymentMode;
-
-    //     // Directly assign the items array to newSale.items and reduce product count
-    //     for (uint256 i = 0; i < items.length; i++) {
-    //         newSale.items.push(items[i]);
-    //         _reduceProductCount(items[i].productId, items[i].quantity);
-    //     }
-
-    //     // Emit SaleRecorded event with specified indexed fields
-    //     emit SaleRecorded(state.saleCounter, msg.sender, totalAmount, block.timestamp, paymentMode);
-    // }
-
      function recordSale(
         SalesStorage.SaleItem[] calldata items,
         uint256 totalAmount,
@@ -52,6 +27,9 @@ contract SalesContract is InventoryManagement {
     ) external onlySalesRep returns (string memory) {
         require(items.length > 0, "No items in sale");
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+        require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        SalesStorage.NotActiveStaff());
 
         // saleCounter++;
         state.saleCounter++;
@@ -153,28 +131,6 @@ contract SalesContract is InventoryManagement {
         sale.totalAmount
     );
 }
-
-
-
-    // Function to get a single sale by ID
-    // function getSaleById(string memory saleId) external view onlyAdminAndSalesRep returns (SalesStorage.Sale memory sale) {
-    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-    //     sale = state.sale[saleId];
-    // }
-
-    // Function to get all sales (returns an array of Sale structs)
-    // function getAllSales() external view onlyAdminAndSalesRep returns (SalesStorage.Sale[] memory allSales) {
-    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-
-    //     uint256 totalSales = state.saleCounter;
-    //     allSales = new SalesStorage.Sale[](totalSales);
-
-    //     for (uint256 i = 1; i <= totalSales; i++) {
-    //         allSales[i - 1] = state.sales[i];
-    //     }
-    // }
-
-    
 
      function getTotalSales() external view returns (uint256) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();

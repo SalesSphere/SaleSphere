@@ -37,15 +37,6 @@ contract InventoryManagement {
         _;
     }
 
-    modifier onlyAdminAndSalesRep() {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        SalesStorage.Role role = staffState.staffDetails[msg.sender].role;
-        if (role != SalesStorage.Role.SalesRep || role != SalesStorage.Role.Administrator) {
-            revert SalesStorage.NotSalesRepOrAdministrator();
-        }
-        _;
-    }
-
     modifier validAddress(address account) {
         if (account == address(0)) revert SalesStorage.AddressZeroDetected();
         _;
@@ -80,6 +71,9 @@ contract InventoryManagement {
         if (bytes(_productName).length == 0) revert EmptyProductName();
         if (_productPrice <= MINIMUM_PRICE) revert InvalidPrice();
         if (_quantity > MAXIMUM_QUANTITY) revert InvalidQuantity();
+    require(
+    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+    SalesStorage.NotActiveStaff());
 
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
@@ -109,6 +103,9 @@ contract InventoryManagement {
 
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
+    require(
+    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+    SalesStorage.NotActiveStaff());
         SalesStorage.Product storage product = _getProduct(_productID);
         product.productName = _productName;
         product.productPrice = _productPrice;
@@ -159,6 +156,7 @@ contract InventoryManagement {
     ) external view productExists(_productID) returns (SalesStorage.Product memory) {
         return _getProduct(_productID);
     }
+
     function deleteProduct(
         uint256 _productID
     ) external onlyAdmin validAddress(msg.sender) productExists(_productID) {
@@ -175,6 +173,9 @@ contract InventoryManagement {
         if (availableStock == 0) revert ProductOutOfStock(productId);
         if (availableStock < quantity) revert InsufficientStock(productId, quantity, availableStock);
 
+    require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        SalesStorage.NotActiveStaff());
         uint256 newQuantity = availableStock - quantity;
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         if (newQuantity <= state.productLowMargin) {
