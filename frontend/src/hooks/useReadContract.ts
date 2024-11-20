@@ -42,7 +42,7 @@ interface Sale {
 export default function useProduct(productId?: number) {
   const contract = getContract({
     client,
-    address: CONTRACTADDRESS,
+    address: CONTRACTADDRESS2,
     chain: liskSepolia,
   });
 
