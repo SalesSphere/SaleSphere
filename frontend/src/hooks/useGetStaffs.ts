@@ -1,25 +1,11 @@
-import { CHAIN } from "@/app/chain";
 import { client } from "@/app/client";
 import { CONTRACTADDRESS } from "@/lib/constants";
 import { getContract, defineChain } from "thirdweb";
-import {
-  useActiveAccount,
-  useReadContract,
-  useWalletBalance,
-} from "thirdweb/react";
+import { useReadContract } from "thirdweb/react";
 
 const liskSepolia = defineChain(4202);
 
-interface Staff {
-  staffID: number;
-  name: string;
-  role: number;
-}
-
-interface ContractMethods {
-  getAllStaff: () => Staff[];
-}
-export default function useGetStaffs(Staff?: number) {
+export default function useGetStaffs() {
   const contract = getContract({
     client,
     address: CONTRACTADDRESS,

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ThirdwebProvider } from "thirdweb/react";
-import WalletProvider from "@/context/wallet";
+// import WalletProvider from "@/context/wallet";
 import { headers } from "next/headers";
 import Provider2 from "@/lib/Provider2";
 
