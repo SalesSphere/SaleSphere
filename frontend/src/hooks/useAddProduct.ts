@@ -1,4 +1,4 @@
-import { CONTRACTADDRESS } from "@/lib/constants";
+import { CONTRACTADDRESS2 } from "@/lib/constants";
 import { defineChain, getContract, prepareContractCall } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
 import { client } from "@/app/client";
@@ -20,16 +20,14 @@ const formSchema = z.object({
   _quantity: z.string().min(1, {
     message: "This field is required",
   }),
-  _barcode: z.string().min(1, {
-    message: "This field is required",
-  }),
+  _barcode: z.string().optional(),
 });
 
 export const useAddProduct = () => {
   const { allProductRefetch } = useProduct();
   const contract = getContract({
     client,
-    address: CONTRACTADDRESS,
+    address: CONTRACTADDRESS2,
     chain: liskSepolia,
   });
   const {
@@ -60,11 +58,10 @@ export const useAddProduct = () => {
         values._productName,
         toBigInt(values._productPrice),
         toBigInt(values._quantity),
-        values._barcode,
+        values._barcode || "",
       ], // type safe params
     });
-    sendTransaction(transaction).then((res) => {
-      console.log(res);
+    sendTransaction(transaction).then(() => {
       allProductRefetch();
       form.reset();
       form.setValue("_barcode", "");

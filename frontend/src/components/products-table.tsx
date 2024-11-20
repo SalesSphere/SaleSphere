@@ -97,7 +97,9 @@ export default function ProductsTable() {
                     )}...${product.uploader.slice(-4)}`}
                   </div>
                 </TableCell>
-                <TableCell>{product.quantity.toString()}</TableCell>
+                <TableCell className="p-3.5">
+                  {product.quantity.toString()}
+                </TableCell>
                 <TableCell className="shrink-0 !w-52">
                   <p>
                     {new Date(
