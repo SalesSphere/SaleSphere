@@ -71,9 +71,10 @@ contract InventoryManagement {
         if (bytes(_productName).length == 0) revert EmptyProductName();
         if (_productPrice <= MINIMUM_PRICE) revert InvalidPrice();
         if (_quantity > MAXIMUM_QUANTITY) revert InvalidQuantity();
-    require(
-    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
-    SalesStorage.NotActiveStaff());
+        require(
+            SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+            SalesStorage.NotActiveStaff()
+        );
 
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
@@ -103,9 +104,10 @@ contract InventoryManagement {
 
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
-    require(
-    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
-    SalesStorage.NotActiveStaff());
+        require(
+            SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+            SalesStorage.NotActiveStaff()
+        );
         SalesStorage.Product storage product = _getProduct(_productID);
         product.productName = _productName;
         product.productPrice = _productPrice;
@@ -114,27 +116,27 @@ contract InventoryManagement {
         emit ProductUpdated(_productID, _productName, _productPrice, _barcode);
     }
 
-    function restockProduct(
-        SalesStorage.SaleItem[] calldata _products
-    ) external onlyAdmin validAddress(msg.sender) {
+    function restockProduct(SalesStorage.SaleItem[] calldata _products) external onlyAdmin validAddress(msg.sender) {
         uint256 productsLength = _products.length;
-        for (uint256 i; i < productsLength;) {
+        for (uint256 i; i < productsLength; ) {
             uint256 productId = _products[i].productId;
             uint256 quantity = _products[i].quantity;
-            
+
             if (quantity == 0 || quantity > MAXIMUM_QUANTITY) revert InvalidQuantity();
-            
+
             SalesStorage.Product storage product = _getProduct(productId);
             if (product.uploader == address(0)) revert SalesStorage.ProductDoesNotExist(productId);
-            
+
             // Check for overflow
             uint256 newQuantity = product.quantity + quantity;
             if (newQuantity > MAXIMUM_QUANTITY) revert InvalidQuantity();
-            
+
             product.quantity = newQuantity;
             emit ProductRestocked(productId, quantity, newQuantity);
-            
-            unchecked { ++i; }
+
+            unchecked {
+                ++i;
+            }
         }
     }
 
@@ -144,9 +146,11 @@ contract InventoryManagement {
         uint256 noOfProducts = productIds.length;
 
         SalesStorage.Product[] memory allProducts = new SalesStorage.Product[](noOfProducts);
-        for (uint256 i; i < noOfProducts;) {
+        for (uint256 i; i < noOfProducts; ) {
             allProducts[i] = state.products[productIds[i]];
-            unchecked { ++i; }
+            unchecked {
+                ++i;
+            }
         }
         return allProducts;
     }
@@ -157,9 +161,7 @@ contract InventoryManagement {
         return _getProduct(_productID);
     }
 
-    function deleteProduct(
-        uint256 _productID
-    ) external onlyAdmin validAddress(msg.sender) productExists(_productID) {
+    function deleteProduct(uint256 _productID) external onlyAdmin validAddress(msg.sender) productExists(_productID) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         SalesStorage.deleteProductIdFromArray(_productID);
         delete state.products[_productID];
@@ -173,15 +175,16 @@ contract InventoryManagement {
         if (availableStock == 0) revert ProductOutOfStock(productId);
         if (availableStock < quantity) revert InsufficientStock(productId, quantity, availableStock);
 
-    require(
-        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
-        SalesStorage.NotActiveStaff());
+        require(
+            SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+            SalesStorage.NotActiveStaff()
+        );
         uint256 newQuantity = availableStock - quantity;
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         if (newQuantity <= state.productLowMargin) {
             emit ProductStockIsLow(productId, newQuantity);
         }
-        
+
         product.quantity = newQuantity;
     }
 }
