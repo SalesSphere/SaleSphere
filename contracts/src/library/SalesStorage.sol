@@ -10,23 +10,7 @@ library SalesStorage {
     error NotProposedOwner();
     error NotAnAdministrator();
     error NotActiveStaff();
-
-    modifier onlyActiveStaff() {
-    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-    SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-    if (caller.status != SalesStorage.Status.Active) {
-        revert NotActiveStaff();
-    }
-    _;
-    }
-
-
-    modifier onlyAdmin() {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-        require(caller.role == SalesStorage.Role.Administrator, SalesStorage.NotAnAdministrator());
-        _;
-    }
+    error ProductDoesNotExist(uint256 productId);
 
     // Storage positions
     bytes32 constant STORE_STATE_POSITION = keccak256("sales.storage.store.state");
@@ -64,6 +48,16 @@ library SalesStorage {
         string barcode;
     }
 
+    // Struct for frontend display
+    struct SaleDisplay {
+        string saleId; // Will be derived from sale index/hash
+        string productName;
+        uint256 productPrice;
+        uint256 quantity;
+        string seller;
+        string modeOfPayment;
+    }
+
     struct StoreState {
         uint256 saleCounter; // Counter to track the sale ID
         mapping(uint256 => Sale) sales; // Mapping of sale ID to Sale struct
@@ -90,10 +84,10 @@ library SalesStorage {
         SalesRep
     }
 
-    enum Status{
+    enum Status {
         Active,
         OnLeave,
-        SickBed,
+        SickBed
     }
 
     struct Staff {
