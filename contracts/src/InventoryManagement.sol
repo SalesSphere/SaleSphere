@@ -26,22 +26,15 @@ contract InventoryManagement {
     event ProductDeleted(uint256 indexed productID);
     event ProductRestocked(uint256 indexed _productID, uint256 indexed amountRestocked, uint256 indexed currentStock);
 
-    modifier onlyAdmin() {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-        require(caller.role == SalesStorage.Role.Administrator, SalesStorage.NotAnAdministrator());
-        _;
-    }
-
-    modifier onlyAdminAndSalesRep() {
-        SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
-        require(
-            caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
-            SalesStorage.NotSalesRepOrAdministrator()
-        );
-        _;
-    }
+    // modifier onlyAdminAndSalesRep() {
+    //     SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    //     SalesStorage.Staff memory caller = staffState.staffDetails[msg.sender];
+    //     require(
+    //         caller.role == SalesStorage.Role.SalesRep || caller.role == SalesStorage.Role.Administrator,
+    //         SalesStorage.NotSalesRepOrAdministrator()
+    //     );
+    //     _;
+    // }
 
     function addNewProduct(
         uint256 _productID,
@@ -53,6 +46,9 @@ contract InventoryManagement {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
+    require(
+    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+    NotActiveStaff());
 
         require(state.products[_productID].uploader == address(0), ProductExist());
 
@@ -81,7 +77,9 @@ contract InventoryManagement {
         string memory barcode = bytes(_barcode).length > 0 ? _barcode : "";
 
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
-
+    require(
+    SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+    NotActiveStaff());
         state.products[_productID].productName = _productName;
         state.products[_productID].productPrice = _productPrice;
         state.products[_productID].barcode = barcode;
@@ -93,6 +91,9 @@ contract InventoryManagement {
         if (msg.sender == address(0)) revert SalesStorage.AddressZeroDetected();
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
+        require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        NotActiveStaff());
         for (uint256 i = 0; i < _products.length; i++) {
             SalesStorage.Product storage product = state.products[_products[i].productId];
             if (product.uploader == address(0)) revert ProductDoesNotExist();
@@ -101,14 +102,14 @@ contract InventoryManagement {
         }
     }
 
-    function getProduct(uint256 _productID) public view onlyAdminAndSalesRep returns (SalesStorage.Product memory) {
+    function getProduct(uint256 _productID) public view onlyActiveStaff returns (SalesStorage.Product memory) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
         return state.products[_productID];
     }
 
-    function getAllProduct() public view onlyAdminAndSalesRep returns (SalesStorage.Product[] memory) {
+    function getAllProduct() public view onlyActiveStaff returns (SalesStorage.Product[] memory) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256[] memory productIds = state.productsIDArray;
         uint256 noOfProducts = productIds.length;
@@ -126,15 +127,23 @@ contract InventoryManagement {
 
         if (state.products[_productID].uploader == address(0)) revert ProductDoesNotExist();
 
+       require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        NotActiveStaff());
+
         SalesStorage.deleteProductIdFromArray(_productID);
         delete state.products[_productID];
 
         emit ProductDeleted(_productID);
     }
 
-    function _reduceProductCount(uint256 productId, uint256 quantity) internal {
+    function _reduceProductCount (uint256 productId, uint256 quantity) internal {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         uint256 availableStock = state.products[productId].quantity;
+
+        require(
+        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+        NotActiveStaff());
 
         if (availableStock == 0) revert ProductOutOfStock();
         require(availableStock >= quantity, InsufficientStock(productId, quantity, availableStock));
