@@ -20,7 +20,7 @@ contract SalesContract is InventoryManagement {
         _; // continue execution
     }
 
-     function recordSale(
+    function recordSale(
         SalesStorage.SaleItem[] calldata items,
         uint256 totalAmount,
         SalesStorage.ModeOfPayment paymentMode
@@ -28,8 +28,9 @@ contract SalesContract is InventoryManagement {
         require(items.length > 0, "No items in sale");
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         require(
-        SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
-        SalesStorage.NotActiveStaff());
+            SalesStorage.getStaffState().staffDetails[msg.sender].status == SalesStorage.Status.Active,
+            SalesStorage.NotActiveStaff()
+        );
 
         // saleCounter++;
         state.saleCounter++;
@@ -49,17 +50,15 @@ contract SalesContract is InventoryManagement {
         emit SaleRecorded(state.saleCounter, msg.sender, totalAmount, block.timestamp, paymentMode);
 
         return _generateSaleId(state.saleCounter, block.timestamp);
-
     }
 
-    function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) 
-        external 
-        view 
-        returns (SalesStorage.SaleDisplay[] memory) 
-    {
+    function getAllSalesDisplay(
+        uint256 startIndex,
+        uint256 endIndex
+    ) external view returns (SalesStorage.SaleDisplay[] memory) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
-        
+
         require(startIndex <= endIndex && endIndex <= state.saleCounter, "Invalid range");
 
         // Calculate total number of items across all requested sales
@@ -75,7 +74,7 @@ contract SalesContract is InventoryManagement {
         for (uint256 saleIndex = startIndex; saleIndex <= endIndex; saleIndex++) {
             SalesStorage.Sale storage sale = state.sales[saleIndex];
             string memory saleId = _generateSaleId(saleIndex, sale.timestamp);
-            
+
             // Process each item in the sale
             for (uint256 itemIndex = 0; itemIndex < sale.items.length; itemIndex++) {
                 SalesStorage.SaleItem storage item = sale.items[itemIndex];
@@ -98,82 +97,83 @@ contract SalesContract is InventoryManagement {
         return displaySales;
     }
 
-    function getSingleSale(uint256 saleIndex) external view returns (
-        string memory saleId,
-        string memory productName,
-        uint256 productPrice,
-        uint256 quantity,
-        string memory seller,
-        string memory paymentMode,
-        uint256 timestamp,
-        uint256 totalAmount
-    ) {
-    SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-    
-    require(saleIndex < state.saleCounter, "Invalid sale index");
-    
-    SalesStorage.Sale storage sale = state.sales[saleIndex];
-    
-    // Get item details (assuming we want first item for single sale display)
-    SalesStorage.SaleItem storage item = sale.items[0];
-    SalesStorage.Product storage product = state.products[item.productId];
-    
-    SalesStorage.Staff storage cashier = SalesStorage.getStaffState().staffDetails[sale.cashierId];
-    
-    return (
-        _generateSaleId(saleIndex, sale.timestamp), 
-        product.productName,
-        product.productPrice,
-        item.quantity,
-        cashier.name,
-        _modeOfPaymentToString(sale.paymentMode),
-        sale.timestamp,
-        sale.totalAmount
-    );
-}
+    // function getSingleSale(uint256 saleIndex) external view returns (
+    //         string memory saleId,
+    //         string memory productName,
+    //         uint256 productPrice,
+    //         uint256 quantity,
+    //         string memory seller,
+    //         string memory paymentMode,
+    //         uint256 timestamp,
+    //         uint256 totalAmount
+    //     )
+    // {
+    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
 
-     function getTotalSales() external view returns (uint256) {
+    //     require(saleIndex < state.saleCounter, "Invalid sale index");
+
+    //     SalesStorage.Sale storage sale = state.sales[saleIndex];
+
+    //     // Get item details (assuming we want first item for single sale display)
+    //     SalesStorage.SaleItem storage item = sale.items[0];
+    //     SalesStorage.Product storage product = state.products[item.productId];
+
+    //     SalesStorage.Staff storage cashier = SalesStorage.getStaffState().staffDetails[sale.cashierId];
+
+    //     return (
+    //         _generateSaleId(saleIndex, sale.timestamp),
+    //         product.productName,
+    //         product.productPrice,
+    //         item.quantity,
+    //         cashier.name,
+    //         _modeOfPaymentToString(sale.paymentMode),
+    //         sale.timestamp,
+    //         sale.totalAmount
+    //     );
+    // }
+
+    function getTotalSales() external view returns (uint256) {
         SalesStorage.StoreState storage state = SalesStorage.getStoreState();
         return state.saleCounter;
     }
 
- function getSalesRepTotalSales() external view returns (string[] memory salesReps, uint256[] memory totalSales) {
-    SalesStorage.StoreState storage state = SalesStorage.getStoreState();
-    SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
+    // function getSalesRepTotalSales() external view returns (string[] memory salesReps, uint256[] memory totalSales) {
+    //     SalesStorage.StoreState storage state = SalesStorage.getStoreState();
+    //     SalesStorage.StaffState storage staffState = SalesStorage.getStaffState();
 
-    // Get unique sales reps and count them
-    uint256 repCount;
-    address[] memory uniqueReps = new address[](state.saleCounter);
-    for (uint256 i = 0; i < state.saleCounter; i++) {
-        address cashierAddress = state.sales[i].cashierId;
-        bool isUnique = true;
-        for (uint256 j = 0; j < repCount; j++) {
-            if (uniqueReps[j] == cashierAddress) {
-                isUnique = false;
-                break;
-            }
-        }
-        if (isUnique) {
-            uniqueReps[repCount++] = cashierAddress;
-        }
-    }
+    //     // Get unique sales reps and count them
+    //     uint256 repCount;
+    //     address[] memory uniqueReps = new address[](state.saleCounter);
+    //     for (uint256 i = 0; i < state.saleCounter; i++) {
+    //         address cashierAddress = state.sales[i].cashierId;
+    //         bool isUnique = true;
+    //         for (uint256 j = 0; j < repCount; j++) {
+    //             if (uniqueReps[j] == cashierAddress) {
+    //                 isUnique = false;
+    //                 break;
+    //             }
+    //         }
+    //         if (isUnique) {
+    //             uniqueReps[repCount++] = cashierAddress;
+    //         }
+    //     }
 
-    // Populate arrays
-    salesReps = new string[](repCount);
-    totalSales = new uint256[](repCount);
+    //     // Populate arrays
+    //     salesReps = new string[](repCount);
+    //     totalSales = new uint256[](repCount);
 
-    for (uint256 i = 0; i < repCount; i++) {
-        salesReps[i] = staffState.staffDetails[uniqueReps[i]].name;
-        totalSales[i] = 0;
-        for (uint256 j = 0; j < state.saleCounter; j++) {
-            if (state.sales[j].cashierId == uniqueReps[i]) {
-                totalSales[i]++;
-            }
-        }
-    }
+    //     for (uint256 i = 0; i < repCount; i++) {
+    //         salesReps[i] = staffState.staffDetails[uniqueReps[i]].name;
+    //         totalSales[i] = 0;
+    //         for (uint256 j = 0; j < state.saleCounter; j++) {
+    //             if (state.sales[j].cashierId == uniqueReps[i]) {
+    //                 totalSales[i]++;
+    //             }
+    //         }
+    //     }
 
-    return (salesReps, totalSales);
-}
+    //     return (salesReps, totalSales);
+    // }
 
     // Helper function to generate sale ID
     function _generateSaleId(uint256 saleIndex, uint256 timestamp) internal pure returns (string memory) {
@@ -186,13 +186,13 @@ contract SalesContract is InventoryManagement {
         bytes memory HEX = "0123456789abcdef";
         bytes memory _string = new bytes(16);
         for (uint i = 0; i < 8; i++) {
-            _string[i*2] = HEX[uint8(_bytes32[i] >> 4)];
-            _string[i*2+1] = HEX[uint8(_bytes32[i] & 0x0f)];
+            _string[i * 2] = HEX[uint8(_bytes32[i] >> 4)];
+            _string[i * 2 + 1] = HEX[uint8(_bytes32[i] & 0x0f)];
         }
         return string(_string);
     }
 
-     // Helper function to convert ModeOfPayment to string
+    // Helper function to convert ModeOfPayment to string
     function _modeOfPaymentToString(SalesStorage.ModeOfPayment paymentMode) internal pure returns (string memory) {
         if (paymentMode == SalesStorage.ModeOfPayment.POS) return "POS";
         if (paymentMode == SalesStorage.ModeOfPayment.Cash) return "Cash";
