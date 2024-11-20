@@ -49,7 +49,7 @@ library SalesStorage {
 
     // Struct for frontend display
     struct SaleDisplay {
-        string saleId;          // Will be derived from sale index/hash
+        string saleId; // Will be derived from sale index/hash
         string productName;
         uint256 productPrice;
         uint256 quantity;
@@ -83,7 +83,7 @@ library SalesStorage {
         SalesRep
     }
 
-    enum Status{
+    enum Status {
         Active,
         OnLeave,
         SickBed,
