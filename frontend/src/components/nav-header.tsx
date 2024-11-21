@@ -5,11 +5,6 @@ import { Bell, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import MemoDashboard from "@/icons/Dashboard";
-import MemoProducts from "@/icons/Products";
-import MemoUsers from "@/icons/Users";
-import MemoSales from "@/icons/Sales";
-import MemoSettings from "@/icons/Settings";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,21 +14,22 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { navigation } from "@/lib/data";
 
 type NavItem = {
   name: string;
   href: string;
-  icon: React.ElementType;
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>> | React.MemoExoticComponent<(props: React.SVGProps<SVGSVGElement>) => JSX.Element>;
 };
 
-const navigation: NavItem[] = [
-  { name: "Dashboard", href: "/dashboard", icon: MemoDashboard },
-  { name: "Products", href: "/products", icon: MemoProducts },
-  { name: "Sales", href: "/sales", icon: MemoSales },
-  { name: "Users", href: "/users", icon: MemoUsers },
-  { name: "Inventory", href: "/inventory", icon: MemoProducts },
-  { name: "Settings", href: "/settings", icon: MemoSettings },
-];
+// const navigation: NavItem[] = [
+//   { name: "Dashboard", href: "/dashboard", icon: MemoDashboard },
+//   { name: "Products", href: "/products", icon: MemoProducts },
+//   { name: "Sales", href: "/sales", icon: MemoSales },
+//   { name: "Users", href: "/users", icon: MemoUsers },
+//   { name: "Inventory", href: "/inventory", icon: MemoProducts },
+//   { name: "Settings", href: "/settings", icon: MemoSettings },
+// ];
 
 type NavLinkProps = {
   item: NavItem;

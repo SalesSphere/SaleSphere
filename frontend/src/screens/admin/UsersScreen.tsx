@@ -3,8 +3,6 @@
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import UserTable from "@/components/users-table";
-import useGetStaffs from "@/hooks/useGetStaffs";
-// import ProductOrderTable from "@/components/product-order-table";
 import { adminNavigation } from "@/lib/data";
 
 const UserScreen = () => {

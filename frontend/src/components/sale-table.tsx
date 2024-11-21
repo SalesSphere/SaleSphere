@@ -27,6 +27,7 @@ interface ISale {
 export default function SaleTable() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { salesData, salesLoading, salesError } = useProduct();
+  console.log("Sales Data:", salesData);
 
   console.log("Sales Data:", salesData);
 
@@ -61,19 +62,16 @@ export default function SaleTable() {
               <TableCell>
                 <span className="md:hidden font-bold">Sale ID:</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm md:text-base">
-                    {parseFloat(_.saleId)}
-                  </span>
+                  <span className="text-sm md:text-base">{_.saleId}</span>
                   <Button
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(_.saleId.toString())}
-                  >
+                    onClick={() => copyToClipboard(_.saleId.toString())}>
                     <Copy className="h-4 w-4" />
                     <span className="sr-only">Copy sale ID</span>
                   </Button>
-                  {copiedId === _.saleId.toString() && (
+                  {copiedId === _.saleId && (
                     <span className="text-xs text-green-500">Copied!</span>
                   )}
                 </div>

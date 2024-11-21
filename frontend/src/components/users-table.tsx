@@ -2,7 +2,6 @@
 
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,7 +10,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Copy, Link2 } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import useGetStaffs from "@/hooks/useGetStaffs";
 import { User } from "@/lib/types";
@@ -88,7 +86,11 @@ export default function UserTable() {
                   {STATUS_MAPPING[user.status] || "Unknown Role"}
                 </TableCell>
 
-                <TableCell className="text-left">{user.dateJoined}</TableCell>
+                <TableCell className="text-left">
+                  {new Date(Number(user.dateJoined) * 1000).toLocaleDateString(
+                    "en-CA"
+                  )}
+                </TableCell>
                 <TableCell className="text-left">
                   {ROLE_MAPPING[user.role] || "Unknown Role"}
                 </TableCell>

@@ -1,4 +1,4 @@
-import { CONTRACTADDRESS2 } from "@/lib/constants";
+import { CONTRACTADDRESS } from "@/lib/constants";
 import { defineChain, getContract, prepareContractCall } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
 import { client } from "@/app/client";
@@ -27,7 +27,7 @@ export const useAddProduct = () => {
   const { allProductRefetch } = useProduct();
   const contract = getContract({
     client,
-    address: CONTRACTADDRESS2,
+    address: CONTRACTADDRESS,
     chain: liskSepolia,
   });
   const {

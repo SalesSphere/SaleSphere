@@ -1,6 +1,6 @@
 import { CHAIN } from "@/app/chain";
 import { client } from "@/app/client";
-import { CONTRACTADDRESS, CONTRACTADDRESS2 } from "@/lib/constants";
+import { CONTRACTADDRESS } from "@/lib/constants";
 import { toBigInt } from "ethers";
 import { getContract, defineChain } from "thirdweb";
 import {
@@ -11,38 +11,10 @@ import {
 
 const liskSepolia = defineChain(4202);
 
-interface Product {
-  productID: bigint;
-  productName: string;
-  productPrice: bigint;
-  quantity: bigint;
-  uploader: string;
-  dateAdded: bigint;
-  barcode: string;
-}
-
-interface SaleItem {
-  productId: bigint;
-  quantity: bigint;
-}
-
-interface Sale {
-  items: SaleItem[];
-  totalAmount: bigint;
-  timestamp: bigint;
-  cashierId: string;
-  paymentMode: number;
-}
-
-// interface ContractMethods {
-//   getAllProduct: () => Product[];
-//   getAllSales: () => { allSales: Sale[] };
-//   getProduct: (productId: bigint) => Product;
-// }
-export default function useProduct(productId?: number) {
+export default function useProduct() {
   const contract = getContract({
     client,
-    address: CONTRACTADDRESS2,
+    address: CONTRACTADDRESS,
     chain: liskSepolia,
   });
 
@@ -65,15 +37,10 @@ export default function useProduct(productId?: number) {
   } = useReadContract({
     contract,
     method:
-      "function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) view returns ((uint256 saleId, string productName, uint256 productPrice, uint256 quantity, string seller, string modeOfPayment)[])",
-    params: [toBigInt(1), toBigInt(3)],
+      "function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) view returns ((string saleId, string productName, uint256 productPrice, uint256 quantity, string seller, string modeOfPayment)[])",
+    params: [toBigInt(1), toBigInt(12)],
   });
 
-  // data: salesData,
-  // isLoading: salesLoading,
-  // error: salesError,
-
-  console.log(salesData);
   const {
     data: productData,
     isLoading: productLoading,
@@ -106,5 +73,6 @@ export default function useProduct(productId?: number) {
     salesLoading,
     salesError,
     allProductRefetch,
+    balanceLoading,
   };
 }
