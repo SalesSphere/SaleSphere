@@ -10,7 +10,7 @@ import useGetStaffs from "@/hooks/useGetStaffs";
 import { adminNavigation } from "@/lib/data";
 
 export default function DashboardPage() {
-  const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
+  const { allStaffData, allStaffError,  } = useGetStaffs();
 
   console.log("Staff Data:", allStaffData?.length);
 
