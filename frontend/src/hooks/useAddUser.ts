@@ -1,4 +1,4 @@
-import { CONTRACTADDRESS, } from "@/lib/constants";
+import { CONTRACTADDRESS } from "@/lib/constants";
 import { defineChain, getContract, prepareContractCall } from "thirdweb";
 import { useSendTransaction } from "thirdweb/react";
 import { client } from "@/app/client";
@@ -14,12 +14,18 @@ const formSchema = z.object({
   _name: z.string().min(1, {
     message: "This field is required",
   }),
+  _email: z.string().email({
+    message: "Please enter a valid email",
+  }),
+  _phoneNumber: z.string().min(1, {
+    message: "This field is required",
+  }),
   _address: z.string().min(1, {
     message: "This field is required",
   }),
   _id: z.string().optional(),
-  _role: z.string().min(1,{
-    message:"This field is required"
+  _role: z.string().min(1, {
+    message: "This field is required",
   }),
 });
 
@@ -42,6 +48,8 @@ export const useAddUser = () => {
     defaultValues: {
       _name: "",
       _address: "",
+      _email: "",
+      _phoneNumber: "",
       _id: "",
       _role: "",
     },
@@ -52,12 +60,14 @@ export const useAddUser = () => {
     const transaction = prepareContractCall({
       contract,
       method:
-        "function addStaff(address _addr,uint256 _staffID, string memory _name, uint8 _role) public",
+        "function addStaff(address _addr,uint256 _staffID, string memory _name, string memory _email, uint256 _phoneNumber, uint8 _role) public",
       params: [
         values._address,
         toBigInt(Math.floor(Math.random() * 1000000)),
         values._name,
-        Number(values._role)
+        values._email,
+        toBigInt(values._phoneNumber),
+        Number(values._role),
         // values._barcode || "",
       ], // type safe params
     });
@@ -67,6 +77,8 @@ export const useAddUser = () => {
       form.setValue("_address", "");
       form.setValue("_id", "");
       form.setValue("_name", "");
+      form.setValue("_email", "");
+      form.setValue("_phoneNumber", "");
       form.setValue("_role", "");
     });
   }

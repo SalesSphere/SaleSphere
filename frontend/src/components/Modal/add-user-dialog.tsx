@@ -61,7 +61,7 @@ export default function AdduserDialog({
                 <FormItem>
                   <FormLabel>
                     {" "}
-                     Name<span className="text-destructive">*</span>
+                    Name<span className="text-destructive">*</span>
                   </FormLabel>
                   <FormControl>
                     <Input placeholder="Enter name" {...field} />
@@ -85,7 +85,48 @@ export default function AdduserDialog({
                     <Input
                       placeholder="Enter users Wallet address"
                       {...field}
-                      
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="_email"
+              // @ts-ignore
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Email address<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter users email address"
+                      {...field}
+                      type="email"
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="_phoneNumber"
+              // @ts-ignore
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>
+                    Phone number<span className="text-destructive">*</span>
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Enter users phone number"
+                      {...field}
+                      type="tel"
                     />
                   </FormControl>
 
@@ -97,7 +138,6 @@ export default function AdduserDialog({
             <FormField
               control={form.control}
               name="_role"
-              // @ts-ignore
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -105,17 +145,22 @@ export default function AdduserDialog({
                     <span className="text-destructive">*</span>
                   </FormLabel>
                   <FormControl>
-                  <Select onValueChange={field.onChange} defaultValue={field.value}>
-              <SelectTrigger className="h-8 w-full border-none text-xs bg-[#292D3208] py-5">
-                <SelectValue placeholder={field.value} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={"0"}>Admin</SelectItem>
-                <SelectItem value={"1"}>Sales Representative</SelectItem>
-                <SelectItem value={"3"}>Moderator</SelectItem>
-                <SelectItem value={"4"}>Guest</SelectItem>
-              </SelectContent>
-            </Select>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger className="h-8 w-full text-xs py-5">
+                        <SelectValue placeholder={field.value} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value={"0"}>Admin</SelectItem>
+                        <SelectItem value={"1"}>
+                          Sales Representative
+                        </SelectItem>
+                        {/* <SelectItem value={"3"}>Moderator</SelectItem>
+                        <SelectItem value={"4"}>Guest</SelectItem> */}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
 
                   <FormMessage />
@@ -123,7 +168,7 @@ export default function AdduserDialog({
               )}
             />
 
-         <Button
+            <Button
               disabled={isPending}
               type="submit"
               className="w-full bg-[#17ABEC]"
