@@ -145,20 +145,17 @@ export default function AdduserDialog({
                     <span className="text-destructive">*</span>
                   </FormLabel>
                   <FormControl>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <SelectTrigger className="h-8 w-full text-xs py-5">
-                        <SelectValue placeholder={field.value} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value={"0"}>Admin</SelectItem>
-                        <SelectItem value={"1"}>
-                          Sales Representative
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <SelectTrigger className="h-8 w-full border-none text-xs bg-[#292D3208] py-5">
+                <SelectValue placeholder={field.value} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={"0"}>Admin</SelectItem>
+                <SelectItem value={"1"}>Sales Representative</SelectItem>
+                <SelectItem value={"3"}>Moderator</SelectItem>
+                <SelectItem value={"4"}>Guest</SelectItem>
+              </SelectContent>
+            </Select>
                   </FormControl>
 
                   <FormMessage />
