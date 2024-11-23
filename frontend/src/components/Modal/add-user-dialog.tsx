@@ -157,8 +157,6 @@ export default function AdduserDialog({
                         <SelectItem value={"1"}>
                           Sales Representative
                         </SelectItem>
-                        {/* <SelectItem value={"3"}>Moderator</SelectItem>
-                        <SelectItem value={"4"}>Guest</SelectItem> */}
                       </SelectContent>
                     </Select>
                   </FormControl>
