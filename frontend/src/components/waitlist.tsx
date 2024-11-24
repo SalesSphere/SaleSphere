@@ -3,10 +3,10 @@ import { Button } from "./ui/button";
 
 export default function Waitlist() {
   return (
-    <main className="bg-[#D8F1FC]">
+    <main className="bg-[#D8F1FC] bg-[url('/GridLayer.png')] bg-cover bg-center bg-blend-overlay">
       <div className=" grid h-[65vh] relative lg:grid-cols-2 bg-[#D8F1FC]">
         <div className="flex flex-col justify-center p-6 lg:p-12 bg-[#D8F1FC]">
-          <div className="max-w-[23rem]">
+          <div className="max-w-[23rem] mx-auto">
             <h1 className="text-3xl md:text-xl lg:text-2xl font-bold tracking-tight text-[#292D32] mb-6">
               Lorem Ipsum is simply dummy text of the printing and typesetting
               industry.
