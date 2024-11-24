@@ -16,6 +16,16 @@ export interface DashboardHeaderProps {
   period?: string;
 }
 
+export interface Product {
+  productID: bigint;
+  productName: string;
+  productPrice: bigint;
+  quantity: bigint;
+  uploader: string;
+  dateAdded: bigint;
+  barcode: string;
+}
+
 export interface Sale {
   id: string;
   productName: string;
@@ -65,3 +75,23 @@ export type DataPoint = {
   value: number;
   highlight?: boolean;
 };
+
+
+
+export interface User {
+
+  staffID: bigint;
+
+  name: string;
+
+  email: string;
+
+  phoneNumber: bigint;
+
+  status: number;
+
+  dateJoined: bigint;
+
+  role: number;
+
+}

@@ -6,9 +6,25 @@ import RepLeaderboard from "@/components/rep-leaderboard";
 import SalesChart from "@/components/sales-chart";
 import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
+import useGetStaffs from "@/hooks/useGetStaffs";
 import { adminNavigation } from "@/lib/data";
 
 export default function DashboardPage() {
+  const { allStaffData, allStaffError,  } = useGetStaffs();
+
+  console.log("Staff Data:", allStaffData?.length);
+
+  // if (allStaffLoading) {
+  //   return <LoadingSkeleton />;
+  // }
+
+  if (allStaffError) {
+    return <div>Error: {allStaffError.message}</div>;
+  }
+
+  if (!allStaffData || allStaffData.length === 0) {
+    return <div>No User found</div>;
+  }
   return (
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">

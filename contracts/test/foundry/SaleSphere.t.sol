@@ -8,6 +8,7 @@ import { InventoryManagement } from "../../src/InventoryManagement.sol";
 
 contract SaleSphereTest is Test {
     SaleSphere saleSphere;
+    address owner = address(this);
     address salesRep = vm.addr(1);
 
     // Constructor parameters for SaleSphere
@@ -16,7 +17,7 @@ contract SaleSphereTest is Test {
 
     function setUp() public {
         // Deploy SaleSphere contract with constructor parameters
-        saleSphere = new SaleSphere(maxAdmins, productLowMargin);
+        saleSphere = new SaleSphere(owner, maxAdmins, productLowMargin);
 
         // Initialize inventory using addNewProduct function
         saleSphere.addNewProduct(1, "Product 1", 20, 10, ""); // productId 1, price 20, quantity 10
