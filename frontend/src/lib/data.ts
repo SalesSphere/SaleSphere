@@ -27,12 +27,7 @@ export const adminNavigation = [
   { name: "Sales", href: "/a/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/a/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/a/dashboard/settings", icon: MemoSettings },
-  // { name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
-  // {
-  //   name: "Notification",
-  //   href: "/a/dashboard/notifications",
-  //   icon: MemoNotification,
-  // },
+{ name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
 ];
 
 export const sales: Sale[] = [

@@ -45,7 +45,7 @@ export default function UserTable() {
 
   return (
     <div className="space-y-4 my-8">
-      <div className="overflow-x-auto px-10">
+      <div className="overflow-x-auto">
         <Table className="w-full">
           <TableHeader>
             <TableRow className="lg:grid lg:grid-cols-7 lg:gap-4 bg-[#292D321A] pt-4 pb-1 rounded-md">

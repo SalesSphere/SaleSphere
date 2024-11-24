@@ -23,6 +23,7 @@ import AddProductDialog from "./Modal/add-product-dialog";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import AdduserDialog from "./Modal/add-user-dialog";
+import AdduserDialog from "./Modal/add-user-dialog";
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   subtitle,
@@ -135,12 +136,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         open={showAddProductDialog}
         onOpenChange={setAddProductDialog}
       />
-
-      <AdduserDialog
-      open={showAdduserDialog}
-      onOpenChange={setAdduserDialog}/>
-
-      <PaymentDialog
+    <PaymentDialog
         open={showPaymentDialog}
         onOpenChange={setShowPaymentDialog}
         items={sampleItems}
