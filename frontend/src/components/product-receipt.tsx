@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -52,7 +52,7 @@ export default function ProductReceipt() {
   } = useProduct();
   const { toast } = useToast();
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>();
   const [quantity, setQuantity] = useState(1);
   const [receiptItems, setReceiptItems] = useState<ReceiptItem[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -64,11 +64,11 @@ export default function ProductReceipt() {
   const [lastCheckoutItems, setLastCheckoutItems] = useState<ReceiptItem[]>([]);
   const [lastPaymentMethod, setLastPaymentMethod] = useState("");
 
-  useEffect(() => {
-    if (products && products.length > 0 && !selectedProduct) {
-      setSelectedProduct(products[0]);
-    }
-  }, [products, selectedProduct]);
+  // useEffect(() => {
+  //   if (products && products.length > 0 && !selectedProduct) {
+  //     setSelectedProduct(products[0]);
+  //   }
+  // }, [products, selectedProduct]);
 
   if (allProductLoading) return <div>Loading...</div>;
   if (allProductError)
@@ -149,7 +149,7 @@ export default function ProductReceipt() {
     setLastCheckoutItems([]);
     setLastPaymentMethod("");
   };
-
+  // console.log(selectedProduct.productPrice);
   return (
     <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">
@@ -212,6 +212,7 @@ export default function ProductReceipt() {
                   Product Price<span className="text-red-500">*</span>
                 </label>
                 <Input
+                  defaultValue={0}
                   value={
                     selectedProduct ? `$${selectedProduct.productPrice}` : ""
                   }
