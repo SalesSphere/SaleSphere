@@ -5,15 +5,15 @@ import MemoProducts from "@/icons/Products";
 import MemoSales from "@/icons/Sales";
 import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
-// import MemoInventory from "@/icons/Inventory";
-// import MemoNotification from "@/icons/Notification";
+import MemoInventory from "@/icons/Inventory";
+import MemoNotification from "@/icons/Notification";
 
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
   { name: "Products", href: "/r/dashboard/products", icon: MemoProducts },
   { name: "Sales", href: "/r/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/r/dashboard/users", icon: MemoUsers },
-  { name: "Checkout", href: "/r/dashboard/checkout", icon: MemoProducts },
+  { name: "Checkout", href: "/r/dashboard/checkout", icon: InventoryIcon },
   { name: "Settings", href: "/r/dashboard/settings", icon: MemoSettings },
 ];
 export const managerNavigation = [
