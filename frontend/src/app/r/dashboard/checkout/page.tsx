@@ -2,7 +2,7 @@ import ProductReceipt from "@/components/product-receipt";
 
 const page = () => {
   return (
-    <div>
+    <div  className=" container mx-auto ">
       <ProductReceipt />
     </div>
   );

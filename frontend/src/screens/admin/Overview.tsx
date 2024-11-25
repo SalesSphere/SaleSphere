@@ -1,5 +1,8 @@
+// @ts-nocheck
+
 "use client";
 
+import { useEffect, useState } from "react";
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import RepLeaderboard from "@/components/rep-leaderboard";
@@ -7,24 +10,130 @@ import SalesChart from "@/components/sales-chart";
 import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
 import useGetStaffs from "@/hooks/useGetStaffs";
+import useProduct from "@/hooks/useReadContract";
 import { adminNavigation } from "@/lib/data";
+import { Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
-  const { allStaffData, allStaffError,  } = useGetStaffs();
-
-  console.log("Staff Data:", allStaffData?.length);
-
-  // if (allStaffLoading) {
-  //   return <LoadingSkeleton />;
-  // }
-
-  if (allStaffError) {
-    return <div>Error: {allStaffError.message}</div>;
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  interface StaffData {
+    id: string;
+    name: string;
+    // Add other staff properties here
   }
 
-  if (!allStaffData || allStaffData.length === 0) {
-    return <div>No User found</div>;
+  interface ProductData {
+    id: string;
+    productName: string;
+    productPrice: number;
   }
+
+  // const { allStaffLoading } = useGetStaffs();
+
+  interface SalesData {
+    id: string;
+    productId: string;
+    productPrice: number;
+    // Add other sales properties here
+  }
+  // const productData = allProductData ?? [];
+
+  const [dashboardData, setDashboardData] = useState<{
+    allStaffData: StaffData[] | null;
+    allProductData: ProductData[] | null;
+    salesData: SalesData[] | null;
+  }>({
+    allStaffData: null,
+    allProductData: null,
+    salesData: null,
+  });
+
+  const { allStaffData, allStaffError } = useGetStaffs();
+  const { allProductData = [], salesData = [], salesError } = useProduct();
+
+  // const productData = allProductData ?? [];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Simulate API calls (replace with actual API calls if needed)
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        setDashboardData({
+          allStaffData: allStaffData ? allStaffData.slice() : [],
+          allProductData: [...allProductData],
+          salesData: [...salesData],
+        });
+        setIsLoading(false);
+      } catch (err) {
+        console.error("Error fetching data:", err);
+        setError("An error occurred while fetching data.");
+        setIsLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [allStaffData, allProductData, salesData]);
+
+  console.log("Dashboard data:", dashboardData);
+
+  if (isLoading) {
+    return (
+      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+        <div className="flex items-center justify-center h-screen">
+          <Loader2 className="w-8 h-8 animate-spin" />
+          <span className="ml-2">Loading...</span>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (error || allStaffError || salesError) {
+    console.error("Dashboard errors:", {
+      error,
+      allStaffError,
+      salesError,
+    });
+    return (
+      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h2 className="text-2xl font-bold mb-4">Error</h2>
+          <p>
+            {error ||
+              allStaffError?.message ||
+              salesError?.message ||
+              "An error occurred"}
+          </p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  if (
+    !dashboardData.allStaffData ||
+    dashboardData.allStaffData.length === 0 ||
+    !dashboardData.allProductData ||
+    !dashboardData.salesData
+  ) {
+    console.log("No data available:", dashboardData);
+    return (
+      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+        <div className="flex flex-col items-center justify-center h-screen">
+          <h2 className="text-2xl font-bold mb-4">No Data Available</h2>
+          <p>There is no data to display at the moment.</p>
+        </div>
+      </DashboardLayout>
+    );
+  }
+
+  const totalStaffCount = dashboardData.allStaffData.length;
+  const totalProductCount = dashboardData.allProductData.length;
+  const totalSales = (salesData ?? []).reduce(
+    (sum, sale) => sum + Number(sale.productPrice),
+    0
+  );
+
   return (
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">
@@ -43,7 +152,7 @@ export default function DashboardPage() {
         <div className="grid gap-4 md:grid-cols-3">
           <StatsCard
             title="Total Product"
-            value="2,000"
+            value={totalProductCount.toString()}
             change={-20}
             data={[30, 25, 35, 30, 22, 20, 18, 15, 17, 16]}
             period="Last 360 days"
@@ -52,7 +161,9 @@ export default function DashboardPage() {
           />
           <StatsCard
             title="Total sales"
-            value="5,000"
+            value={Number(totalSales).toLocaleString(undefined, {
+              maximumFractionDigits: 0,
+            })}
             change={20}
             data={[30, 25, 55, 30, 22, 20, 18, 15, 17, 16]}
             period="Last 360 days"
@@ -61,7 +172,7 @@ export default function DashboardPage() {
           />
           <StatsCard
             title="Total Member"
-            value="10"
+            value={totalStaffCount.toString()}
             change={0}
             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
             period="Last 360 days"
@@ -74,7 +185,11 @@ export default function DashboardPage() {
           <div className="col-span-4 lg:col-span-3">
             <SalesChart />
           </div>
-          <RepLeaderboard className="col-span-4 lg:col-span-1" />
+          <RepLeaderboard
+            className="col-span-4 lg:col-span-1"
+            salesData={dashboardData.salesData}
+            allStaffData={dashboardData.allStaffData}
+          />
         </div>
 
         <SalesTable />

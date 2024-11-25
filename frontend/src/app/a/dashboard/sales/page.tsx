@@ -1,7 +1,11 @@
 import SalesScreen from "@/screens/admin/SalesScreen";
 
 const Sales = () => {
-  return <SalesScreen />;
+  return (
+    <div className=" container mx-auto ">
+      <SalesScreen />
+    </div>
+  );
 };
 
 export default Sales;
