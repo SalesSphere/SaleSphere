@@ -1,7 +1,11 @@
 import DashboardPage from "@/screens/admin/Overview";
 
 const Dashbaord = () => {
-  return <DashboardPage />;
+  return (
+    <div className=" container mx-auto ">
+      <DashboardPage />
+    </div>
+  );
 };
 
 export default Dashbaord;

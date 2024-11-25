@@ -42,7 +42,7 @@ export default function SaleTable() {
   const sale = salesData as unknown as ISale[];
 
   return (
-    <div className="w-full overflow-x-auto px-10">
+    <div className="w-full overflow-x-auto">
       <Table>
         <TableHeader>
           <TableRow className="!bg-[#292D321A] rounded-md">
