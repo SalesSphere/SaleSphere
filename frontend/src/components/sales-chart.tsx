@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
+import useProduct from "@/hooks/useReadContract";
 import { DataPoint } from "@/lib/types";
 import { useState } from "react";
 import {
@@ -28,14 +29,16 @@ Product: { name: "Sample Product", category: "Sample Category" },
 };
 
 export default function SalesChart() {
-  const [, setActivePoint] = useState<DataPoint | null>(null);
+  const [setActivePoint] = useState<DataPoint | null>(null);
+  const { salesData = [] } = useProduct();
 
+  const totalSales = salesData ?? [];
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-semibold text-muted-foreground">
         Sales Overview
       </h2>
-      <h3 className="text-3xl font-bold">5,000 sales</h3>
+      <h3 className="text-3xl font-bold">{totalSales.length} sales</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
@@ -43,11 +46,13 @@ export default function SalesChart() {
             margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
             onMouseMove={(e) => {
               if (e && e.activePayload) {
+                // @ts-expect-error
                 setActivePoint(e.activePayload[0].payload);
               }
             }}
             onMouseLeave={() => {
               if (setActivePoint) {
+                // @ts-expect-error
                 setActivePoint(null);
               }
             }}
