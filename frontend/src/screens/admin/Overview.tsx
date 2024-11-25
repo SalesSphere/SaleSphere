@@ -32,8 +32,9 @@ export default function DashboardPage() {
     id: string;
     productId: string;
     productPrice: number;
-    // const productData = allProductData ?? [];
+    // Add other sales properties here
   }
+  // const productData = allProductData ?? [];
 
   const [dashboardData, setDashboardData] = useState<{
     allStaffData: StaffData[] | null;
