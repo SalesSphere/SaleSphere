@@ -23,6 +23,7 @@ data[60] = {
   date: new Date(2024, 6, 29), // July 29, 2024
   value: 3000,
   highlight: true,
+  Product: { name: "Sample Product", category: "Sample Category" },
 };
 
 export default function SalesChart() {

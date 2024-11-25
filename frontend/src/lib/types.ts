@@ -70,16 +70,19 @@ export interface AddProductDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export type DataPoint = {
+export interface DataPoint = {
+
   date: Date;
+
   value: number;
+
   highlight?: boolean;
+
+  Product: Product;
+
 };
 
-
-
 export interface User {
-
   staffID: bigint;
 
   name: string;
@@ -93,5 +96,4 @@ export interface User {
   dateJoined: bigint;
 
   role: number;
-
 }

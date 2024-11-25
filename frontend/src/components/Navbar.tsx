@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { MenuIcon } from "lucide-react";
+import { ConnectButton } from "thirdweb/react";
+import { client } from "@/app/client";
 
 export function NavBar() {
   return (
@@ -29,6 +31,10 @@ export function NavBar() {
             About us
           </Link>
         </nav>
+
+        <div>
+          <ConnectButton client={client} />
+        </div>
         <Button variant="ghost" className="md:hidden">
           <MenuIcon className="h-6 w-6" />
         </Button>

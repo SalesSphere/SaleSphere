@@ -10,7 +10,11 @@ import {
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SaleTable from "./sale-table";
 
-export default function SalesTable() {
+interface SalesTableProps {
+  salesData: any; // Replace 'any' with the appropriate type if known
+}
+
+export default function SalesTable({ salesData }: SalesTableProps) {
   return (
     <div className="w-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
