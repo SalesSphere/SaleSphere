@@ -25,15 +25,17 @@ export default function DashboardPage() {
     id: string;
     productName: string;
     productPrice: number;
-  const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
   }
+
+  const { allStaffLoading } = useGetStaffs();
 
   interface SalesData {
     id: string;
     productId: string;
     productPrice: number;
-  // const productData = allProductData ?? [];
+    // Add other sales properties here
   }
+  // const productData = allProductData ?? [];
 
   const [dashboardData, setDashboardData] = useState<{
     allStaffData: StaffData[] | null;
