@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -20,6 +18,7 @@ export default function DashboardPage() {
   interface StaffData {
     id: string;
     name: string;
+    avatar: string;
     // Add other staff properties here
   }
 
@@ -35,7 +34,8 @@ export default function DashboardPage() {
     id: string;
     productId: string;
     productPrice: number;
-    // Add other sales properties here
+    staffId: string;
+    amount: number;
   }
   // const productData = allProductData ?? [];
 
@@ -61,9 +61,19 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-          allStaffData: allStaffData ? allStaffData.slice() : [],
-          allProductData: [...allProductData],
-          salesData: [...salesData],
+          allStaffData: allStaffData ? allStaffData.map(staff => ({ ...staff, id: staff.staffID.toString(), avatar: staff.avatar })) : [],
+          allProductData: allProductData.map(product => ({
+            id: product.productID.toString(),
+            productName: product.productName,
+            productPrice: Number(product.productPrice),
+          })),
+          salesData: salesData.map(sale => ({
+            id: sale.saleId,
+            productId: sale.productName,
+            productPrice: Number(sale.productPrice),
+            staffId: sale.seller,
+            amount: Number(sale.quantity),
+          })),
         });
         setIsLoading(false);
       } catch (err) {
