@@ -13,7 +13,7 @@ export const navigation = [
   { name: "Products", href: "/r/dashboard/products", icon: MemoProducts },
   { name: "Sales", href: "/r/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/r/dashboard/users", icon: MemoUsers },
-  { name: "Checkout", href: "/r/dashboard/checkout", icon: MemoProducts },
+  { name: "Checkout", href: "/r/dashboard/checkout", icon: InventoryIcon },
   { name: "Settings", href: "/r/dashboard/settings", icon: MemoSettings },
 ];
 export const managerNavigation = [
