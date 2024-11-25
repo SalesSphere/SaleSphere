@@ -10,7 +10,7 @@ import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
 import useGetStaffs from "@/hooks/useGetStaffs";
 import useProduct from "@/hooks/useReadContract";
-import { adminNavigation } from "@/lib/data";
+import { adminNavigation, navigation } from "@/lib/data";
 import { Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -98,7 +98,7 @@ export default function DashboardPage() {
 
   if (isLoading) {
     return (
-      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+      <DashboardLayout showHeader={true} navigation={navigation}>
         <div className="flex items-center justify-center h-screen">
           <Loader2 className="w-8 h-8 animate-spin" />
           <span className="ml-2">Loading...</span>
@@ -114,7 +114,7 @@ export default function DashboardPage() {
       salesError,
     });
     return (
-      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+      <DashboardLayout showHeader={true} navigation={navigation}>
         <div className="flex flex-col items-center justify-center h-screen">
           <h2 className="text-2xl font-bold mb-4">Error</h2>
           <p>
