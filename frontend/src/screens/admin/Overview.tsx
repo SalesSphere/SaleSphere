@@ -29,7 +29,7 @@ export default function DashboardPage() {
     productPrice: number;
   }
 
-  const { allStaffLoading } = useGetStaffs();
+  // const { allStaffLoading } = useGetStaffs();
 
   interface SalesData {
     id: string;
@@ -52,7 +52,7 @@ export default function DashboardPage() {
   const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
 
-  const productData = allProductData ?? [];
+  // const productData = allProductData ?? [];
 
   useEffect(() => {
     const fetchData = async () => {
