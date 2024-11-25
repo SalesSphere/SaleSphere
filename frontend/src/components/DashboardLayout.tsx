@@ -42,7 +42,7 @@ function NavLink({
 
   useEffect(() => {
     if (!account) redirect("/");
-  }, []);
+  }, [account]);
 
   return (
     <Link
