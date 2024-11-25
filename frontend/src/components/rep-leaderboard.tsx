@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import MemoArrowDown from "@/icons/ArrowDown";
 import MemoArrowUp from "@/icons/ArrowUp";
@@ -27,10 +30,35 @@ export default function RepLeaderboard({
   allStaffData,
   className,
 }: RepLeaderboardProps) {
-  console.log("RepLeaderboard props:", { salesData, allStaffData });
+  const [topPerformers, setTopPerformers] = useState<
+    (StaffData & { totalSales: number })[]
+  >([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (!allStaffData || !salesData) {
-    console.log("Data is undefined:", { salesData, allStaffData });
+  useEffect(() => {
+    if (!allStaffData || !salesData) {
+      setIsLoading(true);
+      return;
+    }
+
+    // Calculate total sales for each staff member
+    const staffSales = allStaffData.map((staff) => {
+      const totalSales = salesData
+        .filter((sale) => sale.staffId === staff.id)
+        .reduce((sum, sale) => sum + sale.amount, 0);
+      return { ...staff, totalSales };
+    });
+
+    // Sort staff by total sales in descending order and take top 3
+    const sorted = staffSales
+      .sort((a, b) => b.totalSales - a.totalSales)
+      .slice(0, 3);
+
+    setTopPerformers(sorted);
+    setIsLoading(false);
+  }, [allStaffData, salesData]);
+
+  if (isLoading || !allStaffData || !salesData) {
     return (
       <Card className={cn("w-full max-w-[22rem]", className)}>
         <CardHeader>
@@ -46,10 +74,6 @@ export default function RepLeaderboard({
   }
 
   if (allStaffData.length === 0 || salesData.length === 0) {
-    console.log("Data arrays are empty:", {
-      staffDataLength: allStaffData.length,
-      salesDataLength: salesData.length,
-    });
     return (
       <Card className={cn("w-full max-w-[22rem]", className)}>
         <CardHeader>
@@ -62,24 +86,6 @@ export default function RepLeaderboard({
     );
   }
 
-  // Calculate total sales for each staff member
-  const staffSales = allStaffData.map((staff) => {
-    const totalSales = salesData
-      .filter((sale) => sale.staffId === staff.id)
-      .reduce((sum, sale) => sum + sale.amount, 0);
-    return { ...staff, totalSales };
-  });
-
-  console.log("Calculated staffSales:", staffSales);
-
-  // Sort staff by total sales in descending order
-  const sortedStaff = staffSales.sort((a, b) => b.totalSales - a.totalSales);
-
-  // Take top 3 performers
-  const topPerformers = sortedStaff.slice(0, 3);
-
-  console.log("Top performers:", topPerformers);
-
   return (
     <Card className={cn("w-full max-w-[22rem]", className)}>
       <CardHeader>
@@ -87,18 +93,16 @@ export default function RepLeaderboard({
           Rep Leaderboard
         </CardTitle>
       </CardHeader>
-
       <CardContent className="p-0">
         <div
           className="grid grid-cols-3 bg-[#292D321A] p-3"
           style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
           <div className="text-sm font-medium">Sales rep</div>
-          {/* <div className="text-sm font-medium">Total sales</div> */}
           <div className="text-sm text-center font-medium">Trend</div>
         </div>
-        <div className="divide-y">
+        <ul className="divide-y">
           {topPerformers.map((staff, index) => (
-            <div
+            <li
               key={staff.id}
               className="grid grid-cols-3 items-center p-3"
               style={{ gridTemplateColumns: "2fr 1fr 1fr" }}>
@@ -114,9 +118,6 @@ export default function RepLeaderboard({
                   {staff.name}
                 </span>
               </div>
-              {/* <div className="flex items-center justify-center text-sm">
-                ${staff.totalSales}
-              </div> */}
               <div className="flex justify-center">
                 {index === 0 && (
                   <MemoArrowUp className="h-4 w-4 text-green-500" />
@@ -126,9 +127,9 @@ export default function RepLeaderboard({
                 )}
                 {index === 2 && <div className="h-4 w-4" />}
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </CardContent>
     </Card>
   );
