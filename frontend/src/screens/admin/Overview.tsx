@@ -19,7 +19,7 @@ export default function DashboardPage() {
   interface StaffData {
     id: string;
     name: string;
-    avatar: string;
+  // Add other staff properties here
   }
 
   interface ProductData {
@@ -63,26 +63,12 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-          allStaffData: allStaffData
-            ? allStaffData.map((staff) => ({
-                id: staff.staffID.toString(),
-                name: staff.name,
-                // @ts-ignore
-                avatar: staff.avatar,
-              }))
-            : [],
-          allProductData: allProductData.map((product) => ({
-            id: product.productID.toString(),
-            productName: product.productName,
-            productPrice: Number(product.productPrice),
-          })),
-          salesData: salesData.map((sale) => ({
-            id: sale.saleId,
-            productId: sale.productName,
-            productPrice: Number(sale.productPrice),
-            staffId: sale.seller,
-            amount: Number(sale.quantity),
-          })),
+        // @ts-ignore
+          allStaffData: allStaffData ? allStaffData.slice() : [],
+          // @ts-ignore
+          allProductData: [...allProductData],
+          // @ts-ignore
+          salesData: [...salesData],
         });
         setIsLoading(false);
       } catch (err) {
