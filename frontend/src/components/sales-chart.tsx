@@ -16,6 +16,7 @@ import {
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
+  Product: { name: "Sample Product", category: "Sample Category" },
 }));
 
 // Add the specific point we want to highlight

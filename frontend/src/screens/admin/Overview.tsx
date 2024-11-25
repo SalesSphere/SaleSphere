@@ -15,17 +15,37 @@ import { Loader2 } from "lucide-react";
 export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  interface StaffData {
+    id: string;
+    name: string;
+    // Add other staff properties here
+  }
+
+  interface ProductData {
+    id: string;
+    productName: string;
+    productPrice: number;
+  const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
+  }
+
+  interface SalesData {
+    id: string;
+    productId: string;
+    productPrice: number;
+  // const productData = allProductData ?? [];
+  }
+
   const [dashboardData, setDashboardData] = useState<{
-    allStaffData: any[] | null;
-    allProductData: any[] | null;
-    salesData: any[] | null;
+    allStaffData: StaffData[] | null;
+    allProductData: ProductData[] | null;
+    salesData: SalesData[] | null;
   }>({
     allStaffData: null,
     allProductData: null,
     salesData: null,
   });
 
-  const { allStaffData, allStaffLoading, allStaffError } = useGetStaffs();
+  const { allStaffData, allStaffError } = useGetStaffs();
   const {
     allProductData = [],
     salesData = [],
@@ -170,7 +190,7 @@ export default function DashboardPage() {
           />
         </div>
 
-        <SalesTable salesData={dashboardData.salesData} />
+        <SalesTable  />
       </div>
     </DashboardLayout>
   );

@@ -36,7 +36,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   showApproveAll,
   period = "Last 360 days",
   onSearchClick,
-  onAddUserClick,
   onAddProductClick,
   onApproveAllClick,
 }) => {

@@ -70,17 +70,14 @@ export interface AddProductDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export interface DataPoint = {
-
+export type DataPoint = {
   date: Date;
-
   value: number;
-
   highlight?: boolean;
-
   Product: Product;
-
 };
+
+
 
 export interface User {
   staffID: bigint;
