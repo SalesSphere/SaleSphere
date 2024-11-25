@@ -1,5 +1,4 @@
-// @ts-nocheck
-
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -28,7 +27,6 @@ export default function DashboardPage() {
     productName: string;
     productPrice: number;
   }
-  const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
 
   interface SalesData {
     id: string;
@@ -51,8 +49,6 @@ export default function DashboardPage() {
   const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
 
-  const productData = allProductData ?? [];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -60,8 +56,11 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
+          // @ts-ignore
           allStaffData: allStaffData ? allStaffData.slice() : [],
+          // @ts-ignore
           allProductData: [...allProductData],
+          // @ts-ignore
           salesData: [...salesData],
         });
         setIsLoading(false);
@@ -186,7 +185,9 @@ export default function DashboardPage() {
           </div>
           <RepLeaderboard
             className="col-span-4 lg:col-span-1"
+            // @ts-expect-error
             salesData={dashboardData.salesData}
+            // @ts-ignore
             allStaffData={dashboardData.allStaffData}
           />
         </div>
