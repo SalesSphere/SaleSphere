@@ -27,6 +27,7 @@ export default function DashboardPage() {
     productName: string;
     productPrice: number;
   }
+  const { allStaffLoading } = useGetStaffs();
 
   // const { allStaffLoading } = useGetStaffs();
 
@@ -51,6 +52,7 @@ export default function DashboardPage() {
 
   const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
+  const productData = allProductData ?? [];
 
   // const productData = allProductData ?? [];
 
