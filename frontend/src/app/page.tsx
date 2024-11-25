@@ -1,5 +1,6 @@
 import { BenefitsSection } from "@/components/benefits-section";
 import Feature from "@/components/Feature";
+import Footer from "@/components/Footer";
 import { HeroSection } from "@/components/hero-section";
 import { NavBar } from "@/components/Navbar";
 import TestimonialsPage from "@/components/TestimonialsPage";
@@ -15,6 +16,7 @@ export default function Home() {
         <Waitlist />
         <Feature />
         <TestimonialsPage />
+        <Footer />
       </main>
     </div>
   );

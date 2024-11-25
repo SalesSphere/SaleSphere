@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export function HeroSection() {
   return (
-    <>
+    <div className="px-5 py-2 max-w-[80rem] mx-auto">
       <section className="relative pt-20 pb-0 md:pt-32 md:pb-0">
         <div className="absolute inset-0 -z-10">
           <div className="h-full w-full bg-[url('/bg.svg')] bg-cover bg-center" />
@@ -29,14 +29,16 @@ export function HeroSection() {
               className="hover:opacity-90 text-white rounded-[2rem]"
               style={{
                 background: "linear-gradient(to right,#78D6FF, #0088C4)",
-              }}>
+              }}
+            >
               Join waitlist
             </Button>
 
             <Button
               className="border rounded-[2rem] hover:bg-transparent"
               size="lg"
-              variant="outline">
+              variant="outline"
+            >
               Request a demo
             </Button>
           </div>
@@ -49,6 +51,6 @@ export function HeroSection() {
         width={200}
         height={200}
       />
-    </>
+    </div>
   );
 }

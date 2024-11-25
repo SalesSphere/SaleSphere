@@ -23,7 +23,7 @@ export default async function RootLayout({
     <ThirdwebProvider>
       <html lang="en">
         <body className={inter.className}>
-          <main className="container mx-auto p-4 md:p-6">
+          <main >
             <Provider2 cookies={cookies}>{children}</Provider2>
             <Toaster />
           </main>

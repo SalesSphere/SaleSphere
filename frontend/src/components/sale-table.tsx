@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Copy } from "lucide-react";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -24,12 +24,10 @@ interface ISale {
   modeOfPayment: string;
 }
 
+const avatar = "/salesUser.svg";
 export default function SaleTable() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const { salesData, salesLoading, salesError } = useProduct();
-  console.log("Sales Data:", salesData);
-
-  console.log("Sales Data:", salesData);
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -44,16 +42,16 @@ export default function SaleTable() {
   const sale = salesData as unknown as ISale[];
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div className="w-full overflow-x-auto px-10">
       <Table>
         <TableHeader>
           <TableRow className="!bg-[#292D321A] rounded-md">
-            <TableHead className="text-left">Sale ID</TableHead>
+            <TableHead className="text-left">Sales ID</TableHead>
             <TableHead className="text-left">Product Name</TableHead>
+            <TableHead className="text-left">Product price</TableHead>
             <TableHead className="text-left">Quantity</TableHead>
-            <TableHead className="text-left">Total Amount</TableHead>
-            <TableHead className="text-left">Seller Address</TableHead>
-            {/* <TableHead className="text-left">Timestamp</TableHead> */}
+            <TableHead className="text-center">Seller</TableHead>
+            <TableHead className="text-center">Payment Method</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -67,7 +65,8 @@ export default function SaleTable() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
-                    onClick={() => copyToClipboard(_.saleId.toString())}>
+                    onClick={() => copyToClipboard(_.saleId.toString())}
+                  >
                     <Copy className="h-4 w-4" />
                     <span className="sr-only">Copy sale ID</span>
                   </Button>
@@ -81,26 +80,30 @@ export default function SaleTable() {
                 {_.productName}
               </TableCell>
               <TableCell>
-                <span className="md:hidden font-bold">Quantity:</span>
-                {_.quantity}
-              </TableCell>
-              <TableCell>
                 <span className="md:hidden font-bold">Total Amount:</span>
-                {_.productPrice}
+                <span className="mx-4">{_.productPrice}</span>
               </TableCell>
               <TableCell>
-                <span className="md:hidden font-bold">Seller Address:</span>
-                <div className="flex items-center gap-2">
+                <span className="md:hidden font-bold">Quantity:</span>
+                <span className="mx-4">{_.quantity}</span>
+              </TableCell>
+
+              <TableCell>
+                <span className="md:hidden font-bold">Seller</span>
+                <div className="flex items-center justify-center gap-2">
                   <Avatar className="h-8 w-8">
-                    <AvatarFallback>{_.seller.slice(0, 2)}</AvatarFallback>
+                    <AvatarImage src={avatar} alt={avatar} />
+                    <AvatarFallback>{_.seller}</AvatarFallback>
                   </Avatar>
-                  {_.seller}
+                  <span>{_.seller}</span>
                 </div>
               </TableCell>
-              {/* <TableCell>
-                <span className="md:hidden font-bold">Timestamp:</span>
-                {new Date(sale[4] * 1000).toLocaleString()}
-              </TableCell> */}
+              <TableCell>
+                <span className="md:hidden font-bold">Mode of payment </span>
+                <span className="flex items-center justify-center">
+                  {_.modeOfPayment}
+                </span>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

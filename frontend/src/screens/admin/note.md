@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
 import RepLeaderboard from "@/components/rep-leaderboard";
@@ -10,56 +10,41 @@ import StatsCard from "@/components/stats-card";
 import useGetStaffs from "@/hooks/useGetStaffs";
 import useProduct from "@/hooks/useReadContract";
 import { adminNavigation } from "@/lib/data";
-import { Loader2 } from "lucide-react";
+import { Loader2 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  interface StaffData {
-    id: string;
-    name: string;
-    // Add other staff properties here
-  }
-
-  interface ProductData {
-    id: string;
-    productName: string;
-    productPrice: number;
-  }
-  const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
-
-  interface SalesData {
-    id: string;
-    productId: string;
-    productPrice: number;
-    // const productData = allProductData ?? [];
-  }
-
   const [dashboardData, setDashboardData] = useState<{
-    allStaffData: StaffData[] | null;
-    allProductData: ProductData[] | null;
-    salesData: SalesData[] | null;
+    allStaffData: any[] | null;
+    allProductData: any[] | null;
+    salesData: any[] | null;
   }>({
     allStaffData: null,
     allProductData: null,
     salesData: null,
   });
 
-  // const { allStaffData, allStaffError } = useGetStaffs();
-  const { allProductData = [], salesData = [], salesError } = useProduct();
-
-  const productData = allProductData ?? [];
+  const { allStaffData, allStaffLoading, allStaffError } = useGetStaffs();
+  const {
+    allProductData,
+    allProductLoading,
+    allProductError,
+    salesData,
+    salesLoading,
+    salesError,
+  } = useProduct();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         // Simulate API calls (replace with actual API calls if needed)
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000));
 
         setDashboardData({
-          allStaffData: allStaffData ? allStaffData.slice() : [],
-          allProductData: [...allProductData],
-          salesData: [...salesData],
+          allStaffData: allStaffData ?? null,
+          allProductData: allProductData ? [...allProductData] : [],
+          salesData: salesData ? [...salesData] : [],
         });
         setIsLoading(false);
       } catch (err) {
@@ -85,33 +70,20 @@ export default function DashboardPage() {
     );
   }
 
-  if (error || allStaffError || salesError) {
-    console.error("Dashboard errors:", {
-      error,
-      allStaffError,
-      salesError,
-    });
+  if (error || allStaffError || allProductError || salesError) {
+    console.error("Dashboard errors:", { error, allStaffError, allProductError, salesError });
     return (
       <DashboardLayout showHeader={true} navigation={adminNavigation}>
         <div className="flex flex-col items-center justify-center h-screen">
           <h2 className="text-2xl font-bold mb-4">Error</h2>
-          <p>
-            {error ||
-              allStaffError?.message ||
-              salesError?.message ||
-              "An error occurred"}
-          </p>
+          <p>{error || allStaffError?.message || allProductError?.message || salesError?.message || "An error occurred"}</p>
         </div>
       </DashboardLayout>
     );
   }
 
-  if (
-    !dashboardData.allStaffData ||
-    dashboardData.allStaffData.length === 0 ||
-    !dashboardData.allProductData ||
-    !dashboardData.salesData
-  ) {
+  if (!dashboardData.allStaffData || dashboardData.allStaffData.length === 0 || 
+      !dashboardData.allProductData || !dashboardData.salesData) {
     console.log("No data available:", dashboardData);
     return (
       <DashboardLayout showHeader={true} navigation={adminNavigation}>
@@ -125,10 +97,7 @@ export default function DashboardPage() {
 
   const totalStaffCount = dashboardData.allStaffData.length;
   const totalProductCount = dashboardData.allProductData.length;
-  const totalSales = (salesData ?? []).reduce(
-    (sum, sale) => sum + Number(sale.productPrice),
-    0
-  );
+  const totalSales = dashboardData.salesData.reduce((sum, sale) => sum + sale.amount, 0);
 
   return (
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
@@ -157,9 +126,7 @@ export default function DashboardPage() {
           />
           <StatsCard
             title="Total sales"
-            value={Number(totalSales).toLocaleString(undefined, {
-              maximumFractionDigits: 0,
-            })}
+            value={totalSales.toFixed(2)}
             change={20}
             data={[30, 25, 55, 30, 22, 20, 18, 15, 17, 16]}
             period="Last 360 days"
@@ -179,17 +146,24 @@ export default function DashboardPage() {
 
         <div className="grid gap-4 md:grid-cols-4 md:p-3">
           <div className="col-span-4 lg:col-span-3">
-            <SalesChart />
+            <SalesChart salesData={dashboardData.salesData} />
           </div>
-          <RepLeaderboard
-            className="col-span-4 lg:col-span-1"
+          <RepLeaderboard 
+            className="col-span-4 lg:col-span-1" 
             salesData={dashboardData.salesData}
             allStaffData={dashboardData.allStaffData}
           />
         </div>
 
-        <SalesTable />
+        <SalesTable salesData={dashboardData.salesData} />
       </div>
     </DashboardLayout>
   );
 }
+
+
+
+ const totalSales = salesData.reduce(
+    (sum, sale) => sum + Number(sale.productPrice),
+    0
+  );

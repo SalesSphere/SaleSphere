@@ -10,6 +10,8 @@ import {
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import SaleTable from "./sale-table";
 
+
+
 export default function SalesTable() {
   return (
     <div className="w-full">

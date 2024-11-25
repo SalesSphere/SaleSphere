@@ -36,7 +36,6 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   showApproveAll,
   period = "Last 360 days",
   onSearchClick,
-  // onAddUserClick,
   onAddProductClick,
   onApproveAllClick,
 }) => {
@@ -55,7 +54,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   ];
   return (
     <main>
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-8">
+      <div className="flex flex-col md:flex-row items-center px-10 py-5 justify-between gap-4 md:gap-8">
         <div>
           <h1 className="text-2xl lg:text-3xl font-bold">{title}</h1>
           <p className="text-[#292D3280] text-sm">{subtitle}</p>
