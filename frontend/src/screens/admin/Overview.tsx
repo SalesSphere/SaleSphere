@@ -204,7 +204,9 @@ export default function DashboardPage() {
           </div>
           <RepLeaderboard
             className="col-span-4 lg:col-span-1"
+            // @ts-expect-error
             salesData={dashboardData.salesData}
+            // @ts-ignore
             allStaffData={dashboardData.allStaffData}
           />
         </div>

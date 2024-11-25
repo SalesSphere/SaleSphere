@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 // import { DataPoint } from "@/lib/types";
@@ -13,36 +12,7 @@ import {
   YAxis,
 } from "recharts";
 
-interface Product {
-  id: number;
-
-  productID?: bigint;
-
-  productName: string;
-
-  productPrice?: bigint;
-
-  quantity?: number;
-
-  uploader: string;
-
-  dateAdded: bigint;
-
-  barcode: string;
-
-  category?: string;
-  description?: string;
-  supplier?: string;
-  inStock?: boolean;
-}
-
-export interface DataPoint {
-  date: Date;
-  value: number;
-  Product: Product;
-  highlight?: boolean;
-}
-
+// Generate sample data
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
@@ -119,7 +89,8 @@ export default function SalesChart() {
               if (setActivePoint) {
                 setActivePoint(null);
               }
-            }}>
+            }}
+          >
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#17ABEC" stopOpacity={0.1} />
