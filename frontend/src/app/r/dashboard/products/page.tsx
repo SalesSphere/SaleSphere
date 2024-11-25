@@ -1,7 +1,11 @@
 import ProductScreen from "@/screens/rep/ProductsScreen";
 
 const Products = () => {
-  return <ProductScreen />;
+  return (
+    <div className=" container mx-auto ">
+      <ProductScreen />
+    </div>
+  );
 };
 
 export default Products;
