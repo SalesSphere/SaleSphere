@@ -26,7 +26,6 @@ import { navigation } from "@/lib/data";
 import DashboardHeader from "./DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
 
-
 interface Product {
   productID: bigint;
   productName: string;
@@ -181,7 +180,7 @@ export default function ProductReceipt() {
                 Fill in the form below to input the product information
               </p>
             </CardHeader>
-            <CardContent>
+            <CardContent className="!space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Product Name<span className="text-red-500">*</span>
@@ -191,7 +190,8 @@ export default function ProductReceipt() {
                     setSelectedProduct(
                       products?.find((p) => p.productName === value) || null
                     )
-                  }>
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Enter product name" />
                   </SelectTrigger>
@@ -199,7 +199,8 @@ export default function ProductReceipt() {
                     {products?.map((product) => (
                       <SelectItem
                         key={product.productName}
-                        value={product.productName}>
+                        value={product.productName}
+                      >
                         {product.productName}
                       </SelectItem>
                     ))}
@@ -231,7 +232,8 @@ export default function ProductReceipt() {
               </div>
               <Button
                 className="w-full bg-[#17ABEC] hover:bg-[#17ABEC] py-6 text-white"
-                onClick={addProduct}>
+                onClick={addProduct}
+              >
                 Add Product
               </Button>
             </CardContent>
@@ -277,7 +279,8 @@ export default function ProductReceipt() {
                         <td className="text-right py-2">
                           <Button
                             variant="ghost"
-                            onClick={() => removeProduct(item.id)}>
+                            onClick={() => removeProduct(item.id)}
+                          >
                             <MemoCancel className="w-4 h-4" />
                           </Button>
                         </td>
@@ -343,7 +346,8 @@ export default function ProductReceipt() {
                       <Button
                         className="w-full bg-[#17ABEC] hover:bg-[#17ABEC] text-white"
                         onClick={handleCheckout}
-                        disabled={!paymentMethod || isPending}>
+                        disabled={!paymentMethod || isPending}
+                      >
                         {isPending ? "Processing..." : "Proceed to receipt"}
                       </Button>
                       {(isError || checkoutError) && (
@@ -368,7 +372,8 @@ export default function ProductReceipt() {
         open={isReceiptDialogOpen}
         onOpenChange={(open) => {
           if (!open) handleCloseReceiptDialog();
-        }}>
+        }}
+      >
         <DialogContent className="max-w-lg p-6 rounded-lg shadow-lg">
           {/* Header Section */}
           <div className="flex justify-between items-start mb-4">
@@ -439,12 +444,14 @@ export default function ProductReceipt() {
           <div className="mt-6 flex justify-between">
             <button
               onClick={() => console.log("Printing receipt...")}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600">
+              className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
+            >
               Print Receipt
             </button>
             <button
               onClick={handleCloseReceiptDialog}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+            >
               Cancel
             </button>
           </div>
