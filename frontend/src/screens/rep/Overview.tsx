@@ -10,7 +10,7 @@ import SalesTable from "@/components/sales-table";
 import StatsCard from "@/components/stats-card";
 import useGetStaffs from "@/hooks/useGetStaffs";
 import useProduct from "@/hooks/useReadContract";
-import { adminNavigation, navigation } from "@/lib/data";
+import { navigation } from "@/lib/data";
 import { Loader2 } from "lucide-react";
 
 export default function DashboardPage() {
@@ -136,7 +136,7 @@ export default function DashboardPage() {
   ) {
     console.log("No data available:", dashboardData);
     return (
-      <DashboardLayout showHeader={true} navigation={adminNavigation}>
+      <DashboardLayout showHeader={true} navigation={navigation}>
         <div className="flex flex-col items-center justify-center h-screen">
           <h2 className="text-2xl font-bold mb-4">No Data Available</h2>
           <p>There is no data to display at the moment.</p>
@@ -153,7 +153,7 @@ export default function DashboardPage() {
   );
 
   return (
-    <DashboardLayout showHeader={true} navigation={adminNavigation}>
+    <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">
         <DashboardHeader
           title="Welcome Chinyere 👋"
