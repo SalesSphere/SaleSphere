@@ -61,13 +61,20 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-          allStaffData: allStaffData ? allStaffData.map(staff => ({ ...staff, id: staff.staffID.toString(), avatar: staff.avatar })) : [],
-          allProductData: allProductData.map(product => ({
+          allStaffData: allStaffData
+            ? allStaffData.map((staff) => ({
+                ...staff,
+                id: staff.staffID.toString(),
+                // @ts-expect-error: avatar might not be present
+                avatar: staff.avatar,
+              }))
+            : [],
+          allProductData: allProductData.map((product) => ({
             id: product.productID.toString(),
             productName: product.productName,
             productPrice: Number(product.productPrice),
           })),
-          salesData: salesData.map(sale => ({
+          salesData: salesData.map((sale) => ({
             id: sale.saleId,
             productId: sale.productName,
             productPrice: Number(sale.productPrice),
@@ -148,7 +155,7 @@ export default function DashboardPage() {
     <DashboardLayout showHeader={true} navigation={adminNavigation}>
       <div className="space-y-6">
         <DashboardHeader
-          title="Welcome Chinyere 👋"
+          title="Welcome  👋"
           subtitle="Dive into real-time insights and watch your sales soar"
           showSearch={true}
           showAddUser={true}
