@@ -38,7 +38,7 @@ export default function useProduct() {
     contract,
     method:
       "function getAllSalesDisplay(uint256 startIndex, uint256 endIndex) view returns ((string saleId, string productName, uint256 productPrice, uint256 quantity, string seller, string modeOfPayment)[])",
-    params: [toBigInt(1), toBigInt(12)],
+    params: [toBigInt(1), toBigInt(2000)],
   });
 
   const {

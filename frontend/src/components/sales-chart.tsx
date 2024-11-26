@@ -1,6 +1,8 @@
+/* eslint-disable */
+
 "use client";
 
-import { DataPoint } from "@/lib/types";
+// import { DataPoint } from "@/lib/types";
 import { useState } from "react";
 import {
   Area,
@@ -11,20 +13,86 @@ import {
   YAxis,
 } from "recharts";
 
-// Generate sample data
+interface Product {
+  id: number;
+
+  productID?: bigint;
+
+  productName: string;
+
+  productPrice?: bigint;
+
+  quantity?: number;
+
+  uploader: string;
+
+  dateAdded: bigint;
+
+  barcode: string;
+
+  category?: string;
+  description?: string;
+  supplier?: string;
+  inStock?: boolean;
+}
+
+export interface DataPoint {
+  date: Date;
+  value: number;
+  Product: Product;
+  highlight?: boolean;
+}
 
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
-  Product: { name: "Sample Product", category: "Sample Category" },
-}));
+  Product: {
+    productID: i + 1,
+    productName: `Product ${i + 1}`,
+    productPrice: 100 + i,
+    quantity: 10 + i,
+    category: "Category A",
+    description: "Sample description",
+    supplier: "Supplier A",
+    Product: {
+      id: 61,
+      productID: BigInt(61),
+      productName: "Highlighted Product",
+      productPrice: BigInt(200),
+      quantity: 20,
+      category: "Category B",
+      description: "Highlighted product description",
+      supplier: "Supplier B",
+      inStock: true,
+      uploader: "Uploader B",
+      dateAdded: BigInt(Date.now()),
+      barcode: "1234567890123",
+    },
+  },
+})) as unknown as DataPoint[];
 
 // Add the specific point we want to highlight
+
+/* eslint-disable */
+
 data[60] = {
-  date: new Date(2024, 6, 29), // July 29, 2024
+  date: new Date(2024, 6, 29),
   value: 3000,
   highlight: true,
-  Product: { name: "Sample Product", category: "Sample Category" },
+  Product: {
+    id: 61,
+    productID: BigInt(61),
+    productName: "Highlighted Product",
+    productPrice: BigInt(200),
+    quantity: 20,
+    category: "Category B",
+    description: "Highlighted product description",
+    supplier: "Supplier B",
+    inStock: true,
+    uploader: "Uploader B",
+    dateAdded: BigInt(Date.now()),
+    barcode: "1234567890123",
+  },
 };
 
 export default function SalesChart() {
@@ -35,6 +103,7 @@ export default function SalesChart() {
       <h2 className="text-xl font-semibold text-muted-foreground">
         Sales Overview
       </h2>
+      {/* <h3 className="text-3xl font-bold">5,000 sales</h3> */}
       <h3 className="text-3xl font-bold">5,000 sales</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
@@ -76,21 +145,25 @@ export default function SalesChart() {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
-                    <div className="rounded-lg border bg-background p-2 shadow-md">
-                      <div className="text-sm text-muted-foreground">
-                        {data.date.toLocaleDateString("en-US", {
-                          month: "long",
-                          day: "numeric",
-                          year: "numeric",
-                        })}
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <div className="text-base font-bold">
-                          {data.value.toLocaleString()} sales
+                    <div>
+                      <div className="rounded-lg border bg-background p-2 shadow-md">
+                        <div className="text-sm text-muted-foreground">
+                          {data.date.toLocaleDateString("en-US", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          })}
                         </div>
-                        {data.highlight && (
-                          <span className="text-sm text-green-500">+3.4%</span>
-                        )}
+                        <div className="flex items-center gap-2">
+                          <div className="text-base font-bold">
+                            {data.value.toLocaleString()} sales
+                          </div>
+                          {data.highlight && (
+                            <span className="text-sm text-green-500">
+                              +3.4%
+                            </span>
+                          )}
+                        </div>
                       </div>
                     </div>
                   );

@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 export function HeroSection() {
   return (
@@ -33,12 +34,14 @@ export function HeroSection() {
               Join waitlist
             </Button>
 
-            <Button
-              className="border rounded-[2rem] hover:bg-transparent"
-              size="lg"
-              variant="outline">
-              Request a demo
-            </Button>
+            <Link href="a/dashboard/overview">
+              <Button
+                className="border rounded-[2rem] hover:bg-transparent"
+                size="lg"
+                variant="outline">
+                Request a demo
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

@@ -17,6 +17,7 @@ export interface DashboardHeaderProps {
 }
 
 export interface Product {
+  id: number;
   productID: bigint;
   productName: string;
   productPrice: bigint;
@@ -70,14 +71,17 @@ export interface AddProductDialogProps {
   onOpenChange: (open: boolean) => void;
 }
 
-export type DataPoint = {
+export interface Product {
+  name: string;
+  category: string;
+}
+
+export interface DataPoint {
   date: Date;
   value: number;
-  highlight?: boolean;
   Product: Product;
-};
-
-
+  highlight?: boolean;
+}
 
 export interface User {
   staffID: bigint;
