@@ -1,5 +1,3 @@
-
-
 export function TestimonialHeader() {
   return (
     <div className="text-center max-w-xl mx-auto mb-12">
@@ -10,8 +8,7 @@ export function TestimonialHeader() {
         What People say About us 💬
       </h2>
       <p className="text-gray-600 text-[19px]">
-        Lorem ipsum dolor sit amet consectetur. Facilisis molestie facilisis
-        posuere sagittis orci est.
+        What Our Users Are Saying About SaleSphere
       </p>
     </div>
   );
