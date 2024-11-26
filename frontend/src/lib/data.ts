@@ -6,7 +6,7 @@ import MemoSales from "@/icons/Sales";
 import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
 import MemoInventory from "@/icons/Inventory";
-import MemoNotification from "@/icons/Notification";
+// import MemoNotification from "@/icons/Notification";
 
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
@@ -27,12 +27,7 @@ export const adminNavigation = [
   { name: "Sales", href: "/a/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/a/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/a/dashboard/settings", icon: MemoSettings },
-  // { name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
-  {
-    name: "Notification",
-    href: "/a/dashboard/notifications",
-    icon: MemoNotification,
-  },
+{ name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
 ];
 
 export const sales: Sale[] = [

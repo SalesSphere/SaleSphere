@@ -1,5 +1,4 @@
-/* eslint-disable */
-
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -66,6 +65,7 @@ export default function DashboardPage() {
             ? allStaffData.map((staff) => ({
                 id: staff.staffID.toString(),
                 name: staff.name,
+                // @ts-ignore
                 avatar: staff.avatar,
               }))
             : [],
@@ -210,7 +210,6 @@ export default function DashboardPage() {
         </div>
 
         <SalesTable />
-        {/*  */}
       </div>
     </DashboardLayout>
   );
