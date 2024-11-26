@@ -13,40 +13,17 @@ import {
 } from "recharts";
 
 // Generate sample data
+
+// @ts-expect-error
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
-  Product: {
-    productID: i + 1,
-    productName: `Product ${i + 1}`,
-    productPrice: 100 + i,
-    quantity: 10 + i,
-    category: "Category A",
-    description: "Sample description",
-    supplier: "Supplier A",
-    Product: {
-      id: 61,
-      productID: BigInt(61),
-      productName: "Highlighted Product",
-      productPrice: BigInt(200),
-      quantity: 20,
-      category: "Category B",
-      description: "Highlighted product description",
-      supplier: "Supplier B",
-      inStock: true,
-      uploader: "Uploader B",
-      dateAdded: BigInt(Date.now()),
-      barcode: "1234567890123",
-    },
-  },
-})) as unknown as DataPoint[];
+  Product: { name: "Sample Product", category: "Sample Category" },
+}));
 
 // Add the specific point we want to highlight
-
-/* eslint-disable */
-
 data[60] = {
-  date: new Date(2024, 6, 29),
+  date: new Date(2024, 6, 29), // July 29, 2024
   value: 3000,
   highlight: true,
 // @ts-expect-error
@@ -63,7 +40,7 @@ export default function SalesChart() {
       <h2 className="text-xl font-semibold text-muted-foreground">
         Sales Overview
       </h2>
-    <h3 className="text-3xl font-bold">5,000 sales</h3>
+      <h3 className="text-3xl font-bold">{totalSales.length} sales</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
@@ -80,8 +57,7 @@ export default function SalesChart() {
                 // @ts-expect-error
                 setActivePoint(null);
               }
-            }}
-          >
+            }}>
             <defs>
               <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#17ABEC" stopOpacity={0.1} />
@@ -107,25 +83,21 @@ export default function SalesChart() {
                 if (active && payload && payload.length) {
                   const data = payload[0].payload;
                   return (
-                    <div>
-                      <div className="rounded-lg border bg-background p-2 shadow-md">
-                        <div className="text-sm text-muted-foreground">
-                          {data.date.toLocaleDateString("en-US", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          })}
+                    <div className="rounded-lg border bg-background p-2 shadow-md">
+                      <div className="text-sm text-muted-foreground">
+                        {data.date.toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })}
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="text-base font-bold">
+                          {data.value.toLocaleString()} sales
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="text-base font-bold">
-                            {data.value.toLocaleString()} sales
-                          </div>
-                          {data.highlight && (
-                            <span className="text-sm text-green-500">
-                              +3.4%
-                            </span>
-                          )}
-                        </div>
+                        {data.highlight && (
+                          <span className="text-sm text-green-500">+3.4%</span>
+                        )}
                       </div>
                     </div>
                   );

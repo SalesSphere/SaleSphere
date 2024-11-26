@@ -19,7 +19,7 @@ export default function DashboardPage() {
   interface StaffData {
     id: string;
     name: string;
-  // Add other staff properties here
+  avatar: string;
   }
 
   interface ProductData {
@@ -27,16 +27,13 @@ export default function DashboardPage() {
     productName: string;
     productPrice: number;
   }
-  const { allStaffLoading } = useGetStaffs();
-
-  // const { allStaffLoading } = useGetStaffs();
+const { allStaffLoading } = useGetStaffs();
 
   interface SalesData {
     id: string;
     productId: string;
     productPrice: number;
-    staffId: string;
-    amount: number;
+    // Add other sales properties here
   }
   // const productData = allProductData ?? [];
 
@@ -52,9 +49,7 @@ export default function DashboardPage() {
 
   const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
-  const productData = allProductData ?? [];
-
-  // const productData = allProductData ?? [];
+const productData = allProductData ?? [];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -63,9 +58,7 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-        // @ts-ignore
-          allStaffData: allStaffData ? allStaffData.slice() : [],
-          // @ts-ignore
+      allStaffData: allStaffData ? allStaffData.slice() : [],
           allProductData: [...allProductData],
           // @ts-ignore
           salesData: [...salesData],
