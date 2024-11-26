@@ -99,6 +99,7 @@ export function usePagination({
       DOTS,
       ...range(_total - boundaries + 1, _total),
     ];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [_total, siblings, activePage]);
 
   return {
