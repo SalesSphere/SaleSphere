@@ -156,7 +156,7 @@ export default function DashboardPage() {
     <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">
         <DashboardHeader
-          title="Welcome Chinyere 👋"
+          title="Welcome 👋"
           subtitle="Dive into real-time insights and watch your sales soar"
           showSearch={true}
           showAddUser={true}

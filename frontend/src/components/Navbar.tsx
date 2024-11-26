@@ -41,7 +41,7 @@ export function NavBar() {
         <div>
           {account ? (
             <Button className="h-12">
-              <Link href={"/r/dashboard/overview"}>Lunch Application</Link>
+              <Link href={"/r/dashboard/overview"}>Launch Application</Link>
             </Button>
           ) : (
             <ConnectButton client={client} />

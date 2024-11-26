@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toBigInt } from "ethers";
 import useGetStaffs from "./useGetStaffs";
+import { useToast } from "./use-toast";
+import { useAddUserStore } from "@/store/addUser";
 
 const liskSepolia = defineChain(4202);
 
@@ -30,6 +32,8 @@ const formSchema = z.object({
 });
 
 export const useAddUser = () => {
+  const { toast } = useToast();
+  const setIsOpen = useAddUserStore((state) => state.setIsOpen);
   const { refetchUsers } = useGetStaffs();
   const contract = getContract({
     client,
@@ -73,6 +77,11 @@ export const useAddUser = () => {
     });
     sendTransaction(transaction).then(() => {
       refetchUsers();
+      toast({
+        title: "Success",
+        description: "User added successfully",
+      });
+      setIsOpen(false);
       form.reset();
       form.setValue("_address", "");
       form.setValue("_id", "");

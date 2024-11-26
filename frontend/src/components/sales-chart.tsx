@@ -32,7 +32,8 @@ data[60] = {
 };
 
 export default function SalesChart() {
-  const [setActivePoint] = useState<DataPoint | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activePoint, setActivePoint] = useState<DataPoint | null>(null);
   const { salesData = [] } = useProduct();
 
   const totalSales = salesData ?? [];
@@ -49,13 +50,11 @@ export default function SalesChart() {
             margin={{ top: 10, right: 0, left: 0, bottom: 0 }}
             onMouseMove={(e) => {
               if (e && e.activePayload) {
-                // @ts-expect-error
                 setActivePoint(e.activePayload[0].payload);
               }
             }}
             onMouseLeave={() => {
-              if (setActivePoint) {
-                // @ts-expect-error
+              if (activePoint) {
                 setActivePoint(null);
               }
             }}

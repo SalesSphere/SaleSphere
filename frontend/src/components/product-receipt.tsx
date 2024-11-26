@@ -25,6 +25,7 @@ import { DashboardLayout } from "./DashboardLayout";
 import { navigation } from "@/lib/data";
 import DashboardHeader from "./DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
+import EditCash from "./EditMoney";
 
 interface Product {
   productID: bigint;
@@ -214,7 +215,7 @@ export default function ProductReceipt() {
                 <Input
                   defaultValue={0}
                   value={
-                    selectedProduct ? `$${selectedProduct.productPrice}` : ""
+                    selectedProduct ? `₦${selectedProduct.productPrice}` : ""
                   }
                   readOnly
                   className="bg-gray-200"
@@ -269,13 +270,19 @@ export default function ProductReceipt() {
                       <tr key={item.id} className="border-b">
                         <td className="py-2">{item.name}</td>
                         <td className="text-center px-4 py-2">
-                          {item.quantity}
+                          {/* {item.quantity} */}
+                          <EditCash amount={item.quantity} />
                         </td>
                         <td className="text-right py-2">
-                          ${item.price.toFixed(2)}
+                          {/* ${item.price.toFixed(2)} */}
+                          <EditCash amount={item.price} isMoney />
                         </td>
                         <td className="text-right py-2">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {/* ${(item.price * item.quantity).toFixed(2)} */}
+                          <EditCash
+                            amount={item.price * item.quantity}
+                            isMoney
+                          />
                         </td>
                         <td className="text-right py-2">
                           <Button
@@ -293,22 +300,31 @@ export default function ProductReceipt() {
               <div className="space-y-2 mt-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>
+                    {/* ${subtotal.toFixed(2)} */}
+                    <EditCash amount={subtotal} isMoney />
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>VAT</span>
-                  <span>${vat.toFixed(2)}</span>
+                  <span>
+                    <EditCash amount={vat} isMoney />
+                    {/* ${vat.toFixed(2)} */}
+                  </span>
                 </div>
                 <div className="flex justify-between font-bold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>
+                    <EditCash amount={total} isMoney />
+                    {/* ${total.toFixed(2)} */}
+                  </span>
                 </div>
               </div>
               <div className="flex justify-end">
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="mt-4 bg-transparent border border-[#292D3280] hover:bg-transparent text-[#292D32]">
-                      Checkout
+                      {isPending ? "Processing..." : "Checkout"}
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
@@ -412,12 +428,16 @@ export default function ProductReceipt() {
                 {lastCheckoutItems.map((item) => (
                   <tr key={item.id} className="border-b last:border-none">
                     <td className="py-2 px-4">{item.name}</td>
-                    <td className="py-2 px-4 text-center">{item.quantity}</td>
-                    <td className="py-2 px-4 text-right">
-                      ${item.price.toFixed(2)}
+                    <td className="py-2 px-4 text-center">
+                      <EditCash amount={item.quantity} />
                     </td>
                     <td className="py-2 px-4 text-right">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {/* ${item.price.toFixed(2)} */}
+                      <EditCash amount={item.price} isMoney />
+                    </td>
+                    <td className="py-2 px-4 text-right">
+                      {/* ${(item.price * item.quantity).toFixed(2)} */}
+                      <EditCash amount={item.price * item.quantity} isMoney />
                     </td>
                   </tr>
                 ))}
@@ -429,15 +449,21 @@ export default function ProductReceipt() {
           <div className="mt-6 space-y-2 text-sm text-gray-700">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>
+                <EditCash amount={subtotal} isMoney />
+              </span>
             </div>
             <div className="flex justify-between">
               <span>VAT</span>
-              <span>${vat.toFixed(2)}</span>
+              <span>
+                <EditCash amount={vat} isMoney />
+              </span>
             </div>
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>
+                <EditCash amount={total} isMoney />
+              </span>
             </div>
           </div>
 

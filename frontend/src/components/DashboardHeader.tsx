@@ -1,18 +1,18 @@
 "use client";
 
 import PropTypes from "prop-types";
-import MemoSearch from "@/icons/Search";
+// import MemoSearch from "@/icons/Search";
 import MemoUserProfile from "@/icons/UserProfile";
 import { DashboardHeaderProps } from "@/lib/types";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import MemoFilter from "@/icons/Filter";
-import MemoExport from "@/icons/Export";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import MemoFilter from "@/icons/Filter";
+// import MemoExport from "@/icons/Export";
 import MemoCart from "@/icons/Cart";
 import MemoCartCheck from "@/icons/CartCheck";
 import MemoExport2 from "@/icons/Export2";
@@ -20,28 +20,35 @@ import MemoCard from "@/icons/Card";
 import PaymentDialog from "./Modal/payment-dialog";
 import { useState } from "react";
 import AddProductDialog from "./Modal/add-product-dialog";
-import { Input } from "./ui/input";
+// import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import AdduserDialog from "./Modal/add-user-dialog";
+import { useAddProductStore } from "@/store/addProduct";
+import { useAddUserStore } from "@/store/addUser";
+import { usePathname } from "next/navigation";
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({
   title,
   subtitle,
-  showSearch,
-  showExport,
+  // showSearch,
+  // showExport,
   showAddUser,
   showAddProduct,
   showProceed,
   showMainExport,
-  showSortProduct,
+  // showSortProduct,
   showApproveAll,
-  period = "Last 360 days",
-  onSearchClick,
+  // period = "Last 360 days",
+  // onSearchClick,
   onAddProductClick,
   onApproveAllClick,
 }) => {
+  const pathname = usePathname();
+  const openAddProduct = useAddProductStore((state) => state.isOpen);
+  const setOpenAddProduct = useAddProductStore((state) => state.setIsOpen);
+  const isOpen = useAddUserStore((state) => state.isOpen);
+  const setIsOpen = useAddUserStore((state) => state.setIsOpen);
+
   const [showPaymentDialog, setShowPaymentDialog] = useState(false);
-  const [showAddProductDialog, setAddProductDialog] = useState(false);
-  const [showAdduserDialog, setAdduserDialog] = useState(false);
 
   const sampleItems = [
     { name: "Fresh Del Monte Apple", quantity: 20, amount: 20000 },
@@ -52,6 +59,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
     { name: "Fresh Del Monte Apple", quantity: 20, amount: 20000 },
     { name: "Fresh Del Monte Apple", quantity: 20, amount: 20000 },
   ];
+  // console.log(pathname.slice(0, 3));
   return (
     <main>
       <div className="flex flex-col md:flex-row items-center px-10 py-5 justify-between gap-4 md:gap-8">
@@ -60,31 +68,31 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           <p className="text-[#292D3280] text-sm">{subtitle}</p>
         </div>
         <div className="flex gap-2 mt-4 md:mt-0 flex-wrap md:flex-nowrap ">
-          {showSearch && (
+          {/* {showSearch && (
             <Input
               placeholder="Search product by name or ID"
               className="rounded-xl text-sm bg-gray-50 h-10 px-4 py-2"
               leftIcon={<MemoSearch className="h-8 w-8 shrink-0" />}
             />
-          )}
-          {showExport && (
+          )} */}
+          {/* {showExport && (
             <Button
               onClick={onSearchClick}
               className="inline-flex items-center justify-center rounded-xl text-sm bg-[#292D3208] text-[#FFFFFF] h-10 px-4 py-2"
             >
               <MemoExport className="h-5 w-10" />
             </Button>
-          )}
-          {showAddUser && (
+          )} */}
+          {showAddUser && pathname.slice(0, 3) !== "/r/" && (
             <Button
-              onClick={() => setAdduserDialog(!showAdduserDialog)}
+              onClick={() => setIsOpen(!isOpen)}
               className="inline-flex items-center justify-center rounded-xl text-sm border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             >
               <MemoUserProfile className="h-4 w-4 mr-2 shrink-0" />
               Add new user
             </Button>
           )}
-          {showSortProduct && (
+          {/* {showSortProduct && (
             <Select defaultValue={period}>
               <SelectTrigger className="h-8 w-[160px] border-none text-xs bg-[#292D3208] py-5">
                 <MemoFilter className="h-4 w-4 mr-2" />
@@ -97,10 +105,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                 <SelectItem value="Last 7 days">Last 7 days</SelectItem>
               </SelectContent>
             </Select>
-          )}
-          {showAddProduct && (
+          )} */}
+          {showAddProduct && pathname.slice(0, 3) !== "/r/" && (
             <Button
-              onClick={() => setAddProductDialog(true)}
+              onClick={() => setOpenAddProduct(!openAddProduct)}
               className="inline-flex items-center justify-center shrink-0 rounded-xl text-sm bg-[#17ABEC] text-[#FFFFFF] hover:bg-[#9dd3ea] h-10 px-4 py-2"
             >
               <MemoCart className="h-4 w-4 mr-2 shrink-0" />
@@ -137,10 +145,10 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
         </div>
       </div>
       <AddProductDialog
-        open={showAddProductDialog}
-        onOpenChange={setAddProductDialog}
+        open={openAddProduct}
+        onOpenChange={setOpenAddProduct}
       />
-      <AdduserDialog open={showAdduserDialog} onOpenChange={setAdduserDialog} />
+      <AdduserDialog open={isOpen} onOpenChange={setIsOpen} />
       <PaymentDialog
         open={showPaymentDialog}
         onOpenChange={setShowPaymentDialog}

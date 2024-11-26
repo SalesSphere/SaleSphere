@@ -5,6 +5,7 @@ import { ThirdwebProvider } from "thirdweb/react";
 import { headers } from "next/headers";
 import Provider2 from "@/lib/Provider2";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,6 +27,7 @@ export default async function RootLayout({
           <main className="">
             <Provider2 cookies={cookies}>{children}</Provider2>
             <Toaster />
+            <Sonner richColors position="bottom-right" />
           </main>
         </body>
       </html>
