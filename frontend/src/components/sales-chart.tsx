@@ -13,6 +13,7 @@ import {
 
 // Generate sample data
 
+    // @ts-expect-error: data might not be present
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
@@ -24,6 +25,7 @@ data[60] = {
   date: new Date(2024, 6, 29), // July 29, 2024
   value: 3000,
   highlight: true,
+   // @ts-expect-error: name might not be present
   Product: { name: "Sample Product", category: "Sample Category" },
 };
 
