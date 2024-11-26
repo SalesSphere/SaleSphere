@@ -171,11 +171,12 @@ export default function DashboardPage() {
           <StatsCard
             title="Total Product"
             value={totalProductCount.toString()}
-            change={-20}
+            change={20}
             data={[30, 25, 35, 30, 22, 20, 18, 15, 17, 16]}
             period="Last 360 days"
-            type="Decreased by"
-            lineColor="#FF1900"
+            type="Increased by"
+            // lineColor="#FF1900"
+            lineColor="#00D103"
           />
           <StatsCard
             title="Total sales"
@@ -194,8 +195,9 @@ export default function DashboardPage() {
             change={0}
             data={[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
             period="Last 360 days"
-            type="Static"
-            lineColor="#E2AE29"
+            type="Increased by"
+            // lineColor="#E2AE29"
+            lineColor="#00D103"
           />
         </div>
 
