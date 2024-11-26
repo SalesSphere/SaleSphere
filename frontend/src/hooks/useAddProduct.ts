@@ -7,6 +7,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { toBigInt } from "ethers";
 import useProduct from "./useReadContract";
+import { useAddProductStore } from "@/store/addProduct";
+import { useToast } from "./use-toast";
 
 const liskSepolia = defineChain(4202);
 
@@ -24,7 +26,10 @@ const formSchema = z.object({
 });
 
 export const useAddProduct = () => {
+  const { toast } = useToast();
   const { allProductRefetch } = useProduct();
+  const setOpenAddProduct = useAddProductStore((state) => state.setIsOpen);
+
   const contract = getContract({
     client,
     address: CONTRACTADDRESS,
@@ -63,11 +68,16 @@ export const useAddProduct = () => {
     });
     sendTransaction(transaction).then(() => {
       allProductRefetch();
+      toast({
+        title: "Product Added",
+        description: "Product added successfully",
+      });
       form.reset();
       form.setValue("_barcode", "");
       form.setValue("_productName", "");
       form.setValue("_productPrice", "");
       form.setValue("_quantity", "");
+      setOpenAddProduct(false);
     });
   }
 

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,12 @@ import {
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
 import useProduct from "@/hooks/useReadContract";
+import EditCash from "./EditMoney";
+import { getTotalPagesByLimit } from "@/lib/utils";
+import PaginationComp from "./PaginationComp";
+import { useSalesStore } from "@/store/sales";
+import { usePathname } from "next/navigation";
+import { MEDIUM_PAGE_LIMIT } from "@/lib/constants";
 
 interface ISale {
   saleId: string;
@@ -22,6 +29,11 @@ interface ISale {
 }
 
 export default function SaleTable() {
+  const pathname = usePathname();
+
+  const params = useSalesStore((state) => state.params);
+  const setParams = useSalesStore((state) => state.setParams);
+
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
@@ -35,9 +47,18 @@ export default function SaleTable() {
     return <div>No sales found</div>;
   const sale = salesData as unknown as ISale[];
 
+  const totalPage = getTotalPagesByLimit(sale.length || 0, MEDIUM_PAGE_LIMIT);
+
+  const currentProducts = sale.toReversed().slice(
+    // @ts-ignore
+    (params.page - 1) * MEDIUM_PAGE_LIMIT,
+    // @ts-ignore
+    params.page * MEDIUM_PAGE_LIMIT
+  );
+
   return (
     <div className="w-full overflow-x-auto">
-      <Table>
+      <Table className="mb-6">
         <TableHeader>
           <TableRow className="!bg-[#292D321A] rounded-md">
         <TableHead className="text-left">Sales ID</TableHead>
@@ -49,12 +70,15 @@ export default function SaleTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {sale.map((_, index) => (
+          {currentProducts.map((_, index) => (
             <TableRow key={index}>
               <TableCell>
                 <span className="md:hidden font-bold">Sale ID:</span>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm md:text-base">{_.saleId}</span>
+                  <span className="text-sm md:text-base">
+                    {/* <EditCash amount={_.saleId} /> */}
+                    {_.saleId}
+                  </span>
                   <Button
                     variant="ghost"
                     size="icon"
@@ -73,8 +97,10 @@ export default function SaleTable() {
                 {_.productName}
               </TableCell>
               <TableCell>
-            <span className="md:hidden font-bold">Product price:</span>₦
-                {sale.price.toLocaleString()}
+                <span className="md:hidden font-bold">Total Amount:</span>
+                <span className="mx-4">
+                  <EditCash amount={_.productPrice} isMoney />
+                </span>
               </TableCell>
               <TableCell className="flex justify-between items-center md:block md:text-left">
                 <span className="md:hidden font-bold">Quantity:</span>
@@ -99,6 +125,14 @@ export default function SaleTable() {
           ))}
         </TableBody>
       </Table>
+      <PaginationComp
+        totalPage={totalPage}
+        onAction={(e) => {
+          setParams({ ...params, page: e });
+        }}
+        page={params?.page || 0}
+        url={pathname}
+      />
     </div>
   );
 }

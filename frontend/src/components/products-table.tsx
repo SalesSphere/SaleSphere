@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
 import React from "react";
@@ -15,9 +16,20 @@ import { Copy, Link2 } from "lucide-react";
 import useProduct from "@/hooks/useReadContract";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Product } from "@/lib/types";
+import EditCash from "./EditMoney";
+import PaginationComp from "./PaginationComp";
+import { getTotalPagesByLimit } from "@/lib/utils";
+import { MEDIUM_PAGE_LIMIT } from "@/lib/constants";
+import { usePathname } from "next/navigation";
+import { useAddProductStore } from "@/store/addProduct";
 
 const avatar = "/salesUser.svg";
 export default function ProductsTable() {
+  const pathname = usePathname();
+
+  const params = useAddProductStore((state) => state.params);
+  const setParams = useAddProductStore((state) => state.setParams);
+
   const {
     allProductData = [],
     allProductLoading,
@@ -42,6 +54,18 @@ export default function ProductsTable() {
     return <div>No products found</div>;
   }
 
+  const totalPage = getTotalPagesByLimit(
+    allProductData.length || 0,
+    MEDIUM_PAGE_LIMIT
+  );
+
+  const currentProducts = allProductData.toReversed().slice(
+    // @ts-ignore
+    (params.page - 1) * MEDIUM_PAGE_LIMIT,
+    // @ts-ignore
+    params.page * MEDIUM_PAGE_LIMIT
+  );
+
   return (
     <div className="space-y-4">
       <div className="overflow-x-auto">
@@ -58,14 +82,14 @@ export default function ProductsTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {allProductData.map((product: Product) => (
+            {currentProducts.map((product: Product) => (
               <TableRow
                 key={product.productID.toString()}
                 className="lg:grid lg:grid-cols-7 lg:gap-4 lg:py-2"
               >
                 <TableCell className="font-medium">
                   <div className="flex items-center gap-2">
-                    {product.productID.toString()}
+                    <EditCash amount={product.productID} />
                     <Button
                       variant="ghost"
                       size="icon"
@@ -98,13 +122,11 @@ export default function ProductsTable() {
                   </div>
                 </TableCell>
                 <TableCell className="p-3.5">
-                  {product.quantity.toString()}
+                  <EditCash amount={product.quantity} />
                 </TableCell>
                 <TableCell className="shrink-0 !w-52">
                   <p>
-                    {new Date(
-                      Number(product.dateAdded) * 1000
-                    ).toLocaleDateString()}
+                    {new Date(Number(product.dateAdded) * 1000).toDateString()}
                   </p>
                 </TableCell>
                 <TableCell className="text-left">
@@ -120,6 +142,14 @@ export default function ProductsTable() {
             ))}
           </TableBody>
         </Table>
+        <PaginationComp
+          totalPage={totalPage}
+          onAction={(e) => {
+            setParams({ ...params, page: e });
+          }}
+          page={params?.page || 0}
+          url={pathname}
+        />
       </div>
     </div>
   );

@@ -97,6 +97,7 @@ export interface User {
   email: string;
 
   phoneNumber: bigint;
+  addr: string;
 
   status: number;
 

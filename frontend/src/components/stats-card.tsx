@@ -2,13 +2,13 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Sparklines, SparklinesCurve } from "react-sparklines";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
 import MemoArrowUp from "@/icons/ArrowUp";
 import MemoArrowDown from "@/icons/ArrowDown";
 
@@ -27,7 +27,7 @@ export default function StatsCard({
   value,
   change,
   data,
-  period,
+  // period,
   type,
   lineColor,
 }: StatsCardProps) {
@@ -40,7 +40,7 @@ export default function StatsCard({
         <CardTitle className="text-sm font-medium text-muted-foreground">
           {title}
         </CardTitle>
-        <Select defaultValue={period}>
+        {/* <Select defaultValue={period}>
           <SelectTrigger className="h-8 w-[140px] border-none text-xs text-muted-foreground">
             <SelectValue placeholder={period} />
           </SelectTrigger>
@@ -50,7 +50,7 @@ export default function StatsCard({
             <SelectItem value="Last 30 days">Last 30 days</SelectItem>
             <SelectItem value="Last 7 days">Last 7 days</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
       </CardHeader>
       <CardContent>
         <div className="flex flex-col gap-1">
