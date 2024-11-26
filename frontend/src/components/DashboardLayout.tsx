@@ -4,8 +4,8 @@
 import { cn } from "@/lib/utils";
 import { Bell, Menu } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { redirect, usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,7 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { ConnectButton } from "thirdweb/react";
+import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { client } from "@/app/client";
 
 type NavItem = {
@@ -38,6 +38,11 @@ function NavLink({
   isMobile?: boolean;
 }) {
   const pathname = usePathname();
+  const account = useActiveAccount();
+
+  useEffect(() => {
+    if (!account) redirect("/");
+  }, [account]);
 
   return (
     <Link

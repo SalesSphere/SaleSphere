@@ -5,14 +5,16 @@ import MemoProducts from "@/icons/Products";
 import MemoSales from "@/icons/Sales";
 import MemoUsers from "@/icons/Users";
 import MemoSettings from "@/icons/Settings";
-// import MemoInventory from "@/icons/Inventory";
+import MemoInventory from "@/icons/Inventory";
 // import MemoNotification from "@/icons/Notification";
+// import InventoryIcon from "@/icons/Inventory";
 
 export const navigation = [
   { name: "Dashboard", href: "/r/dashboard/overview", icon: MemoDashboard },
   { name: "Products", href: "/r/dashboard/products", icon: MemoProducts },
   { name: "Sales", href: "/r/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/r/dashboard/users", icon: MemoUsers },
+  { name: "Checkout", href: "/r/dashboard/checkout", icon: MemoInventory },
   { name: "Settings", href: "/r/dashboard/settings", icon: MemoSettings },
 ];
 export const managerNavigation = [
@@ -27,7 +29,7 @@ export const adminNavigation = [
   { name: "Sales", href: "/a/dashboard/sales", icon: MemoSales },
   { name: "Users", href: "/a/dashboard/users", icon: MemoUsers },
   { name: "Settings", href: "/a/dashboard/settings", icon: MemoSettings },
-  // { name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
+// { name: "Inventory", href: "/a/dashboard/inventory", icon: MemoInventory },
   // {
   //   name: "Notification",
   //   href: "/a/dashboard/notifications",

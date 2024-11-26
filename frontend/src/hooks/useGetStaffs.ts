@@ -22,6 +22,7 @@ export default function useGetStaffs() {
     method:
       "function getAllStaff() view returns ((uint256 staffID, string name, string email, uint256 phoneNumber, address addr, uint8 status, uint256 dateJoined, uint8 role)[] allStaffs)",
   });
+  console.log(allStaffData);
   return {
     allStaffData,
     allStaffLoading,

@@ -2,6 +2,7 @@
 
 import DashboardHeader from "@/components/DashboardHeader";
 import { DashboardLayout } from "@/components/DashboardLayout";
+import UserTable from "@/components/users-table";
 // import ProductOrderTable from "@/components/product-order-table";
 import { navigation } from "@/lib/data";
 
@@ -13,21 +14,20 @@ const UserScreen = () => {
         subtitle="View and take actions on all newly added users."
         showSearch={true}
         showExport={false}
-        showAddUser={false}
+        showAddUser={true}
         showAddProduct={false}
         showMainExport={false}
-        showProceed={true}
+        showProceed={false}
         showSortProduct={false}
-        showApproveAll={false}
-        onApproveAllClick={() => {}}
         period="Last 360 days"
         onSearchClick={() => {}}
         onAddUserClick={() => {}}
         onAddProductClick={() => {}}
+        showApproveAll={false}
+        onApproveAllClick={() => {}}
       />
-      {/* <div className="space-y-6">
-        <ProductOrderTable />
-      </div> */}
+
+      <UserTable />
     </DashboardLayout>
   );
 };

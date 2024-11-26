@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,7 +25,7 @@ import { DashboardLayout } from "./DashboardLayout";
 import { navigation } from "@/lib/data";
 import DashboardHeader from "./DashboardHeader";
 import { useToast } from "@/hooks/use-toast";
-
+import EditCash from "./EditMoney";
 
 interface Product {
   productID: bigint;
@@ -53,7 +53,7 @@ export default function ProductReceipt() {
   } = useProduct();
   const { toast } = useToast();
 
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>();
   const [quantity, setQuantity] = useState(1);
   const [receiptItems, setReceiptItems] = useState<ReceiptItem[]>([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -65,11 +65,11 @@ export default function ProductReceipt() {
   const [lastCheckoutItems, setLastCheckoutItems] = useState<ReceiptItem[]>([]);
   const [lastPaymentMethod, setLastPaymentMethod] = useState("");
 
-  useEffect(() => {
-    if (products && products.length > 0 && !selectedProduct) {
-      setSelectedProduct(products[0]);
-    }
-  }, [products, selectedProduct]);
+  // useEffect(() => {
+  //   if (products && products.length > 0 && !selectedProduct) {
+  //     setSelectedProduct(products[0]);
+  //   }
+  // }, [products, selectedProduct]);
 
   if (allProductLoading) return <div>Loading...</div>;
   if (allProductError)
@@ -150,7 +150,7 @@ export default function ProductReceipt() {
     setLastCheckoutItems([]);
     setLastPaymentMethod("");
   };
-
+  // console.log(selectedProduct.productPrice);
   return (
     <DashboardLayout showHeader={true} navigation={navigation}>
       <div className="space-y-6">
@@ -181,7 +181,7 @@ export default function ProductReceipt() {
                 Fill in the form below to input the product information
               </p>
             </CardHeader>
-            <CardContent>
+            <CardContent className="!space-y-5">
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Product Name<span className="text-red-500">*</span>
@@ -191,7 +191,8 @@ export default function ProductReceipt() {
                     setSelectedProduct(
                       products?.find((p) => p.productName === value) || null
                     )
-                  }>
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Enter product name" />
                   </SelectTrigger>
@@ -199,7 +200,8 @@ export default function ProductReceipt() {
                     {products?.map((product) => (
                       <SelectItem
                         key={product.productName}
-                        value={product.productName}>
+                        value={product.productName}
+                      >
                         {product.productName}
                       </SelectItem>
                     ))}
@@ -211,8 +213,9 @@ export default function ProductReceipt() {
                   Product Price<span className="text-red-500">*</span>
                 </label>
                 <Input
+                  defaultValue={0}
                   value={
-                    selectedProduct ? `$${selectedProduct.productPrice}` : ""
+                    selectedProduct ? `₦${selectedProduct.productPrice}` : ""
                   }
                   readOnly
                   className="bg-gray-200"
@@ -231,7 +234,8 @@ export default function ProductReceipt() {
               </div>
               <Button
                 className="w-full bg-[#17ABEC] hover:bg-[#17ABEC] py-6 text-white"
-                onClick={addProduct}>
+                onClick={addProduct}
+              >
                 Add Product
               </Button>
             </CardContent>
@@ -266,18 +270,25 @@ export default function ProductReceipt() {
                       <tr key={item.id} className="border-b">
                         <td className="py-2">{item.name}</td>
                         <td className="text-center px-4 py-2">
-                          {item.quantity}
+                          {/* {item.quantity} */}
+                          <EditCash amount={item.quantity} />
                         </td>
                         <td className="text-right py-2">
-                          ${item.price.toFixed(2)}
+                          {/* ${item.price.toFixed(2)} */}
+                          <EditCash amount={item.price} isMoney />
                         </td>
                         <td className="text-right py-2">
-                          ${(item.price * item.quantity).toFixed(2)}
+                          {/* ${(item.price * item.quantity).toFixed(2)} */}
+                          <EditCash
+                            amount={item.price * item.quantity}
+                            isMoney
+                          />
                         </td>
                         <td className="text-right py-2">
                           <Button
                             variant="ghost"
-                            onClick={() => removeProduct(item.id)}>
+                            onClick={() => removeProduct(item.id)}
+                          >
                             <MemoCancel className="w-4 h-4" />
                           </Button>
                         </td>
@@ -289,22 +300,31 @@ export default function ProductReceipt() {
               <div className="space-y-2 mt-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${subtotal.toFixed(2)}</span>
+                  <span>
+                    {/* ${subtotal.toFixed(2)} */}
+                    <EditCash amount={subtotal} isMoney />
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span>VAT</span>
-                  <span>${vat.toFixed(2)}</span>
+                  <span>
+                    <EditCash amount={vat} isMoney />
+                    {/* ${vat.toFixed(2)} */}
+                  </span>
                 </div>
                 <div className="flex justify-between font-bold">
                   <span>Total</span>
-                  <span>${total.toFixed(2)}</span>
+                  <span>
+                    <EditCash amount={total} isMoney />
+                    {/* ${total.toFixed(2)} */}
+                  </span>
                 </div>
               </div>
               <div className="flex justify-end">
                 <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                   <DialogTrigger asChild>
                     <Button className="mt-4 bg-transparent border border-[#292D3280] hover:bg-transparent text-[#292D32]">
-                      Checkout
+                      {isPending ? "Processing..." : "Checkout"}
                     </Button>
                   </DialogTrigger>
                   <DialogContent className="sm:max-w-[425px]">
@@ -343,7 +363,8 @@ export default function ProductReceipt() {
                       <Button
                         className="w-full bg-[#17ABEC] hover:bg-[#17ABEC] text-white"
                         onClick={handleCheckout}
-                        disabled={!paymentMethod || isPending}>
+                        disabled={!paymentMethod || isPending}
+                      >
                         {isPending ? "Processing..." : "Proceed to receipt"}
                       </Button>
                       {(isError || checkoutError) && (
@@ -368,7 +389,8 @@ export default function ProductReceipt() {
         open={isReceiptDialogOpen}
         onOpenChange={(open) => {
           if (!open) handleCloseReceiptDialog();
-        }}>
+        }}
+      >
         <DialogContent className="max-w-lg p-6 rounded-lg shadow-lg">
           {/* Header Section */}
           <div className="flex justify-between items-start mb-4">
@@ -406,12 +428,16 @@ export default function ProductReceipt() {
                 {lastCheckoutItems.map((item) => (
                   <tr key={item.id} className="border-b last:border-none">
                     <td className="py-2 px-4">{item.name}</td>
-                    <td className="py-2 px-4 text-center">{item.quantity}</td>
-                    <td className="py-2 px-4 text-right">
-                      ${item.price.toFixed(2)}
+                    <td className="py-2 px-4 text-center">
+                      <EditCash amount={item.quantity} />
                     </td>
                     <td className="py-2 px-4 text-right">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {/* ${item.price.toFixed(2)} */}
+                      <EditCash amount={item.price} isMoney />
+                    </td>
+                    <td className="py-2 px-4 text-right">
+                      {/* ${(item.price * item.quantity).toFixed(2)} */}
+                      <EditCash amount={item.price * item.quantity} isMoney />
                     </td>
                   </tr>
                 ))}
@@ -423,15 +449,21 @@ export default function ProductReceipt() {
           <div className="mt-6 space-y-2 text-sm text-gray-700">
             <div className="flex justify-between">
               <span>Subtotal</span>
-              <span>${subtotal.toFixed(2)}</span>
+              <span>
+                <EditCash amount={subtotal} isMoney />
+              </span>
             </div>
             <div className="flex justify-between">
               <span>VAT</span>
-              <span>${vat.toFixed(2)}</span>
+              <span>
+                <EditCash amount={vat} isMoney />
+              </span>
             </div>
             <div className="flex justify-between font-bold text-lg">
               <span>Total</span>
-              <span>${total.toFixed(2)}</span>
+              <span>
+                <EditCash amount={total} isMoney />
+              </span>
             </div>
           </div>
 
@@ -439,12 +471,14 @@ export default function ProductReceipt() {
           <div className="mt-6 flex justify-between">
             <button
               onClick={() => console.log("Printing receipt...")}
-              className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600">
+              className="px-6 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600"
+            >
               Print Receipt
             </button>
             <button
               onClick={handleCloseReceiptDialog}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100">
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100"
+            >
               Cancel
             </button>
           </div>

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
 
+import useProduct from "@/hooks/useReadContract";
 import { DataPoint } from "@/lib/types";
 import { useState } from "react";
 import {
@@ -12,8 +14,6 @@ import {
 } from "recharts";
 
 // Generate sample data
-
-    // @ts-expect-error: data might not be present
 const data: DataPoint[] = Array.from({ length: 100 }, (_, i) => ({
   date: new Date(2024, 0, i + 1),
   value: 1000 + Math.floor(Math.random() * 500) + i * 30,
@@ -25,19 +25,22 @@ data[60] = {
   date: new Date(2024, 6, 29), // July 29, 2024
   value: 3000,
   highlight: true,
-   // @ts-expect-error: name might not be present
+  // @ts-expect-error: name might not be present
   Product: { name: "Sample Product", category: "Sample Category" },
 };
 
 export default function SalesChart() {
-  const [, setActivePoint] = useState<DataPoint | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [activePoint, setActivePoint] = useState<DataPoint | null>(null);
+  const { salesData = [] } = useProduct();
 
+  const totalSales = salesData ?? [];
   return (
     <div className="space-y-2">
       <h2 className="text-xl font-semibold text-muted-foreground">
         Sales Overview
       </h2>
-      <h3 className="text-3xl font-bold">5,000 sales</h3>
+      <h3 className="text-3xl font-bold">{totalSales.length} sales</h3>
       <div className="h-[300px] w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
@@ -49,7 +52,7 @@ export default function SalesChart() {
               }
             }}
             onMouseLeave={() => {
-              if (setActivePoint) {
+              if (activePoint) {
                 setActivePoint(null);
               }
             }}>

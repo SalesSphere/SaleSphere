@@ -27,8 +27,7 @@ export default function DashboardPage() {
     productName: string;
     productPrice: number;
   }
-
-  // const { allStaffLoading } = useGetStaffs();
+  const { allStaffData, allStaffError } = useGetStaffs();
 
   interface SalesData {
     id: string;
@@ -49,9 +48,8 @@ export default function DashboardPage() {
     salesData: null,
   });
 
-  const { allStaffData, allStaffError } = useGetStaffs();
+  // const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
-
   // const productData = allProductData ?? [];
 
   useEffect(() => {
@@ -61,26 +59,12 @@ export default function DashboardPage() {
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-          allStaffData: allStaffData
-            ? allStaffData.map((staff) => ({
-                ...staff,
-                id: staff.staffID.toString(),
-                // @ts-expect-error: avatar might not be present
-                avatar: staff.avatar,
-              }))
-            : [],
-          allProductData: allProductData.map((product) => ({
-            id: product.productID.toString(),
-            productName: product.productName,
-            productPrice: Number(product.productPrice),
-          })),
-          salesData: salesData.map((sale) => ({
-            id: sale.saleId,
-            productId: sale.productName,
-            productPrice: Number(sale.productPrice),
-            staffId: sale.seller,
-            amount: Number(sale.quantity),
-          })),
+            // @ts-expect-error: avatar might not be present
+          allStaffData: allStaffData ? allStaffData.slice() : [],
+           // @ts-expect-error: avatar might not be present
+          allProductData: [...allProductData],
+          // @ts-expect-error: avatar might not be present
+          salesData: [...salesData],
         });
         setIsLoading(false);
       } catch (err) {
@@ -210,6 +194,7 @@ export default function DashboardPage() {
         </div>
 
         <SalesTable />
+        {/*  */}
       </div>
     </DashboardLayout>
   );

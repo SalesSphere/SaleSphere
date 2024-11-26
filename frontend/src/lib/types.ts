@@ -26,6 +26,16 @@ export interface Product {
   barcode: string;
 }
 
+export interface Product {
+  productID: bigint;
+  productName: string;
+  productPrice: bigint;
+  quantity: bigint;
+  uploader: string;
+  dateAdded: bigint;
+  barcode: string;
+}
+
 export interface Sale {
   id: string;
   productName: string;
@@ -74,12 +84,12 @@ export type DataPoint = {
   date: Date;
   value: number;
   highlight?: boolean;
-  Product: Product;
 };
 
 
 
 export interface User {
+
   staffID: bigint;
 
   name: string;
@@ -87,10 +97,12 @@ export interface User {
   email: string;
 
   phoneNumber: bigint;
+  addr: string;
 
   status: number;
 
   dateJoined: bigint;
 
   role: number;
+
 }
