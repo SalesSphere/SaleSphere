@@ -6,9 +6,10 @@ export default function Footer() {
     <footer className="w-full min-h-[60vh] bg-[#22A7E6] flex items-center justify-center p-4">
       <div className="w-full max-w-6xl my-20">
         <div className="bg-gradient-to-br from-[#FF84D4] to-[#EC17A2] rounded-3xl border-8 border-[#FFC2EA]  p-8 md:p-16 flex flex-col items-center text-center mb-16">
-          <h2 className="text-2xl md:text-4xl font-bold text-gray-900 max-w-3xl mb-8">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry.
+          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 max-w-3xl mb-8">
+            Don’t miss out on revolutionizing how you manage sales and
+            inventory. By joining our waitlist, you’ll be among the first to
+            enjoy exclusive features, early updates, and premium support
           </h2>
           <Button
             variant="outline"

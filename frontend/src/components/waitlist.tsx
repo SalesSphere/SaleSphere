@@ -8,8 +8,9 @@ export default function Waitlist() {
         <div className="flex flex-col justify-center p-6 lg:p-12 bg-[#D8F1FC]">
           <div className="max-w-[23rem] mx-auto">
             <h1 className="text-3xl md:text-xl lg:text-2xl font-bold tracking-tight text-[#292D32] mb-6">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry.
+              Don’t miss out on revolutionizing how you manage sales and
+              inventory. By joining our waitlist, you’ll be among the first to
+              enjoy exclusive features, early updates, and premium support.
             </h1>
             <Button
               className="w-fit  text-white rounded-full px-8 py-2"

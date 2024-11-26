@@ -12,24 +12,24 @@ import { TestimonialCard } from "./testimonial-card";
 const testimonials = [
   {
     content:
-      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.",
-    author: "Kemepade Ebizi",
-    role: "Luxury Store Owner",
+      "SaleSphere transformed how we manage sales and stock. The real-time updates and blockchain transparency are a game-changer",
+    author: "Tobey Maguire",
+    role: "Store Owner",
     avatar: "/user1.svg",
   },
   {
     content:
-      "It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.",
-    author: "Alex Thompson",
-    role: "Business Owner",
-    avatar: "/user1.svg",
+      "The ability to generate detailed sales reports has helped us make better decisions. Highly recommend!",
+    author: "Scarlett Johansson",
+    role: "Retail Chain Manager",
+    avatar: "/user2.svg",
   },
   {
     content:
-      "The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested.",
-    author: "Sarah Chen",
-    role: "Store Manager",
-    avatar: "/user1.svg",
+      "SaleSphere has simplified how we manage our inventory. The seamless integration and real-time updates are exactly what we needed to scale our business.",
+    author: "Patrick Bateman",
+    role: "Boutique Owner",
+    avatar: "/user3.svg",
   },
 ];
 
