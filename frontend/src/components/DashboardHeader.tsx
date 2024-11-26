@@ -76,7 +76,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
           )}
           {showAddUser && (
             <Button
-              onClick={()=>setAdduserDialog(!showAdduserDialog)}
+              onClick={() => setAdduserDialog(!showAdduserDialog)}
               className="inline-flex items-center justify-center rounded-xl text-sm border border-input bg-[#292D3208] text-[#292D32B2] hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
             >
               <MemoUserProfile className="h-4 w-4 mr-2 shrink-0" />
