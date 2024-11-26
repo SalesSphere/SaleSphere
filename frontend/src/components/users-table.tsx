@@ -71,7 +71,7 @@ export default function UserTable() {
 
   return (
     <div className="space-y-4 my-8">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto px-10">
         <Table className="w-full">
           <TableHeader>
             <TableRow className="lg:gap-4 bg-[#292D321A] pt-4 pb-1 rounded-md">
@@ -89,8 +89,8 @@ export default function UserTable() {
             {currentProducts.map((user: User) => (
               <TableRow
                 key={user.staffID.toString()}
-                className="lg:grid lg:grid-cols-7 lg:gap-4 lg:py-2">
-                <TableCell className="font-medium">
+                className="lg:gap-4 lg:py-2">
+                <TableCell className="font-medium ">
                   {user.staffID.toString()}
                 </TableCell>
                 <TableCell>
@@ -119,8 +119,7 @@ export default function UserTable() {
                       onClick={() => {
                         navigator.clipboard.writeText(user.addr.toString());
                         toast.success("Copied");
-                      }}
-                    >
+                      }}>
                       <Copy className="h-4 w-4" />
                       <span className="sr-only">Copy user address</span>
                     </Button>

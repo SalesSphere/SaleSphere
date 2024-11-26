@@ -1,5 +1,3 @@
- // @ts-nocheck
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -29,7 +27,7 @@ export default function DashboardPage() {
     productName: string;
     productPrice: number;
   }
-const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
+  const { allStaffData, allStaffError } = useGetStaffs();
 
   interface SalesData {
     id: string;
@@ -50,9 +48,9 @@ const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
     salesData: null,
   });
 
-  const { allStaffData, allStaffError } = useGetStaffs();
+  // const { allStaffData, allStaffError } = useGetStaffs();
   const { allProductData = [], salesData = [], salesError } = useProduct();
-  const productData = allProductData ?? [];
+  // const productData = allProductData ?? [];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,11 +59,11 @@ const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-        // @ts-ignore
+            // @ts-expect-error: avatar might not be present
           allStaffData: allStaffData ? allStaffData.slice() : [],
-          // @ts-ignore
+           // @ts-expect-error: avatar might not be present
           allProductData: [...allProductData],
-          // @ts-ignore
+          // @ts-expect-error: avatar might not be present
           salesData: [...salesData],
         });
         setIsLoading(false);
@@ -191,7 +189,6 @@ const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
           <RepLeaderboard
             className="col-span-4 lg:col-span-1"
             salesData={dashboardData.salesData}
-            // @ts-ignore
             allStaffData={dashboardData.allStaffData}
           />
         </div>

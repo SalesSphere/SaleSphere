@@ -1,5 +1,8 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
+
+import { useState } from "react";
+import { Copy } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +31,7 @@ interface ISale {
   modeOfPayment: string;
 }
 
+const avatar = "/salesUser.svg";
 export default function SaleTable() {
   const pathname = usePathname();
 
@@ -35,6 +39,8 @@ export default function SaleTable() {
   const setParams = useSalesStore((state) => state.setParams);
 
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const { salesData, salesLoading, salesError } = useProduct();
+
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
     setCopiedId(text);
@@ -61,12 +67,12 @@ export default function SaleTable() {
       <Table className="mb-6">
         <TableHeader>
           <TableRow className="!bg-[#292D321A] rounded-md">
-        <TableHead className="text-left">Sales ID</TableHead>
-            <TableHead className="text-left">Product name</TableHead>
+            <TableHead className="text-left">Sales ID</TableHead>
+            <TableHead className="text-left">Product Name</TableHead>
             <TableHead className="text-left">Product price</TableHead>
             <TableHead className="text-left">Quantity</TableHead>
-        <TableHead className="text-left">Seller</TableHead>
-            <TableHead className="text-left">Mode of payment</TableHead>
+            <TableHead className="text-center">Seller</TableHead>
+            <TableHead className="text-center">Payment Method</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -102,24 +108,26 @@ export default function SaleTable() {
                   <EditCash amount={_.productPrice} isMoney />
                 </span>
               </TableCell>
-              <TableCell className="flex justify-between items-center md:block md:text-left">
+              <TableCell>
                 <span className="md:hidden font-bold">Quantity:</span>
-            {sale.quantity}
+                <span className="mx-4">{_.quantity}</span>
               </TableCell>
 
               <TableCell>
-            <span className="md:hidden font-bold">Seller:</span>
-                <div className="flex items-center gap-2">
+                <span className="md:hidden font-bold">Seller</span>
+                <div className="flex items-center justify-center gap-2">
                   <Avatar className="h-8 w-8">
-                <AvatarImage src={sale.rep.avatar} alt={sale.rep.name} />
-                    <AvatarFallback>{sale.rep.name[0]}</AvatarFallback>
+                    <AvatarImage src={avatar} alt={avatar} />
+                    <AvatarFallback>{_.seller}</AvatarFallback>
                   </Avatar>
-              {sale.rep.name}
+                  <span>{_.seller}</span>
                 </div>
               </TableCell>
-          <TableCell className="flex justify-between items-center md:block md:text-left">
-                <span className="md:hidden font-bold">Mode of payment:</span>
-                {sale.paymentMode}
+              <TableCell>
+                <span className="md:hidden font-bold">Mode of payment </span>
+                <span className="flex items-center justify-center">
+                  {_.modeOfPayment}
+                </span>
               </TableCell>
             </TableRow>
           ))}
