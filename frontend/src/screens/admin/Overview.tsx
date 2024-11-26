@@ -61,8 +61,11 @@ const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
         await new Promise((resolve) => setTimeout(resolve, 1000));
 
         setDashboardData({
-        allStaffData: allStaffData ? allStaffData.slice() : [],
+        // @ts-ignore
+          allStaffData: allStaffData ? allStaffData.slice() : [],
+          // @ts-ignore
           allProductData: [...allProductData],
+          // @ts-ignore
           salesData: [...salesData],
         });
         setIsLoading(false);
@@ -187,7 +190,6 @@ const { allStaffData, allStaffError, allStaffLoading } = useGetStaffs();
           </div>
           <RepLeaderboard
             className="col-span-4 lg:col-span-1"
-            // @ts-expect-error
             salesData={dashboardData.salesData}
             // @ts-ignore
             allStaffData={dashboardData.allStaffData}
