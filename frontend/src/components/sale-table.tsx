@@ -71,8 +71,8 @@ export default function SaleTable() {
             <TableHead className="text-left">Product Name</TableHead>
             <TableHead className="text-left">Product price</TableHead>
             <TableHead className="text-left">Quantity</TableHead>
-            <TableHead className="text-center">Seller</TableHead>
-            <TableHead className="text-center">Payment Method</TableHead>
+            <TableHead className="text-left">Seller</TableHead>
+            <TableHead className="text-left">Payment Method</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -115,7 +115,7 @@ export default function SaleTable() {
 
               <TableCell>
                 <span className="md:hidden font-bold">Seller</span>
-                <div className="flex items-center justify-center gap-2">
+                <div className="mx-auto flex items-center space-x-2">
                   <Avatar className="h-8 w-8">
                     <AvatarImage src={avatar} alt={avatar} />
                     <AvatarFallback>{_.seller}</AvatarFallback>
@@ -125,7 +125,7 @@ export default function SaleTable() {
               </TableCell>
               <TableCell>
                 <span className="md:hidden font-bold">Mode of payment </span>
-                <span className="flex items-center justify-center">
+                <span className="mx-auto flex items-center space-x-2">
                   {_.modeOfPayment}
                 </span>
               </TableCell>
