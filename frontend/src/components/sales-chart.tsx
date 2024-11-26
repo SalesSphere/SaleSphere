@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 "use client";
-
-// import { DataPoint } from "@/lib/types";
+import useProduct from "@/hooks/useReadContract";
+import { DataPoint } from "@/lib/types";
 import { useState } from "react";
 import {
   Area,
@@ -49,20 +49,8 @@ data[60] = {
   date: new Date(2024, 6, 29),
   value: 3000,
   highlight: true,
-  Product: {
-    id: 61,
-    productID: BigInt(61),
-    productName: "Highlighted Product",
-    productPrice: BigInt(200),
-    quantity: 20,
-    category: "Category B",
-    description: "Highlighted product description",
-    supplier: "Supplier B",
-    inStock: true,
-    uploader: "Uploader B",
-    dateAdded: BigInt(Date.now()),
-    barcode: "1234567890123",
-  },
+// @ts-expect-error
+  Product: { name: "Sample Product", category: "Sample Category" },
 };
 
 export default function SalesChart() {
